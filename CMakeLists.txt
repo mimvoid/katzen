@@ -1,0 +1,11 @@
+add_library(katzen
+STATIC
+    Gctx.cpp
+    widgets/helpers.cpp
+    widgets/Widget.cpp
+    widgets/Box.cpp
+    widgets/Label.cpp
+    widgets/Icon.cpp
+    widgets/IconLabel.cpp
+    widgets/Button.cpp
+)
