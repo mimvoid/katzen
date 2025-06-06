@@ -1,0 +1,22 @@
+---
+BasedOnStyle: LLVM
+IndentWidth: 2
+AlignEscapedNewlines: Left
+AllowAllArgumentsOnNextLine: true
+AllowAllParametersOfDeclarationOnNextLine: true
+AllowShortCaseExpressionOnASingleLine: true
+BinPackArguments: false
+BinPackParameters: false
+BreakBeforeConceptDeclarations: Always
+BreakStringLiterals: false
+BreakTemplateDeclarations: Yes
+IndentCaseBlocks: true
+IndentCaseLabels: true
+KeepEmptyLines:
+  AtEndOfFile:     false
+  AtStartOfBlock:  false
+  AtStartOfFile:   true
+---
+Language:        Cpp
+AlignConsecutiveMacros:
+  Enabled:         true
