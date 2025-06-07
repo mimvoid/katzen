@@ -1,10 +1,6 @@
 #include "helpers.hpp"
 #include <utility>
 
-constexpr bool IsWhitespaceCharacter(int codepoint) {
-  return (codepoint == ' ') || (codepoint == '\t') || (codepoint == '\n');
-}
-
 /*
  * Raylib example: rectangle bounds
  */
