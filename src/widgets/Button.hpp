@@ -1,4 +1,5 @@
 #include "Widget.hpp"
+#include <functional>
 #include <raygui.h>
 
 namespace katzen::widgets {
@@ -15,7 +16,7 @@ struct ButtonColors {
  */
 struct Button : Widget {
   std::unique_ptr<Widget> child;
-  void (*callback)(void);
+  std::function<void(void)> callback;
   unsigned int borderWidth;
 
   template <typename T>
@@ -26,7 +27,7 @@ struct Button : Widget {
   }
 
   template <typename T>
-  Button(T &&child, void (*callback)(void))
+  Button(T &&child, std::function<void(void)> callback)
       : child(std::make_unique<T>(std::move(child))), callback(callback),
         borderWidth(GuiGetStyle(BUTTON, BORDER_WIDTH)) {
     padding.set(8);
