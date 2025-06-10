@@ -1,57 +1,45 @@
 #pragma once
+#include <raylib.h>
 #include "Axis.hpp"
 #include "Edges.hpp"
-#include <raylib.h>
 
 namespace katzen {
 template <typename T>
 struct rect_t {
   T x, y, w, h;
 
-  constexpr bool operator==(rect_t const &other) const {
+  constexpr bool operator==(const rect_t &other) const {
     return (x == other.x) && (y == other.y) && (w == other.w) && (h == other.h);
   }
-  constexpr bool operator!=(rect_t const &other) const {
+  constexpr bool operator!=(const rect_t &other) const {
     return (x != other.x) || (y != other.y) || (w != other.w) || (h != other.h);
   }
 
   constexpr T position(Axis axis) const {
     switch (axis) {
-      case Axis::X:
-        return x;
-      case Axis::Y:
-        return y;
+    case Axis::X: return x;
+    case Axis::Y: return y;
     }
   }
 
   constexpr void position(Axis axis, T value) {
     switch (axis) {
-      case Axis::X:
-        x = value;
-        break;
-      case Axis::Y:
-        y = value;
-        break;
+    case Axis::X: x = value; break;
+    case Axis::Y: y = value; break;
     }
   }
 
   constexpr T size(Axis axis) const {
     switch (axis) {
-      case Axis::X:
-        return w;
-      case Axis::Y:
-        return h;
+    case Axis::X: return w;
+    case Axis::Y: return h;
     }
   }
 
   constexpr void size(Axis axis, T value) {
     switch (axis) {
-      case Axis::X:
-        w = value;
-        break;
-      case Axis::Y:
-        h = value;
-        break;
+    case Axis::X: w = value; break;
+    case Axis::Y: h = value; break;
     }
   }
 

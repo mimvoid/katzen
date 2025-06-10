@@ -6,8 +6,7 @@ float Box::measureChildren(Axis axis) {
 
   float size = 0.0f;
 
-  if (children.empty())
-    return size;
+  if (children.empty()) return size;
 
   if (axis == direction) {
     const int childrenCount = children.size();
@@ -31,8 +30,8 @@ float Box::measureChildren(Axis axis) {
 
     if (!expandedChildren.empty()) {
       const unsigned int expandedSize =
-          glm::max(0.0f, maxSize(axis) - padding.get(axis) - size) /
-          expandedChildren.size();
+          glm::max(0.0f, maxSize(axis) - padding.get(axis) - size)
+          / expandedChildren.size();
 
       for (Widget *w : expandedChildren) {
         set(w->externalBounds, axis, expandedSize);
@@ -66,16 +65,14 @@ float Box::childrenSize(Axis axis) const {
       size += spacing * (children.size() - 1);
 
       for (const unique_ptr<Widget> &w : children) {
-        if (get(w->expand, axis))
-          return maxSize(axis) - padding.get(axis);
+        if (get(w->expand, axis)) return maxSize(axis) - padding.get(axis);
 
         size += w->size(axis);
       }
     } else {
       float maxChildSize = 0.0f;
       for (const unique_ptr<Widget> &w : children) {
-        if (get(w->expand, axis))
-          return maxSize(axis) - padding.get(axis);
+        if (get(w->expand, axis)) return maxSize(axis) - padding.get(axis);
 
         maxChildSize = glm::max(w->size(axis), maxChildSize);
       }
@@ -107,8 +104,7 @@ void Box::repaint(Gctx g) {
                       (float)bounds.min.y,
                       (float)maxHeight());
 
-  if (children.empty())
-    return;
+  if (children.empty()) return;
 
   g.pad(padding);
 

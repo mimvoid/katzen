@@ -1,5 +1,5 @@
-#include "../../src/core/Rect.hpp"
 #include <catch2/catch_test_macros.hpp>
+#include "../../src/core/Rect.hpp"
 
 using katzen::Rect;
 

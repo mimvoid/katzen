@@ -1,22 +1,50 @@
 ---
 BasedOnStyle: LLVM
 IndentWidth: 2
+AlignAfterOpenBracket: Align
+AlignConsecutiveShortCaseStatements:
+  Enabled: true
 AlignEscapedNewlines: Left
+AlignOperands: true
 AllowAllArgumentsOnNextLine: true
 AllowAllParametersOfDeclarationOnNextLine: true
 AllowShortCaseExpressionOnASingleLine: true
+AllowShortCaseLabelsOnASingleLine: true
+AllowShortIfStatementsOnASingleLine: WithoutElse
 BinPackArguments: false
 BinPackParameters: false
+BreakBeforeBinaryOperators: NonAssignment
 BreakBeforeConceptDeclarations: Always
 BreakStringLiterals: false
 BreakTemplateDeclarations: Yes
+IncludeBlocks: Preserve
+IncludeCategories:
+  - Regex: '^<ext/.*\.h*>'
+    Priority: 2
+    SortPriority: 0
+    CaseSensitive: false
+  - Regex: '^<.*\.h*>'
+    Priority: 1
+    SortPriority: 0
+    CaseSensitive: false
+  - Regex: "^<.*"
+    Priority: 2
+    SortPriority: 0
+    CaseSensitive: false
+  - Regex: ".*"
+    Priority: 3
+    SortPriority: 0
+    CaseSensitive: false
 IndentCaseBlocks: true
-IndentCaseLabels: true
 KeepEmptyLines:
-  AtEndOfFile:     false
-  AtStartOfBlock:  false
-  AtStartOfFile:   true
+  AtEndOfFile: false
+  AtStartOfBlock: false
+  AtStartOfFile: true
+ObjCBinPackProtocolList: Never
+PackConstructorInitializers: NextLine
+PenaltyBreakBeforeFirstCallParameter: 1
+QualifierAlignment: Left
 ---
-Language:        Cpp
+Language: Cpp
 AlignConsecutiveMacros:
-  Enabled:         true
+  Enabled: true

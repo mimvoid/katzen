@@ -1,11 +1,14 @@
 #include "Label.hpp"
-#include "helpers.hpp"
 #include <raygui.h>
+#include "helpers.hpp"
 
 namespace katzen::widgets {
 Label::Label(const Font &font, std::string_view text, float size)
-    : font(font), text(text), wrapWords(true),
-      color(GetColor(GuiGetStyle(DEFAULT, TEXT_COLOR_NORMAL))), fontSize(size),
+    : font(font),
+      text(text),
+      wrapWords(true),
+      color(GetColor(GuiGetStyle(DEFAULT, TEXT_COLOR_NORMAL))),
+      fontSize(size),
       fontSpacing(GuiGetStyle(DEFAULT, TEXT_SPACING)) {}
 
 Label::Label(const Font &font, std::string_view text) : Label(font, text, 24) {}
@@ -27,8 +30,7 @@ float Label::measureSize(Axis axis) const {
 }
 
 void Label::draw(glm::vec2 p) {
-  if (text.empty())
-    return;
+  if (text.empty()) return;
 
   p.x += padding.left;
   p.y += padding.top;

@@ -1,12 +1,12 @@
-#include "../../src/core/Align.hpp"
 #include <catch2/catch_test_macros.hpp>
+#include "../../src/core/Align.hpp"
 
 using katzen::Align;
 using katzen::offset;
 
 TEST_CASE("Start align offset", "[align]") {
   SECTION("Child is smaller than the parent") {
-    REQUIRE(offset(50.0f, 25.0f, Align::START) == 0.0f); 
+    REQUIRE(offset(50.0f, 25.0f, Align::START) == 0.0f);
   }
 
   SECTION("Child is the same size as the parent") {
@@ -20,7 +20,7 @@ TEST_CASE("Start align offset", "[align]") {
 
 TEST_CASE("Center align offset", "[align]") {
   SECTION("Child is smaller than the parent") {
-    REQUIRE(offset(60.0f, 20.0f, Align::CENTER) == 20.0f); 
+    REQUIRE(offset(60.0f, 20.0f, Align::CENTER) == 20.0f);
   }
 
   SECTION("Child is the same size as the parent") {
@@ -34,7 +34,7 @@ TEST_CASE("Center align offset", "[align]") {
 
 TEST_CASE("End align offset", "[align]") {
   SECTION("Child is smaller than the parent") {
-    REQUIRE(offset(60.0f, 20.0f, Align::END) == 40.0f); 
+    REQUIRE(offset(60.0f, 20.0f, Align::END) == 40.0f);
   }
 
   SECTION("Child is the same size as the parent") {

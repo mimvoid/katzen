@@ -1,7 +1,6 @@
 #pragma once
-#include "Widget.hpp"
-#include <memory>
 #include <string_view>
+#include "Widget.hpp"
 
 namespace katzen::widgets {
 /**
@@ -17,8 +16,7 @@ struct Label : Widget {
   Label(const Font &font, std::string_view text, float size);
 
   constexpr float textSize(Axis axis) const {
-    if (text.empty())
-      return 0;
+    if (text.empty()) return 0;
 
     const Vector2 textSize =
         MeasureTextEx(font, text.data(), fontSize, fontSpacing);

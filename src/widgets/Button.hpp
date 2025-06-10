@@ -1,6 +1,6 @@
-#include "Widget.hpp"
-#include <functional>
 #include <raygui.h>
+#include <functional>
+#include "Widget.hpp"
 
 namespace katzen::widgets {
 enum class ButtonState { NORMAL, DISABLED, FOCUSED, PRESSED };
@@ -28,7 +28,8 @@ struct Button : Widget {
 
   template <typename T>
   Button(T &&child, std::function<void(void)> callback)
-      : child(std::make_unique<T>(std::move(child))), callback(callback),
+      : child(std::make_unique<T>(std::move(child))),
+        callback(callback),
         borderWidth(GuiGetStyle(BUTTON, BORDER_WIDTH)) {
     padding.set(8);
   }
@@ -42,8 +43,7 @@ struct Button : Widget {
   }
 
   constexpr void disable() {
-    if (_state == ButtonState::DISABLED)
-      return; // nothing to do
+    if (_state == ButtonState::DISABLED) return; // nothing to do
 
     _state = ButtonState::DISABLED;
 

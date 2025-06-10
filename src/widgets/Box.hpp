@@ -1,7 +1,7 @@
-#include "../core/Align.hpp"
-#include "Widget.hpp"
 #include <memory>
 #include <vector>
+#include "../core/Align.hpp"
+#include "Widget.hpp"
 
 namespace katzen::widgets {
 /**
@@ -14,21 +14,19 @@ struct Box : Widget {
   Align halign, valign;
   std::vector<std::unique_ptr<Widget>> children;
 
-  Box(int spacing,
-      Axis direction,
-      Align halign,
-      Align valign)
-      : spacing(spacing), direction(direction), halign(halign), valign(valign),
+  Box(int spacing, Axis direction, Align halign, Align valign)
+      : spacing(spacing),
+        direction(direction),
+        halign(halign),
+        valign(valign),
         children{} {}
 
   Box() : Box(0, Axis::X, Align::START, Align::START) {}
 
   constexpr Align align(Axis axis) const {
     switch (axis) {
-      case Axis::X:
-        return halign;
-      case Axis::Y:
-        return valign;
+    case Axis::X: return halign;
+    case Axis::Y: return valign;
     }
   }
 

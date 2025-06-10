@@ -1,6 +1,6 @@
 #pragma once
-#include "Widget.hpp"
 #include <raygui.h>
+#include "Widget.hpp"
 
 #ifndef RAYGUI_ICON_SIZE
 #define RAYGUI_ICON_SIZE 16
@@ -13,8 +13,8 @@ struct Icon : Widget {
 
   Icon(int iconId)
       : iconId(iconId),
-        color(GetColor(GuiGetStyle(DEFAULT, TEXT_COLOR_NORMAL))), _iconSize(1) {
-  }
+        color(GetColor(GuiGetStyle(DEFAULT, TEXT_COLOR_NORMAL))),
+        _iconSize(1) {}
 
   Icon(int iconId, int iconSize)
       : iconId(iconId),

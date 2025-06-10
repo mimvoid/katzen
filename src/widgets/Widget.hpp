@@ -1,13 +1,13 @@
 #pragma once
-#include "../core/Bounds.hpp"
-#include "../core/Edges.hpp"
-#include "../core/Gctx.hpp"
-#include "../core/vec.hpp"
+#include <raylib.h>
 #include <glm/ext/scalar_common.hpp>
 #include <glm/ext/vector_bool2.hpp>
 #include <glm/ext/vector_float2.hpp>
 #include <memory>
-#include <raylib.h>
+#include "../core/Bounds.hpp"
+#include "../core/Edges.hpp"
+#include "../core/Gctx.hpp"
+#include "../core/vec.hpp"
 
 #define KATZEN_DEBUG
 
@@ -86,12 +86,8 @@ struct Widget {
   // Remeasure and save the size for the x-axis (width) or y-axis (height).
   constexpr void updateSize(Axis axis) {
     switch (axis) {
-      case Axis::X:
-        updateWidth();
-        break;
-      case Axis::Y:
-        updateHeight();
-        break;
+    case Axis::X: updateWidth(); break;
+    case Axis::Y: updateHeight(); break;
     }
   }
 
@@ -113,10 +109,8 @@ struct Widget {
 
   constexpr unsigned int maxSize(Axis axis) const {
     switch (axis) {
-      case Axis::X:
-        return maxWidth();
-      case Axis::Y:
-        return maxHeight();
+    case Axis::X: return maxWidth();
+    case Axis::Y: return maxHeight();
     }
   }
 

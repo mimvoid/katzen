@@ -1,8 +1,8 @@
-#include "../../src/core/Edges.hpp"
 #include <catch2/catch_test_macros.hpp>
+#include "../../src/core/Edges.hpp"
 
-using katzen::Edges;
 using katzen::Edge;
+using katzen::Edges;
 
 TEST_CASE("Equality operators", "[edges]") {
   SECTION("Edges are equal") {

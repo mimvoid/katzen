@@ -39,19 +39,18 @@ void DrawTextBoxed(const Font &font,
     // NOTE: Normally we exit the decoding sequence as soon as a bad byte is
     // found (and return 0x3f) but we need to draw all of the bad bytes using
     // the '?' symbol moving one byte
-    if (codepoint != 0x3f)
-      codepointByteCount = 1;
+    if (codepoint != 0x3f) codepointByteCount = 1;
 
     i += (codepointByteCount - 1);
 
     float glyphWidth = 0;
     if (codepoint != '\n') {
       int glyphAdvanceX = font.glyphs[index].advanceX;
-      glyphWidth = scaleFactor * (glyphAdvanceX == 0 ? font.recs[index].width
-                                                     : glyphAdvanceX);
+      glyphWidth =
+          scaleFactor
+          * (glyphAdvanceX == 0 ? font.recs[index].width : glyphAdvanceX);
 
-      if (i + 1 < length)
-        glyphWidth += spacing;
+      if (i + 1 < length) glyphWidth += spacing;
     }
 
     /**
@@ -68,18 +67,15 @@ void DrawTextBoxed(const Font &font,
      * before we can get outside the container.
      */
     if (state == MEASURE_STATE) {
-      if (IsWhitespaceCharacter(codepoint))
-        endLine = i;
+      if (IsWhitespaceCharacter(codepoint)) endLine = i;
 
       const bool overflowing = (textOffsetX + glyphWidth) > rec.width;
       const bool endOfText = (i + 1) == length;
 
       if (overflowing) {
-        if (endLine < 1)
-          endLine = i;
+        if (endLine < 1) endLine = i;
 
-        if (i == endLine)
-          endLine -= codepointByteCount;
+        if (i == endLine) endLine -= codepointByteCount;
 
         if ((startLine + codepointByteCount) == endLine)
           endLine = (i - codepointByteCount);
@@ -102,8 +98,8 @@ void DrawTextBoxed(const Font &font,
       // Draw current character glyph if:
       // 1. The text is not overflowing the rectangle height limit
       // 2. It is not a whitespace character
-      if (!(textOffsetY + lineHeight > rec.height) &&
-          !IsWhitespaceCharacter(codepoint)) {
+      if (!(textOffsetY + lineHeight > rec.height)
+          && !IsWhitespaceCharacter(codepoint)) {
         DrawTextCodepoint(font,
                           codepoint,
                           {rec.x + textOffsetX, rec.y + textOffsetY},

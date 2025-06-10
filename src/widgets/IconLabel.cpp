@@ -15,15 +15,13 @@ float IconLabel::measureSize(Axis axis) const {
   float size = padding.get(axis);
 
   switch (axis) {
-    case Axis::Y:
-      size += glm::max(icon.height(), label.height());
-      break;
-    case Axis::X:
-      size += icon.width() + label.width();
-      if (!icon.empty() && !label.text.empty()) {
-        size += spacing;
-      }
-      break;
+  case Axis::Y: size += glm::max(icon.height(), label.height()); break;
+  case Axis::X:
+    size += icon.width() + label.width();
+    if (!icon.empty() && !label.text.empty()) {
+      size += spacing;
+    }
+    break;
   }
 
   return glm::clamp(size, (float)minSize(axis), (float)maxSize(axis));

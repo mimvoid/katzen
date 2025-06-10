@@ -5,8 +5,7 @@ constexpr bool IsWhitespaceCharacter(int codepoint) {
   const char wsChars[]{' ', '\t', '\n', '\f', '\r', '\v'};
 
   for (char chara : wsChars) {
-    if (codepoint == chara)
-      return true;
+    if (codepoint == chara) return true;
   }
 
   return false;

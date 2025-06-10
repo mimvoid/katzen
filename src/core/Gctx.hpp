@@ -1,6 +1,6 @@
 #pragma once
-#include "Rect.hpp"
 #include <raylib.h>
+#include "Rect.hpp"
 
 namespace katzen {
 struct Gctx : Rect {

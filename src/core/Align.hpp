@@ -20,11 +20,8 @@ constexpr float offset(float parentSize, float childSize, Align align) {
     return 0.0f;
   }
 
-  if (parentSize < 0.0f)
-    parentSize = 0.0f;
-
-  if (childSize < 0.0f)
-    childSize = 0.0f;
+  if (parentSize < 0.0f) parentSize = 0.0f;
+  if (childSize < 0.0f) childSize = 0.0f;
 
   const float sizeDiff = parentSize - childSize;
   return (align == Align::CENTER) ? (sizeDiff / 2.0f) : sizeDiff;

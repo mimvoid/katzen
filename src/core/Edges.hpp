@@ -22,26 +22,22 @@ struct Edges {
 
   constexpr Edges() : Edges(0) {}
 
-  constexpr bool operator==(Edges const &other) const {
-    return (top == other.top) && (right == other.right) &&
-           (bottom == other.bottom) && (left == other.left);
+  constexpr bool operator==(const Edges &other) const {
+    return (top == other.top) && (right == other.right)
+           && (bottom == other.bottom) && (left == other.left);
   }
 
-  constexpr bool operator!=(Edges const &other) const {
-    return (top != other.top) || (right != other.right) ||
-           (bottom != other.bottom) || (left != other.left);
+  constexpr bool operator!=(const Edges &other) const {
+    return (top != other.top) || (right != other.right)
+           || (bottom != other.bottom) || (left != other.left);
   }
 
   constexpr int get(Edge edge) const {
     switch (edge) {
-      case Edge::TOP:
-        return top;
-      case Edge::RIGHT:
-        return right;
-      case Edge::BOTTOM:
-        return bottom;
-      case Edge::LEFT:
-        return left;
+    case Edge::TOP:    return top;
+    case Edge::RIGHT:  return right;
+    case Edge::BOTTOM: return bottom;
+    case Edge::LEFT:   return left;
     }
   }
 
@@ -50,27 +46,17 @@ struct Edges {
    */
   constexpr int get(Axis axis) const {
     switch (axis) {
-      case Axis::X:
-        return left + right;
-      case Axis::Y:
-        return top + bottom;
+    case Axis::X: return left + right;
+    case Axis::Y: return top + bottom;
     }
   }
 
   constexpr void set(Edge edge, int value) {
     switch (edge) {
-      case Edge::TOP:
-        top = value;
-        break;
-      case Edge::RIGHT:
-        right = value;
-        break;
-      case Edge::BOTTOM:
-        bottom = value;
-        break;
-      case Edge::LEFT:
-        left = value;
-        break;
+    case Edge::TOP:    top = value; break;
+    case Edge::RIGHT:  right = value; break;
+    case Edge::BOTTOM: bottom = value; break;
+    case Edge::LEFT:   left = value; break;
     }
   }
 
