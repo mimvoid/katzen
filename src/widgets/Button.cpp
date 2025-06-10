@@ -58,7 +58,7 @@ void Button::updateState() {
 
   const ButtonState prevState = _state;
 
-  if (CheckCollisionPointRec(GetMousePosition(), rect().rlRectangle())) {
+  if (CheckCollisionPointRec(GetMousePosition(), rlRectangle(rect()))) {
     _state = IsMouseButtonDown(MOUSE_LEFT_BUTTON) ? ButtonState::PRESSED
                                                   : ButtonState::FOCUSED;
 
@@ -76,7 +76,7 @@ void Button::updateState() {
 void Button::draw(glm::vec2 p) {
   updateState();
 
-  const Rectangle box = rect().rlRectangle();
+  const Rectangle box = rlRectangle(rect());
   DrawRectangleRec(box, colors.base);
   if (borderWidth != 0) {
     DrawRectangleLinesEx(box, borderWidth, colors.border);

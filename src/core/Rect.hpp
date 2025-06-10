@@ -1,3 +1,4 @@
+#pragma once
 #include "Axis.hpp"
 #include "Edges.hpp"
 #include <raylib.h>
@@ -12,10 +13,6 @@ struct rect_t {
   }
   constexpr bool operator!=(rect_t const &other) const {
     return (x != other.x) || (y != other.y) || (w != other.w) || (h != other.h);
-  }
-
-  constexpr Rectangle rlRectangle() const {
-    return {(float)x, (float)y, (float)w, (float)h};
   }
 
   constexpr T position(Axis axis) const {
@@ -99,4 +96,9 @@ struct rect_t {
 };
 
 typedef rect_t<float> Rect;
+
+template <typename T>
+constexpr Rectangle rlRectangle(rect_t<T> rec) {
+  return {(float)rec.x, (float)rec.y, (float)rec.w, (float)rec.h};
+}
 } // namespace katzen

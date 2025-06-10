@@ -129,7 +129,7 @@ struct Widget {
   // Render the widget on the screen at its retained position.
   constexpr void draw() {
 #if defined(KATZEN_DEBUG)
-    DrawRectangleLinesEx(rect().rlRectangle(), 1, RED);
+    DrawRectangleLinesEx(rlRectangle(rect()), 1, RED);
 #endif
 
     draw(position());
