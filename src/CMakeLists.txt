@@ -1,6 +1,5 @@
 set(KATZEN_SOURCES
     widgets/helpers.cpp
-    widgets/Widget.cpp
     widgets/Box.cpp
     widgets/Label.cpp
     widgets/IconLabel.cpp

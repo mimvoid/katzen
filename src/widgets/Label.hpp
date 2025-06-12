@@ -1,4 +1,5 @@
 #pragma once
+#include <functional>
 #include <string_view>
 #include "Widget.hpp"
 
@@ -23,7 +24,7 @@ struct Label : Widget {
     if (text.empty()) return 0;
 
     const Vector2 textSize =
-        MeasureTextEx(font, text.data(), fontSize, fontSpacing);
+        MeasureTextEx(font, text.data(), m_fontSize, m_fontSpacing);
 
     return axis == Axis::X ? textSize.x : textSize.y;
   }
@@ -38,10 +39,9 @@ struct Label : Widget {
   void draw(glm::vec2 p) override;
 
 protected:
-  float fontSize;
-  int fontSpacing;
+  float m_fontSize;
+  int m_fontSpacing;
 
   float measureSize(Axis axis) const override;
 };
-
 } // namespace katzen::widgets

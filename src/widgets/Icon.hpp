@@ -14,7 +14,7 @@ struct Icon : Widget {
   Icon(int iconId)
       : iconId(iconId),
         color(GetColor(GuiGetStyle(DEFAULT, TEXT_COLOR_NORMAL))),
-        _iconSize(1) {}
+        m_iconSize(1) {}
 
   Icon(int iconId, int iconSize)
       : iconId(iconId),
@@ -22,11 +22,11 @@ struct Icon : Widget {
     this->iconSize(iconSize);
   }
 
-  constexpr int iconSize() const { return _iconSize; }
-  constexpr void iconSize(int size) { _iconSize = glm::max(1, size); }
+  constexpr int iconSize() const { return m_iconSize; }
+  constexpr void iconSize(int size) { m_iconSize = glm::max(1, size); }
 
   constexpr int measureIcon() const {
-    return empty() ? 0 : _iconSize * RAYGUI_ICON_SIZE;
+    return empty() ? 0 : m_iconSize * RAYGUI_ICON_SIZE;
   }
 
   // Check whether there is no icon to be drawn
@@ -36,7 +36,7 @@ struct Icon : Widget {
   void draw(glm::vec2 p) override {
     if (!empty()) {
       GuiDrawIcon(
-          iconId, p.x + padding.left, p.y + padding.top, _iconSize, color);
+          iconId, p.x + padding.left, p.y + padding.top, m_iconSize, color);
     }
   }
 
@@ -46,6 +46,6 @@ protected:
   }
 
 private:
-  int _iconSize;
+  int m_iconSize;
 };
 } // namespace katzen::widgets

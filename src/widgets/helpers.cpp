@@ -6,7 +6,7 @@
  */
 
 // Draw text using font inside rectangle limits
-void DrawTextBoxed(const Font &font,
+void drawTextBoxed(const Font &font,
                    const char *text,
                    const Rectangle &rec,
                    float fontSize,
@@ -67,7 +67,7 @@ void DrawTextBoxed(const Font &font,
      * before we can get outside the container.
      */
     if (state == MEASURE_STATE) {
-      if (IsWhitespaceCharacter(codepoint)) endLine = i;
+      if (isWhitespaceCharacter(codepoint)) endLine = i;
 
       const bool overflowing = (textOffsetX + glyphWidth) > rec.width;
       const bool endOfText = (i + 1) == length;
@@ -99,7 +99,7 @@ void DrawTextBoxed(const Font &font,
       // 1. The text is not overflowing the rectangle height limit
       // 2. It is not a whitespace character
       if (!(textOffsetY + lineHeight > rec.height)
-          && !IsWhitespaceCharacter(codepoint)) {
+          && !isWhitespaceCharacter(codepoint)) {
         DrawTextCodepoint(font,
                           codepoint,
                           {rec.x + textOffsetX, rec.y + textOffsetY},

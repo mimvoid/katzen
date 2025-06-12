@@ -30,9 +30,9 @@ void Button::color(ButtonState state) {
       break;
   }
 
-  colors.border = GetColor(GuiGetStyle(DEFAULT, border));
-  colors.base = GetColor(GuiGetStyle(DEFAULT, base));
-  colors.text = GetColor(GuiGetStyle(DEFAULT, text));
+  m_colors.border = GetColor(GuiGetStyle(DEFAULT, border));
+  m_colors.base = GetColor(GuiGetStyle(DEFAULT, base));
+  m_colors.text = GetColor(GuiGetStyle(DEFAULT, text));
 }
 
 float Button::measureSize(Axis axis) const {
@@ -53,23 +53,23 @@ void Button::repaint(Gctx g) {
 }
 
 void Button::updateState() {
-  if (_state == ButtonState::DISABLED)
+  if (m_state == ButtonState::DISABLED)
     return; // Nothing to do
 
-  const ButtonState prevState = _state;
+  const ButtonState prevState = m_state;
 
   if (CheckCollisionPointRec(GetMousePosition(), rlRectangle(rect()))) {
-    _state = IsMouseButtonDown(MOUSE_LEFT_BUTTON) ? ButtonState::PRESSED
+    m_state = IsMouseButtonDown(MOUSE_LEFT_BUTTON) ? ButtonState::PRESSED
                                                   : ButtonState::FOCUSED;
 
     if (IsMouseButtonReleased(MOUSE_LEFT_BUTTON) && callback)
       callback();
   } else {
-    _state = ButtonState::NORMAL;
+    m_state = ButtonState::NORMAL;
   }
 
-  if (_state != prevState) {
-    color(_state); // The state changed, update colors
+  if (m_state != prevState) {
+    color(m_state); // The state changed, update colors
   }
 }
 
@@ -77,9 +77,9 @@ void Button::draw(glm::vec2 p) {
   updateState();
 
   const Rectangle box = rlRectangle(rect());
-  DrawRectangleRec(box, colors.base);
+  DrawRectangleRec(box, m_colors.base);
   if (borderWidth != 0) {
-    DrawRectangleLinesEx(box, borderWidth, colors.border);
+    DrawRectangleLinesEx(box, borderWidth, m_colors.border);
   }
 
   child->draw({p.x - x() + child->x(), p.y - y() + child->y()});

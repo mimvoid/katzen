@@ -96,11 +96,11 @@ void Box::repaint(Gctx g) {
 
   position(g);
 
-  _box.w = glm::clamp(measureChildren(Axis::X) + padding.get(Axis::X),
+  m_box.w = glm::clamp(measureChildren(Axis::X) + padding.get(Axis::X),
                       (float)bounds.min.x,
                       (float)maxWidth());
 
-  _box.h = glm::clamp(measureChildren(Axis::Y) + padding.get(Axis::Y),
+  m_box.h = glm::clamp(measureChildren(Axis::Y) + padding.get(Axis::Y),
                       (float)bounds.min.y,
                       (float)maxHeight());
 

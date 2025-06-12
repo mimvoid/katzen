@@ -8,8 +8,8 @@ Label::Label(const Font &font, std::string_view text, float size)
       text(text),
       wrapWords(true),
       color(GetColor(GuiGetStyle(DEFAULT, TEXT_COLOR_NORMAL))),
-      fontSize(size),
-      fontSpacing(GuiGetStyle(DEFAULT, TEXT_SPACING)) {}
+      m_fontSize(size),
+      m_fontSpacing(GuiGetStyle(DEFAULT, TEXT_SPACING)) {}
 
 Label::Label(std::function<void(Label &)> setup,
                           const Font &font,
@@ -44,17 +44,17 @@ void Label::draw(glm::vec2 p) {
   p.y += padding.top;
 
   if (willWrap()) {
-    DrawTextBoxed(font,
+    drawTextBoxed(font,
                   text.data(),
                   {p.x,
                    p.y,
                    width() - padding.get(Axis::X),
                    height() - padding.get(Axis::Y)},
-                  fontSize,
-                  fontSpacing,
+                  m_fontSize,
+                  m_fontSpacing,
                   color);
   } else {
-    DrawTextEx(font, text.data(), {p.x, p.y}, fontSize, fontSpacing, color);
+    DrawTextEx(font, text.data(), {p.x, p.y}, m_fontSize, m_fontSpacing, color);
   }
 }
 } // namespace katzen::widgets

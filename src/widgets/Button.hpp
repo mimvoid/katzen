@@ -1,5 +1,6 @@
 #include <raygui.h>
 #include <functional>
+#include <memory>
 #include "Widget.hpp"
 
 namespace katzen::widgets {
@@ -34,18 +35,18 @@ struct Button : Widget {
     padding.set(8);
   }
 
-  constexpr ButtonState state() const { return _state; }
+  constexpr ButtonState state() const { return m_state; }
 
   constexpr void enable() {
-    if (_state == ButtonState::DISABLED) {
-      _state = ButtonState::NORMAL;
+    if (m_state == ButtonState::DISABLED) {
+      m_state = ButtonState::NORMAL;
     }
   }
 
   constexpr void disable() {
-    if (_state == ButtonState::DISABLED) return; // nothing to do
+    if (m_state == ButtonState::DISABLED) return; // nothing to do
 
-    _state = ButtonState::DISABLED;
+    m_state = ButtonState::DISABLED;
 
     // Disabled state doesn't update its colors when drawing,
     // so get the colors beforehand
@@ -53,7 +54,7 @@ struct Button : Widget {
   }
 
   constexpr void toggle() {
-    _state == ButtonState::DISABLED ? enable() : disable();
+    m_state == ButtonState::DISABLED ? enable() : disable();
   }
 
   void color(ButtonState state);
@@ -66,7 +67,7 @@ protected:
   void updateState();
 
 private:
-  ButtonState _state;
-  ButtonColors colors;
+  ButtonState m_state;
+  ButtonColors m_colors;
 };
 } // namespace katzen::widgets

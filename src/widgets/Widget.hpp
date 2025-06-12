@@ -1,9 +1,9 @@
 #pragma once
 #include <raylib.h>
+#include <climits>
 #include <glm/ext/scalar_common.hpp>
 #include <glm/ext/vector_bool2.hpp>
 #include <glm/ext/vector_float2.hpp>
-#include <memory>
 #include "../core/Bounds.hpp"
 #include "../core/Edges.hpp"
 #include "../core/Gctx.hpp"
@@ -16,43 +16,42 @@ namespace katzen::widgets {
  * A basic widget for a retained mode GUI library.
  */
 struct Widget {
-  Edges padding;
-  glm::bvec2 expand;
+  Edges padding{0, 0, 0, 0};
+  glm::bvec2 expand{false, false};
 
   // Minimum and maximum sizes intrinsic to the Widget.
-  Bounds bounds;
+  Bounds bounds{{0, 0}, {INT_MAX, INT_MAX}};
 
   // Maximum sizes that may be overridden by repaints.
-  glm::uvec2 externalBounds;
+  glm::uvec2 externalBounds{GetRenderWidth(), GetRenderHeight()};
 
-  Widget();
   virtual ~Widget() {}
 
   /** A rectangle with the retained position and size. */
-  constexpr Rect rect() const { return _box; }
+  constexpr Rect rect() const { return m_box; }
 
   /************/
   /* Position */
   /************/
 
   // The retained x-coordinate.
-  constexpr float x() const { return _box.x; }
+  constexpr float x() const { return m_box.x; }
 
   // The retained y-coordinate.
-  constexpr float y() const { return _box.y; }
+  constexpr float y() const { return m_box.y; }
 
   // The retained position.
-  constexpr glm::vec2 position() const { return {_box.x, _box.y}; };
+  constexpr glm::vec2 position() const { return {m_box.x, m_box.y}; };
 
   // Change the retained position.
   constexpr void position(glm::vec2 p) {
-    _box.x = p.x;
-    _box.y = p.y;
+    m_box.x = p.x;
+    m_box.y = p.y;
   }
 
   constexpr void position(Gctx g) {
-    _box.x = g.x;
-    _box.y = g.y;
+    m_box.x = g.x;
+    m_box.y = g.y;
   }
 
   /********/
@@ -60,22 +59,22 @@ struct Widget {
   /********/
 
   // The size on the x-axis (width) or y-axis (height).
-  constexpr float size(Axis axis) const { return _box.size(axis); }
+  constexpr float size(Axis axis) const { return m_box.size(axis); }
 
   // The retained width.
-  constexpr float width() const { return _box.w; }
+  constexpr float width() const { return m_box.w; }
 
   // The retained height.
-  constexpr float height() const { return _box.h; }
+  constexpr float height() const { return m_box.h; }
 
   // Remeasure and save the width.
   constexpr void updateWidth() {
-    _box.w = expand.x ? maxWidth() : measureWidth();
+    m_box.w = expand.x ? maxWidth() : measureWidth();
   }
 
   // Remeasure and save the height.
   constexpr void updateHeight() {
-    _box.h = expand.y ? maxHeight() : measureHeight();
+    m_box.h = expand.y ? maxHeight() : measureHeight();
   }
 
   constexpr void updateSize() {
@@ -118,7 +117,13 @@ struct Widget {
   /* Render */
   /**********/
 
-  virtual void repaint(Gctx g);
+  virtual void repaint(Gctx g) {
+    externalBounds.x = g.w;
+    externalBounds.y = g.h;
+
+    position(g);
+    updateSize();
+  }
 
   // Render the widget on the screen at its retained position.
   constexpr void draw() {
@@ -138,7 +143,7 @@ struct Widget {
   virtual void draw(glm::vec2 p) = 0;
 
 protected:
-  Rect _box;
+  Rect m_box;
 
   // Recalculate and return the size on the x-axis (width) or y-axis (height).
   virtual float measureSize(Axis axis) const {
@@ -152,9 +157,4 @@ protected:
   // Recalculate and return the height.
   constexpr float measureHeight() const { return measureSize(Axis::Y); }
 };
-
-template <typename T, typename... Args>
-std::unique_ptr<T> mkWidget(Args &&...args) {
-  return std::make_unique<T>(args...);
-}
 } // namespace katzen::widgets

@@ -1,7 +1,7 @@
 #pragma once
 #include <raylib.h>
 
-constexpr bool IsWhitespaceCharacter(int codepoint) {
+constexpr bool isWhitespaceCharacter(int codepoint) {
   const char wsChars[]{' ', '\t', '\n', '\f', '\r', '\v'};
 
   for (char chara : wsChars) {
@@ -11,7 +11,7 @@ constexpr bool IsWhitespaceCharacter(int codepoint) {
   return false;
 }
 
-void DrawTextBoxed(const Font &font,
+void drawTextBoxed(const Font &font,
                    const char *text,
                    const Rectangle &rec,
                    float fontSize,
