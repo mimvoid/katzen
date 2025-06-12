@@ -11,6 +11,14 @@ Label::Label(const Font &font, std::string_view text, float size)
       fontSize(size),
       fontSpacing(GuiGetStyle(DEFAULT, TEXT_SPACING)) {}
 
+Label::Label(std::function<void(Label &)> setup,
+                          const Font &font,
+                          std::string_view text,
+                          float size)
+    : Label(font, text, size) {
+  setup(*this);
+}
+
 Label::Label(const Font &font, std::string_view text) : Label(font, text, 24) {}
 
 float Label::measureSize(Axis axis) const {

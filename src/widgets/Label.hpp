@@ -14,6 +14,10 @@ struct Label : Widget {
 
   Label(const Font &font, std::string_view text);
   Label(const Font &font, std::string_view text, float size);
+  Label(std::function<void(Label &)> setup,
+        const Font &font,
+        std::string_view text,
+        float size);
 
   constexpr float textSize(Axis axis) const {
     if (text.empty()) return 0;

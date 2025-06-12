@@ -1,3 +1,4 @@
+#include <functional>
 #include <memory>
 #include <vector>
 #include "../core/Align.hpp"
@@ -13,6 +14,15 @@ struct Box : Widget {
   Axis direction;
   Align halign, valign;
   std::vector<std::unique_ptr<Widget>> children;
+
+  Box(std::function<void(const Box &)> setup,
+      int spacing,
+      Axis direction,
+      Align halign,
+      Align valign)
+      : Box(spacing, direction, halign, valign) {
+    setup(*this);
+  }
 
   Box(int spacing, Axis direction, Align halign, Align valign)
       : spacing(spacing),
