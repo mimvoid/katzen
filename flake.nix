@@ -12,6 +12,28 @@
       );
     in
     {
+      packages = toSystems (pkgs: {
+        default = pkgs.stdenv.mkDerivation rec {
+          pname = "katzen";
+          version = "0.1.0";
+
+          src = builtins.path {
+            name = "${pname}-${version}";
+            path = pkgs.lib.cleanSource ./.;
+          };
+
+          nativeBuildInputs = [ pkgs.cmake ];
+          buildInputs = [
+            pkgs.raylib
+            pkgs.raygui
+            pkgs.glm
+            pkgs.catch2_3
+          ];
+
+          cmakeFlags = [ "-DCMAKE_BUILD_TYPE=Release" ];
+        };
+      });
+
       devShells = toSystems (pkgs: {
         default = pkgs.mkShell {
           packages = with pkgs; [
