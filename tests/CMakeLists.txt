@@ -4,6 +4,8 @@ add_executable(katzen_tests
   core/test_edges.cpp
   core/test_rect.cpp
   core/test_vec.cpp
+  widgets/test_widget.cpp
+  widgets/test_icon.cpp
 )
 
 # Dependencies
