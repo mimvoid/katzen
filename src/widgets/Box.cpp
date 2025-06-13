@@ -42,10 +42,7 @@ float Box::measureChildren(Axis axis) {
   } else {
     float maxChildSize = 0.0f;
     for (unique_ptr<Widget> &w : children) {
-      set(w->externalBounds,
-          axis,
-          (unsigned int)glm::max(0.0f, maxSize(axis) - size));
-
+      set(w->externalBounds, axis, maxSize(axis));
       w->updateSize(axis);
       maxChildSize = glm::max(w->size(axis), maxChildSize);
     }
