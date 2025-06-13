@@ -1,5 +1,6 @@
 #pragma once
 #include <raygui.h>
+#include "../theming/themer.hpp"
 #include "Widget.hpp"
 
 #ifndef RAYGUI_ICON_SIZE
@@ -13,12 +14,12 @@ struct Icon : Widget {
 
   Icon(int iconId)
       : iconId(iconId),
-        color(GetColor(GuiGetStyle(DEFAULT, TEXT_COLOR_NORMAL))),
-        m_iconSize(1) {}
+        color(theme::getProperty(theme::ColorProp::NORMAL_TEXT)),
+        m_iconSize(theme::getProperty(theme::UIntProp::ICON_SIZE)) {}
 
   Icon(int iconId, int iconSize)
       : iconId(iconId),
-        color(GetColor(GuiGetStyle(DEFAULT, TEXT_COLOR_NORMAL))) {
+        color(theme::getProperty(theme::ColorProp::NORMAL_TEXT)) {
     this->iconSize(iconSize);
   }
 

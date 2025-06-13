@@ -1,17 +1,10 @@
 #include <raygui.h>
 #include <functional>
 #include <memory>
+#include "../theming/themer.hpp"
 #include "Widget.hpp"
 
 namespace katzen::widgets {
-enum class ButtonState { NORMAL, DISABLED, FOCUSED, PRESSED };
-
-struct ButtonColors {
-  Color border = GetColor(GuiGetStyle(DEFAULT, BORDER_COLOR_NORMAL));
-  Color base = GetColor(GuiGetStyle(DEFAULT, BASE_COLOR_NORMAL));
-  Color text = GetColor(GuiGetStyle(DEFAULT, TEXT_COLOR_NORMAL));
-};
-
 /**
  * A widget that calls a function when pressed.
  */
@@ -21,43 +14,26 @@ struct Button : Widget {
   unsigned int borderWidth;
 
   template <typename T>
-  Button(T &&child)
-      : child(std::make_unique<T>(std::move(child))),
-        borderWidth(GuiGetStyle(BUTTON, BORDER_WIDTH)) {
-    padding.set(8);
-  }
+  Button(T &&child) : Button(child, std::function<void(void)>()) {}
 
   template <typename T>
   Button(T &&child, std::function<void(void)> callback)
       : child(std::make_unique<T>(std::move(child))),
         callback(callback),
-        borderWidth(GuiGetStyle(BUTTON, BORDER_WIDTH)) {
+        borderWidth(theme::getProperty(theme::UIntProp::BORDER_WIDTH)) {
     padding.set(8);
   }
 
-  constexpr ButtonState state() const { return m_state; }
+  constexpr State state() const { return m_state; }
 
   constexpr void enable() {
-    if (m_state == ButtonState::DISABLED) {
-      m_state = ButtonState::NORMAL;
+    if (m_state == State::DISABLED) {
+      m_state = State::NORMAL;
     }
   }
 
-  constexpr void disable() {
-    if (m_state == ButtonState::DISABLED) return; // nothing to do
-
-    m_state = ButtonState::DISABLED;
-
-    // Disabled state doesn't update its colors when drawing,
-    // so get the colors beforehand
-    color(ButtonState::DISABLED);
-  }
-
-  constexpr void toggle() {
-    m_state == ButtonState::DISABLED ? enable() : disable();
-  }
-
-  void color(ButtonState state);
+  void disable();
+  void toggle() { m_state == State::DISABLED ? enable() : disable(); }
 
   void repaint(Gctx g) override;
   void draw(glm::vec2 p) override;
@@ -67,7 +43,7 @@ protected:
   void updateState();
 
 private:
-  ButtonState m_state;
-  ButtonColors m_colors;
+  State m_state;
+  theme::StateColors m_colors = theme::getStateColors(State::NORMAL);
 };
 } // namespace katzen::widgets

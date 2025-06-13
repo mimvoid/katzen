@@ -1,5 +1,6 @@
 #include "Label.hpp"
 #include <raygui.h>
+#include "../theming/themer.hpp"
 #include "helpers.hpp"
 
 namespace katzen::widgets {
@@ -7,14 +8,14 @@ Label::Label(const Font &font, std::string_view text, float size)
     : font(font),
       text(text),
       wrapWords(true),
-      color(GetColor(GuiGetStyle(DEFAULT, TEXT_COLOR_NORMAL))),
+      color(theme::getProperty(theme::ColorProp::NORMAL_TEXT)),
       m_fontSize(size),
       m_fontSpacing(GuiGetStyle(DEFAULT, TEXT_SPACING)) {}
 
 Label::Label(std::function<void(Label &)> setup,
-                          const Font &font,
-                          std::string_view text,
-                          float size)
+             const Font &font,
+             std::string_view text,
+             float size)
     : Label(font, text, size) {
   setup(*this);
 }
