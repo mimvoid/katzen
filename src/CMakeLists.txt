@@ -1,4 +1,5 @@
 set(KATZEN_SOURCES
+    theming/fonts.cpp
     theming/themer.cpp
     widgets/helpers.cpp
     widgets/Box.cpp
