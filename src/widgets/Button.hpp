@@ -1,4 +1,3 @@
-#include <raygui.h>
 #include <functional>
 #include <memory>
 #include "../theming/themer.hpp"

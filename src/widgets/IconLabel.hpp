@@ -8,8 +8,15 @@ struct IconLabel : Widget {
   Icon icon;
   Label label;
 
-  IconLabel(int iconId, const Font &font, std::string_view text);
-  IconLabel(int iconId, const Font &font, std::string_view text, float size);
+  IconLabel(uint8_t iconId, const Font &font, std::string_view text);
+
+  template <typename E>
+  IconLabel(E enumIconId, const Font &font, std::string_view text);
+
+  IconLabel(uint8_t iconId, const Font &font, std::string_view text, float size);
+
+  template <typename E>
+  IconLabel(E enumIconId, const Font &font, std::string_view text, float size);
 
   void repaint(Gctx g) override;
   void draw(glm::vec2 p) override;

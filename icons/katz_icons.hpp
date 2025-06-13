@@ -1,14 +1,8 @@
+// An enum for the Katz iconset.
 #pragma once
-#include <raygui.h>
-
-#define RAYGUI_ICON_SIZE            16
-#define RAYGUI_ICON_MAX_ICONS       256
-#define RAYGUI_ICON_MAX_NAME_LENGTH 32
-
-#define RAYGUI_ICON_DATA_ELEMENTS (RAYGUI_ICON_SIZE * RAYGUI_ICON_SIZE / 32)
 
 namespace katzen {
-enum class KatzIconName {
+enum class KatzIcon : int {
   NONE,
   SAVE,
   FOLDER,

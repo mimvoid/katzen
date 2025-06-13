@@ -25,7 +25,6 @@
           nativeBuildInputs = [ pkgs.cmake ];
           buildInputs = [
             pkgs.raylib
-            pkgs.raygui
             pkgs.glm
             pkgs.catch2_3
           ];
@@ -49,7 +48,6 @@
 
             # Libraries
             (raylib.override { platform = "SDL"; })
-            raygui
             glm
             catch2_3
           ];

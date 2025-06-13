@@ -2,14 +2,25 @@
 #include <raylib.h>
 
 namespace katzen::widgets {
-IconLabel::IconLabel(int iconId, const Font &font, std::string_view text)
+IconLabel::IconLabel(uint8_t iconId, const Font &font, std::string_view text)
     : icon(iconId), label(font, text) {}
 
-IconLabel::IconLabel(int iconId,
+template <typename E>
+IconLabel::IconLabel(E enumIconId, const Font &font, std::string_view text)
+    : icon(enumIconId), label(font, text) {}
+
+IconLabel::IconLabel(uint8_t iconId,
                      const Font &font,
                      std::string_view text,
                      float size)
     : icon(iconId), label(font, text, size) {}
+
+template <typename E>
+IconLabel::IconLabel(E enumIconId,
+                     const Font &font,
+                     std::string_view text,
+                     float size)
+    : icon(enumIconId), label(font, text, size) {}
 
 float IconLabel::measureSize(Axis axis) const {
   float size = padding.get(axis);
