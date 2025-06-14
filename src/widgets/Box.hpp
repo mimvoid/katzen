@@ -13,22 +13,15 @@ struct Box : Widget, Container {
   Axis direction;
   Align halign, valign;
 
-  Box(std::function<void(const Box &)> setup,
-      int spacing,
-      Axis direction,
-      Align halign,
-      Align valign)
-      : Box(spacing, direction, halign, valign) {
-    setup(*this);
+  Box(int spacing = 0,
+      Axis direction = Axis::X,
+      Align halign = Align::START,
+      Align valign = Align::START,
+      std::function<void(Box &)> setup =
+          std::function<void(Box &)>())
+      : spacing(spacing), direction(direction), halign(halign), valign(valign) {
+    if (setup) setup(*this);
   }
-
-  Box(int spacing, Axis direction, Align halign, Align valign)
-      : spacing(spacing),
-        direction(direction),
-        halign(halign),
-        valign(valign) {}
-
-  Box() : Box(0, Axis::X, Align::START, Align::START) {}
 
   constexpr Align align(Axis axis) const {
     switch (axis) {

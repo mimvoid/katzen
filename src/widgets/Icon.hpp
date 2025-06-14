@@ -9,21 +9,17 @@ namespace katzen {
 struct Icon : Widget {
   Color color;
 
-  Icon(uint8_t id, uint8_t size)
+  Icon(uint8_t id,
+       uint8_t size = theme::getProperty(theme::UIntProp::ICON_SIZE))
       : color(theme::getProperty(theme::ColorProp::NORMAL_TEXT)) {
     iconId(id);
     iconSize(size);
   }
 
   template <typename E>
-  Icon(E iconEnumId, uint8_t size)
+  Icon(E iconEnumId,
+       uint8_t size = theme::getProperty(theme::UIntProp::ICON_SIZE))
       : Icon(static_cast<uint8_t>(iconEnumId), size) {}
-
-  Icon(uint8_t iconId)
-      : Icon(iconId, theme::getProperty(theme::UIntProp::ICON_SIZE)) {}
-
-  template <typename E>
-  Icon(E iconEnumId) : Icon(static_cast<uint8_t>(iconEnumId)) {}
 
   constexpr uint8_t iconId() const { return m_iconId; }
   constexpr void iconId(uint8_t id) { m_iconId = id; }

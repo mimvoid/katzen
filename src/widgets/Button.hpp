@@ -13,10 +13,8 @@ struct Button : Widget {
   unsigned int borderWidth;
 
   template <typename T>
-  Button(T &&child) : Button(child, std::function<void(void)>()) {}
-
-  template <typename T>
-  Button(T &&child, std::function<void(void)> callback)
+  Button(T &&child,
+         std::function<void(void)> callback = std::function<void(void)>())
       : child(std::make_unique<T>(std::move(child))),
         callback(callback),
         borderWidth(theme::getProperty(theme::UIntProp::BORDER_WIDTH)) {
