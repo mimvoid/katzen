@@ -2,7 +2,7 @@
 #include "Icon.hpp"
 #include "Label.hpp"
 
-namespace katzen::widgets {
+namespace katzen {
 struct IconLabel : Widget {
   const static int spacing = 4;
   Icon icon;

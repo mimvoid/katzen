@@ -5,7 +5,7 @@
 
 namespace katzen {
 struct Container {
-  std::vector<std::unique_ptr<widgets::Widget>> children{};
+  std::vector<std::unique_ptr<Widget>> children{};
 
   template <typename T>
   void push(T &&child) {

@@ -2,7 +2,7 @@
 #include "../theming/themer.hpp"
 #include "helpers.hpp"
 
-namespace katzen::widgets {
+namespace katzen {
 Label::Label(const Font &font, std::string_view text, float size)
     : font(font),
       text(text),

@@ -1,7 +1,7 @@
 #include "Button.hpp"
 #include <raylib.h>
 
-namespace katzen::widgets {
+namespace katzen {
 void Button::disable() {
   if (m_state == State::DISABLED) return; // nothing to do
 

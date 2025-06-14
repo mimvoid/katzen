@@ -3,7 +3,7 @@
 #include "../core/Align.hpp"
 #include "Widget.hpp"
 
-namespace katzen::widgets {
+namespace katzen {
 /**
  * A widget that contains other widgets.
  * It handles their sizes and alignments.
@@ -45,4 +45,4 @@ protected:
   float childrenSize(Axis axis) const;
   float measureSize(Axis a) const override;
 };
-} // namespace katzen::widgets
+} // namespace katzen

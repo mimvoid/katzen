@@ -3,7 +3,7 @@
 #include "../theming/themer.hpp"
 #include "Widget.hpp"
 
-namespace katzen::widgets {
+namespace katzen {
 /**
  * A widget that calls a function when pressed.
  */
@@ -45,4 +45,4 @@ private:
   State m_state;
   theme::StateColors m_colors = theme::getStateColors(State::NORMAL);
 };
-} // namespace katzen::widgets
+} // namespace katzen

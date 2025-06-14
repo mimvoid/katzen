@@ -4,7 +4,7 @@
 
 using katzen::Gctx;
 using katzen::KatzIcon;
-using katzen::widgets::Icon;
+using katzen::Icon;
 
 TEST_CASE("Initial fields", "[icon]") {
   const Icon withName(KatzIcon::ALARM_CLOCK);

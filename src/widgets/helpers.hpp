@@ -1,6 +1,7 @@
 #pragma once
 #include <raylib.h>
 
+namespace katzen {
 constexpr bool isWhitespaceCharacter(int codepoint) {
   const char wsChars[]{' ', '\t', '\n', '\f', '\r', '\v'};
 
@@ -17,3 +18,4 @@ void drawTextBoxed(const Font &font,
                    float fontSize,
                    float spacing,
                    Color tint);
+} // namespace katzen

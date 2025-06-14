@@ -7,7 +7,7 @@ using katzen::Gctx;
 using katzen::Rect;
 
 // Widget is an abstract class, so create a basic child class for testing
-struct Stock : katzen::widgets::Widget {
+struct Stock : katzen::Widget {
   void draw(glm::vec2 p) override {}
 };
 

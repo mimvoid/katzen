@@ -4,7 +4,7 @@
 #include "../core/Align.hpp"
 #include "Widget.hpp"
 
-namespace katzen::widgets {
+namespace katzen {
 /**
  * An entry-point for creating a widget tree.
  *

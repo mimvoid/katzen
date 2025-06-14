@@ -1,6 +1,7 @@
 #include "helpers.hpp"
 #include <utility>
 
+namespace katzen {
 /*
  * Raylib example: rectangle bounds
  */
@@ -123,3 +124,4 @@ void drawTextBoxed(const Font &font,
       textOffsetX += glyphWidth; // avoid leading spaces
   }
 }
+} // namespace katzen

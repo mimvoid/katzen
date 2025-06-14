@@ -1,7 +1,7 @@
 #include "IconLabel.hpp"
 #include <raylib.h>
 
-namespace katzen::widgets {
+namespace katzen {
 IconLabel::IconLabel(uint8_t iconId, const Font &font, std::string_view text)
     : icon(iconId), label(font, text) {}
 

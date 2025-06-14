@@ -20,7 +20,7 @@ struct Edges {
 
   constexpr Edges(int val) : Edges(val, val) {}
 
-  constexpr Edges() : Edges(0) {}
+  constexpr Edges() {}
 
   constexpr bool operator==(const Edges &other) const {
     return (top == other.top) && (right == other.right)

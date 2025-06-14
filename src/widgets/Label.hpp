@@ -3,7 +3,7 @@
 #include <string_view>
 #include "Widget.hpp"
 
-namespace katzen::widgets {
+namespace katzen {
 /**
  * A widget that displays text.
  */

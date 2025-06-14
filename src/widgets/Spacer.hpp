@@ -1,7 +1,7 @@
 #pragma once
 #include "Widget.hpp"
 
-namespace katzen::widgets {
+namespace katzen {
 /**
  * A basic widget with no content.
  *

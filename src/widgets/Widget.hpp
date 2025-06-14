@@ -11,7 +11,7 @@
 
 #define KATZEN_DEBUG
 
-namespace katzen::widgets {
+namespace katzen {
 /**
  * A basic widget for a retained mode GUI library.
  */

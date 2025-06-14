@@ -5,7 +5,7 @@
 #include "../theming/themer.hpp"
 #include "Widget.hpp"
 
-namespace katzen::widgets {
+namespace katzen {
 struct Icon : Widget {
   Color color;
 
@@ -61,4 +61,4 @@ private:
   uint8_t m_iconId;
   uint8_t m_iconSize;
 };
-} // namespace katzen::widgets
+} // namespace katzen

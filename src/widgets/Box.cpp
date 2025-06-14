@@ -1,6 +1,6 @@
 #include "Box.hpp"
 
-namespace katzen::widgets {
+namespace katzen {
 float Box::measureChildren(Axis axis) {
   using std::unique_ptr;
 
