@@ -1,38 +1,64 @@
 #pragma once
 #include <raylib.h>
+#include <glm/ext/scalar_common.hpp>
 #include <glm/ext/vector_float2.hpp>
 #include <string_view>
 #include "../core/Axis.hpp"
 
 namespace katzen {
 struct Text {
-  std::string_view text;
+  std::string_view content;
   const Font &font;
-  float fontSize;
   float fontSpacing;
   Color color;
 
   Text(const Font &font, std::string_view text);
   Text(const Font &font, std::string_view text, float size);
 
-  constexpr glm::vec2 size() const {
-    if (text.empty()) return {0.0f, 0.0f};
+  constexpr float fontSize() const { return m_fontSize; }
+  constexpr void fontSize(float size) { m_fontSize = glm::max(1.0f, size); }
 
-    const Vector2 textSize =
-        MeasureTextEx(font, text.data(), fontSize, fontSpacing);
-    return {textSize.x, textSize.y};
-  }
+  constexpr bool empty() const { return content.empty(); }
 
   constexpr float size(Axis axis) const {
     switch (axis) {
-      case Axis::X:
-        return size().x;
-      case Axis::Y:
-        return size().y;
+      case Axis::X: return m_width;
+      case Axis::Y: return m_height;
     }
   }
 
-  constexpr float width() const { return size().x; }
-  constexpr float height() const { return size().y; }
+  constexpr float width() const { return m_width; }
+  constexpr float height() const { return m_height; }
+
+  constexpr glm::vec2 measureSize() const {
+    if (content.empty()) return {0.0f, 0.0f};
+
+    const Vector2 textSize =
+        MeasureTextEx(font, content.data(), m_fontSize, fontSpacing);
+    return {textSize.x, textSize.y};
+  }
+
+  constexpr float measureWidth() const { return measureSize().x; }
+  constexpr float measureHeight() const { return measureSize().y; }
+
+  constexpr float measureSize(Axis axis) const {
+    switch (axis) {
+    case Axis::X: return measureWidth();
+    case Axis::Y: return measureHeight();
+    }
+  }
+
+  constexpr void updateWidth() { m_width = measureWidth(); }
+  constexpr void updateHeight() { m_height = measureHeight(); }
+
+  constexpr void updateSize() {
+    updateWidth();
+    updateHeight();
+  }
+
+private:
+  float m_width;
+  float m_height;
+  float m_fontSize;
 };
 } // namespace katzen

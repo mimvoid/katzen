@@ -1,15 +1,9 @@
 #include "Label.hpp"
-#include "../theming/themer.hpp"
 #include "helpers.hpp"
 
 namespace katzen {
 Label::Label(const Font &font, std::string_view text, float size)
-    : font(font),
-      text(text),
-      wrapWords(true),
-      color(theme::getProperty(theme::ColorProp::NORMAL_TEXT)),
-      m_fontSize(size),
-      m_fontSpacing(0.0f) {}
+    : text(font, text, size), wrapWords(true) {}
 
 Label::Label(std::function<void(Label &)> setup,
              const Font &font,
@@ -25,16 +19,26 @@ float Label::measureSize(Axis axis) const {
   float labelSize = padding.get(axis);
 
   if (axis == Axis::X || !willWrap()) {
-    labelSize += textSize(axis);
+    labelSize += text.size(axis);
   } else {
     // Estimate the height after text wrapping
     // It's not perfect, but it's simple
     const int lines =
-        glm::ceil(textWidth() / (maxWidth() - padding.get(Axis::X)));
-    labelSize += textSize(axis) * lines;
+        glm::ceil(text.width() / (maxWidth() - padding.get(Axis::X)));
+    labelSize += text.height() * lines;
   }
 
   return glm::clamp(labelSize, (float)minSize(axis), (float)maxSize(axis));
+}
+
+void Label::repaint(Gctx g) {
+  externalBounds.x = g.w;
+  externalBounds.y = g.h;
+
+  position(g);
+
+  text.updateSize();
+  updateSize();
 }
 
 void Label::draw(glm::vec2 p) {
@@ -44,17 +48,22 @@ void Label::draw(glm::vec2 p) {
   p.y += padding.top;
 
   if (willWrap()) {
-    drawTextBoxed(font,
-                  text.data(),
+    drawTextBoxed(text.font,
+                  text.content.data(),
                   {p.x,
                    p.y,
                    width() - padding.get(Axis::X),
                    height() - padding.get(Axis::Y)},
-                  m_fontSize,
-                  m_fontSpacing,
-                  color);
+                  text.fontSize(),
+                  text.fontSpacing,
+                  text.color);
   } else {
-    DrawTextEx(font, text.data(), {p.x, p.y}, m_fontSize, m_fontSpacing, color);
+    DrawTextEx(text.font,
+               text.content.data(),
+               {p.x, p.y},
+               text.fontSize(),
+               text.fontSpacing,
+               text.color);
   }
 }
-} // namespace katzen::widgets
+} // namespace katzen

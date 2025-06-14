@@ -1,5 +1,6 @@
 set(KATZEN_SOURCES
     components/icons.cpp
+    components/Text.cpp
     theming/fonts.cpp
     theming/themer.cpp
     widgets/helpers.cpp
@@ -21,6 +22,7 @@ set(KATZEN_PUBLIC_HEADERS
     core/Rect.hpp
     core/vec.hpp
     components/icons.hpp
+    components/Text.hpp
     widgets/Root.hpp
     widgets/Widget.hpp
     widgets/Spacer.hpp
