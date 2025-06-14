@@ -1,6 +1,5 @@
 #include <functional>
-#include <memory>
-#include <vector>
+#include "../components/Container.hpp"
 #include "../core/Align.hpp"
 #include "Widget.hpp"
 
@@ -9,11 +8,10 @@ namespace katzen::widgets {
  * A widget that contains other widgets.
  * It handles their sizes and alignments.
  */
-struct Box : Widget {
+struct Box : Widget, Container {
   int spacing;
   Axis direction;
   Align halign, valign;
-  std::vector<std::unique_ptr<Widget>> children;
 
   Box(std::function<void(const Box &)> setup,
       int spacing,
@@ -28,8 +26,7 @@ struct Box : Widget {
       : spacing(spacing),
         direction(direction),
         halign(halign),
-        valign(valign),
-        children{} {}
+        valign(valign) {}
 
   Box() : Box(0, Axis::X, Align::START, Align::START) {}
 
@@ -38,16 +35,6 @@ struct Box : Widget {
     case Axis::X: return halign;
     case Axis::Y: return valign;
     }
-  }
-
-  template <typename T>
-  void push(T &&child) {
-    children.push_back(std::make_unique<T>(std::move(child)));
-  }
-
-  template <typename T, typename... Args>
-  void emplace(Args &&...args) {
-    children.emplace_back(std::make_unique<T>(args...));
   }
 
   void repaint(Gctx g) override;
