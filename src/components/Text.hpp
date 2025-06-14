@@ -4,6 +4,7 @@
 #include <glm/ext/vector_float2.hpp>
 #include <string_view>
 #include "../core/Axis.hpp"
+#include "../theming/fonts.hpp"
 
 namespace katzen {
 struct Text {
@@ -12,8 +13,11 @@ struct Text {
   float fontSpacing;
   Color color;
 
-  Text(const Font &font, std::string_view text);
-  Text(const Font &font, std::string_view text, float size);
+  Text(const Font &font, std::string_view content);
+  Text(const Font &font, std::string_view content, float size);
+
+  Text(std::string_view content,
+       std::size_t fontIndex = theme::defaultFontId());
 
   constexpr float fontSize() const { return m_fontSize; }
   constexpr void fontSize(float size) { m_fontSize = glm::max(1.0f, size); }
@@ -22,8 +26,8 @@ struct Text {
 
   constexpr float size(Axis axis) const {
     switch (axis) {
-      case Axis::X: return m_width;
-      case Axis::Y: return m_height;
+    case Axis::X: return m_width;
+    case Axis::Y: return m_height;
     }
   }
 

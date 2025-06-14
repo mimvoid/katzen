@@ -2,25 +2,22 @@
 #include <raylib.h>
 
 namespace katzen {
-IconLabel::IconLabel(uint8_t iconId, const Font &font, std::string_view text)
-    : icon(iconId), label(font, text) {}
-
-template <typename E>
-IconLabel::IconLabel(E enumIconId, const Font &font, std::string_view text)
-    : icon(enumIconId), label(font, text) {}
-
 IconLabel::IconLabel(uint8_t iconId,
                      const Font &font,
                      std::string_view text,
-                     float size)
-    : icon(iconId), label(font, text, size) {}
+                     float size,
+                     std::function<void(IconLabel &)> setup)
+    : icon(iconId), label(font, text, size) {
+  if (setup) setup(*this);
+}
 
-template <typename E>
-IconLabel::IconLabel(E enumIconId,
-                     const Font &font,
+IconLabel::IconLabel(uint8_t iconId,
                      std::string_view text,
-                     float size)
-    : icon(enumIconId), label(font, text, size) {}
+                     std::size_t fontIndex,
+                     std::function<void(IconLabel &)> setup)
+    : icon(iconId), label(text, fontIndex) {
+  if (setup) setup(*this);
+}
 
 float IconLabel::measureSize(Axis axis) const {
   float size = padding.get(axis);
@@ -87,4 +84,4 @@ void IconLabel::draw(glm::vec2 p) {
     label.draw({p.x + label.x(), p.y + label.y()});
   }
 }
-} // namespace katzen::widgets
+} // namespace katzen

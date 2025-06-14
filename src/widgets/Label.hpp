@@ -12,12 +12,16 @@ struct Label : Widget {
   Text text;
   bool wrapWords;
 
-  Label(const Font &font, std::string_view text);
-  Label(const Font &font, std::string_view text, float size);
-  Label(std::function<void(Label &)> setup,
-        const Font &font,
-        std::string_view text,
-        float size);
+  Label(const Font &font,
+        std::string_view content,
+        float size,
+        bool wrapWords = true,
+        std::function<void(Label &)> setup = std::function<void(Label &)>());
+
+  Label(std::string_view content,
+        bool wrapWords = true,
+        std::size_t fontIndex = theme::defaultFontId(),
+        std::function<void(Label &)> setup = std::function<void(Label &)>());
 
   constexpr bool willWrap() const {
     return wrapWords && (text.width() + padding.get(Axis::X) > maxWidth());

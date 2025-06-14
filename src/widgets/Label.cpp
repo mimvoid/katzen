@@ -2,18 +2,22 @@
 #include "helpers.hpp"
 
 namespace katzen {
-Label::Label(const Font &font, std::string_view text, float size)
-    : text(font, text, size), wrapWords(true) {}
-
-Label::Label(std::function<void(Label &)> setup,
-             const Font &font,
-             std::string_view text,
-             float size)
-    : Label(font, text, size) {
-  setup(*this);
+Label::Label(const Font &font,
+             std::string_view content,
+             float size,
+             bool wrapWords,
+             std::function<void(Label &)> setup)
+    : text(font, content, size), wrapWords(wrapWords) {
+  if (setup) setup(*this);
 }
 
-Label::Label(const Font &font, std::string_view text) : Label(font, text, 24) {}
+Label::Label(std::string_view content,
+             bool wrapWords,
+             std::size_t fontIndex,
+             std::function<void(Label &)> setup)
+    : text(content, fontIndex), wrapWords(wrapWords) {
+  if (setup) setup(*this);
+}
 
 float Label::measureSize(Axis axis) const {
   float labelSize = padding.get(axis);
@@ -25,7 +29,10 @@ float Label::measureSize(Axis axis) const {
     // It's not perfect, but it's simple
     const int lines =
         glm::ceil(text.width() / (maxWidth() - padding.get(Axis::X)));
-    labelSize += text.height() * lines;
+
+    if (lines != 0) {
+      labelSize += text.height() * lines;
+    }
   }
 
   return glm::clamp(labelSize, (float)minSize(axis), (float)maxSize(axis));

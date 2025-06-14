@@ -1,4 +1,5 @@
 #pragma once
+#include <functional>
 #include "Icon.hpp"
 #include "Label.hpp"
 
@@ -8,15 +9,39 @@ struct IconLabel : Widget {
   Icon icon;
   Label label;
 
-  IconLabel(uint8_t iconId, const Font &font, std::string_view text);
+  IconLabel(uint8_t iconId,
+            const Font &font,
+            std::string_view text,
+            float size,
+            std::function<void(IconLabel &)> setup =
+                std::function<void(IconLabel &)>());
 
   template <typename E>
-  IconLabel(E enumIconId, const Font &font, std::string_view text);
+  IconLabel(E enumIconId,
+            const Font &font,
+            std::string_view text,
+            float size,
+            std::function<void(IconLabel &)> setup =
+                std::function<void(IconLabel &)>())
+      : icon(enumIconId), label(font, text, size) {
+    if (setup) setup(*this);
+  }
 
-  IconLabel(uint8_t iconId, const Font &font, std::string_view text, float size);
+  IconLabel(uint8_t iconId,
+            std::string_view text,
+            std::size_t fontIndex = theme::defaultFontId(),
+            std::function<void(IconLabel &)> setup =
+                std::function<void(IconLabel &)>());
 
   template <typename E>
-  IconLabel(E enumIconId, const Font &font, std::string_view text, float size);
+  IconLabel(E enumIconId,
+            std::string_view text,
+            std::size_t fontIndex = theme::defaultFontId(),
+            std::function<void(IconLabel &)> setup =
+                std::function<void(IconLabel &)>())
+      : icon(enumIconId), label(text, fontIndex) {
+    if (setup) setup(*this);
+  }
 
   void repaint(Gctx g) override;
   void draw(glm::vec2 p) override;
@@ -24,4 +49,4 @@ struct IconLabel : Widget {
 protected:
   float measureSize(Axis axis) const override;
 };
-} // namespace katzen::widgets
+} // namespace katzen
