@@ -1,5 +1,6 @@
 #pragma once
 #include <type_traits>
+#include <utility>
 #include "../core/Align.hpp"
 #include "Widget.hpp"
 
@@ -25,31 +26,43 @@ struct Root {
 
   // Construct the Root object's child widget in-place.
   template <typename... Args>
-  Root(Args &&...args);
+  Root(Args &&...args)
+      : child(std::forward<Args>(args)...), m_g(Gctx::init(padding)) {
+    repaint();
+  }
+
+  Root(const T &child) : child(child), m_g(Gctx::init()) {}
 
   // Call this when it is needed to manually repaint or update the state.
-  constexpr void repaint() { child.repaint(resetGctx()); }
+  void repaint() { child.repaint(resetGctx()); }
 
   /**
    * Checks if the window has been resized and calls repaint automatically.
    * This should usually be invoked every frame.
    */
-  constexpr void update() {
+  void update() {
     if (IsWindowResized()) {
       repaint();
     }
   }
 
   // A shortcut to draw the child widget.
-  constexpr void draw() { child.Widget::draw(); }
+  void draw() { child.Widget::draw(); }
 
 private:
-  katzen::Gctx m_g;
+  Gctx m_g;
 
   /**
    * Sizes and positions the Gctx according to the window size, alignment,
    * and padding.
    */
-  katzen::Gctx &resetGctx();
+  Gctx &resetGctx() {
+    m_g.reset(padding);
+
+    m_g.x += offset(m_g.w, child.width(), halign);
+    m_g.y += offset(m_g.h, child.height(), valign);
+
+    return m_g;
+  }
 };
 } // namespace katzen::widgets
