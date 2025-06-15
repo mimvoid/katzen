@@ -8,6 +8,7 @@ set(KATZEN_SOURCES
     widgets/Checkbox.cpp
     widgets/Label.cpp
     widgets/IconLabel.cpp
+    widgets/Slider.cpp
 )
 
 set(KATZEN_PUBLIC_HEADERS
@@ -24,6 +25,7 @@ set(KATZEN_PUBLIC_HEADERS
     components/icons.hpp
     components/Text.hpp
     components/Reactive.hpp
+    components/scales.hpp
     widgets/Root.hpp
     widgets/Widget.hpp
     widgets/Spacer.hpp
@@ -33,6 +35,7 @@ set(KATZEN_PUBLIC_HEADERS
     widgets/Icon.hpp
     widgets/IconLabel.hpp
     widgets/Label.hpp
+    widgets/Slider.hpp
 )
 
 add_library(katzen ${KATZEN_SOURCES} ${KATZEN_PUBLIC_HEADERS})
