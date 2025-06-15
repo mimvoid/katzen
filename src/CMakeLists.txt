@@ -7,7 +7,6 @@ set(KATZEN_SOURCES
     widgets/Box.cpp
     widgets/Label.cpp
     widgets/IconLabel.cpp
-    widgets/Button.cpp
 )
 
 set(KATZEN_PUBLIC_HEADERS
