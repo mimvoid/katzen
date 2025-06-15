@@ -31,7 +31,7 @@ struct Box : Widget, Container {
   }
 
   void repaint(Gctx g) override;
-  void draw() override;
+  void draw(Dctx &d) override;
 
 protected:
   float measureChildren(Axis axis);

@@ -1,7 +1,9 @@
 #pragma once
+#include <raylib.h>
 #include <type_traits>
 #include <utility>
 #include "../core/Align.hpp"
+#include "../theming/themer.hpp"
 #include "Widget.hpp"
 
 namespace katzen {
@@ -20,6 +22,7 @@ struct Root {
                 "rootWidget is derived from katzen's Widget");
   T child;
 
+  bool drawBackground = true;
   Edges padding{0, 0, 0, 0};
   Align halign = Align::CENTER;
   Align valign = Align::CENTER;
@@ -57,10 +60,25 @@ struct Root {
   }
 
   // A shortcut to draw the child widget.
-  void draw() { child.draw(); }
+  void draw() {
+    if (drawBackground) {
+      ClearBackground(m_bgColor);
+    }
+
+    const theme::Theme &t = theme::getCurrentTheme();
+    Dctx d{t.borderWidth,
+           t.borderRadius,
+           t.iconSize,
+           theme::getStateColors(State::NORMAL)};
+
+    child.draw(d);
+
+    SetMouseCursor(d.cursor);
+  }
 
 private:
   Gctx m_g;
+  Color m_bgColor = theme::getProperty(theme::ColorProp::BACKGROUND);
   bool m_repaintedLastFrame = false;
 
   /**

@@ -29,29 +29,24 @@ struct Button : Widget, Reactive {
     updateSize();
   }
 
-  void draw() override {
-    Widget::draw();
-    const Rectangle box = rlRectangle(rect());
+  void draw(Dctx &d) override {
+    const Rectangle box = rlRectangle(m_box);
 
-    if (updateState(box) && callback) {
+    if (updateState(d, box) && callback) {
       callback();
     }
 
-    DrawRectangleRec(box, m_colors.base);
-    if (m_borderWidth != 0) {
-      DrawRectangleLinesEx(box, m_borderWidth, m_colors.border);
+    DrawRectangleRec(box, d.colors.base);
+    if (d.borderWidth != 0) {
+      DrawRectangleLinesEx(box, d.borderWidth, d.colors.border);
     }
 
-    child.draw();
+    child.draw(d);
   }
 
 protected:
-  unsigned int m_borderWidth =
-      theme::getProperty(theme::UIntProp::BORDER_WIDTH);
-
   float measureSize(Axis axis) const override {
-    const float size =
-        child.size(axis) + padding.get(axis) + (2 * m_borderWidth);
+    const float size = child.size(axis) + padding.get(axis);
     return glm::clamp(size, (float)minSize(axis), (float)maxSize(axis));
   }
 };

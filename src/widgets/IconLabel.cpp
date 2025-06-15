@@ -1,17 +1,7 @@
 #include "IconLabel.hpp"
 #include <raylib.h>
-#include <optional>
 
 namespace katzen {
-IconLabel::IconLabel(uint8_t iconId,
-                     const Font &font,
-                     std::string_view text,
-                     float size,
-                     std::function<void(IconLabel &)> setup)
-    : icon(iconId), label(font, text, size) {
-  if (setup) setup(*this);
-}
-
 IconLabel::IconLabel(uint8_t iconId,
                      std::string_view text,
                      std::size_t fontIndex,
@@ -74,9 +64,8 @@ void IconLabel::repaint(Gctx g) {
   label.position(gLabel);
 }
 
-void IconLabel::draw() {
-  Widget::draw();
-  icon.draw();
-  label.draw();
+void IconLabel::draw(Dctx &d) {
+  icon.draw(d);
+  label.draw(d);
 }
 } // namespace katzen

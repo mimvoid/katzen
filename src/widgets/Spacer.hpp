@@ -18,5 +18,7 @@ struct Spacer : Widget {
     expand.x = hexpand;
     expand.y = vexpand;
   }
+
+  void draw(Dctx &d) override {}
 };
-} // namespace katzen::widgets
+} // namespace katzen

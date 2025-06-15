@@ -1,11 +1,8 @@
 #pragma once
 #include <optional>
 #include <string_view>
+#include "../core/Dctx.hpp"
 #include "Theme.hpp"
-
-namespace katzen {
-enum class State { NORMAL, DISABLED, FOCUS, ACTIVE };
-}
 
 namespace katzen::theme {
 enum class ColorProp {

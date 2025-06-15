@@ -166,10 +166,16 @@ void Box::repaint(Gctx g) {
   }
 }
 
-void Box::draw() {
-  Widget::draw();
+void Box::draw(Dctx &d) {
+  const State savedState = d.state;
+  const StateColors savedColors = d.colors;
+
   for (std::unique_ptr<Widget> &w : children) {
-    w->draw();
+    w->draw(d);
+
+    // Reset
+    d.state = savedState;
+    d.colors = savedColors;
   }
 }
 } // namespace katzen

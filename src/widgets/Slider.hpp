@@ -18,12 +18,9 @@ struct Slider : Widget, Reactive {
   constexpr float value() const { return m_value; }
   constexpr void value(float value) { m_value = glm::clamp(value, 0.0f, 1.0f); }
 
-  void draw() override;
+  void draw(Dctx &d) override;
 
 protected:
-  unsigned int m_borderWidth =
-      theme::getProperty(theme::UIntProp::BORDER_WIDTH);
-
   float measureSize(Axis axis) const override;
 
 private:

@@ -2,15 +2,6 @@
 #include "../components/textHelpers.hpp"
 
 namespace katzen {
-Label::Label(const Font &font,
-             std::string_view content,
-             float size,
-             bool wrapWords,
-             std::function<void(Label &)> setup)
-    : text(font, content, size), wrapWords(wrapWords) {
-  if (setup) setup(*this);
-}
-
 Label::Label(std::string_view content,
              bool wrapWords,
              std::size_t fontIndex,
@@ -48,29 +39,28 @@ void Label::repaint(Gctx g) {
   updateSize();
 }
 
-void Label::draw() {
-  Widget::draw();
+void Label::draw(Dctx &d) {
   if (text.empty()) return;
 
   const Vector2 p{x() + padding.left, y() + padding.top};
 
   if (willWrap()) {
-    drawTextBoxed(text.font,
+    drawTextBoxed(text.font.font,
                   text.content.data(),
                   {p.x,
                    p.y,
                    width() - padding.get(Axis::X),
                    height() - padding.get(Axis::Y)},
-                  text.fontSize(),
-                  text.fontSpacing,
-                  text.color);
+                  text.font.fontSize(),
+                  text.font.spacing,
+                  d.colors.text);
   } else {
-    DrawTextEx(text.font,
+    DrawTextEx(text.font.font,
                text.content.data(),
                p,
-               text.fontSize(),
-               text.fontSpacing,
-               text.color);
+               text.font.fontSize(),
+               text.font.spacing,
+               d.colors.text);
   }
 }
 } // namespace katzen

@@ -9,18 +9,12 @@
 namespace katzen {
 struct Text {
   std::string_view content;
-  const Font &font;
-  float fontSpacing;
-  Color color;
+  const theme::ThemeFont &font;
 
-  Text(const Font &font, std::string_view content);
-  Text(const Font &font, std::string_view content, float size);
-
-  Text(std::string_view content,
-       std::size_t fontIndex = theme::defaultFontId());
-
-  constexpr float fontSize() const { return m_fontSize; }
-  constexpr void fontSize(float size) { m_fontSize = glm::max(1.0f, size); }
+  Text(std::string_view content, std::size_t fontIndex = theme::defaultFontId())
+      : content(content), font(theme::getThemeFont(fontIndex)) {
+    updateSize();
+  }
 
   constexpr bool empty() const { return content.empty(); }
 
@@ -38,7 +32,7 @@ struct Text {
     if (content.empty()) return {0.0f, 0.0f};
 
     const Vector2 textSize =
-        MeasureTextEx(font, content.data(), m_fontSize, fontSpacing);
+        MeasureTextEx(font.font, content.data(), font.fontSize(), font.spacing);
     return {textSize.x, textSize.y};
   }
 
@@ -63,6 +57,5 @@ struct Text {
 private:
   float m_width;
   float m_height;
-  float m_fontSize;
 };
 } // namespace katzen

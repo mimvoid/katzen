@@ -1,13 +1,8 @@
 #pragma once
+#include "../core/Dctx.hpp"
 #include <raylib.h>
 
 namespace katzen::theme {
-struct StateColors {
-  Color border;
-  Color base;
-  Color text;
-};
-
 struct Theme {
   unsigned int borderWidth;
   unsigned int borderRadius;

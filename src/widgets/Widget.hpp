@@ -5,11 +5,10 @@
 #include <glm/ext/vector_bool2.hpp>
 #include <glm/ext/vector_float2.hpp>
 #include "../core/Bounds.hpp"
+#include "../core/Dctx.hpp"
 #include "../core/Edges.hpp"
 #include "../core/Gctx.hpp"
 #include "../core/vec.hpp"
-
-#define KATZEN_DEBUG
 
 namespace katzen {
 /**
@@ -126,11 +125,7 @@ struct Widget {
   }
 
   // Render the widget on the screen at its retained position.
-  virtual void draw() {
-#if defined(KATZEN_DEBUG)
-    DrawRectangleLinesEx(rlRectangle(rect()), 1, RED);
-#endif
-  }
+  virtual void draw(Dctx &d) = 0;
 
 protected:
   Rect m_box;

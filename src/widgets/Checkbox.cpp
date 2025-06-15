@@ -2,25 +2,26 @@
 #include "../theming/fonts.hpp"
 
 namespace katzen {
-void Checkbox::draw() {
-  Widget::draw();
-  const Rectangle box = rlRectangle(rect());
+void Checkbox::draw(Dctx &d) {
+  const Rectangle box = rlRectangle(m_box);
 
-  if (updateState(box)) {
+  if (updateState(d, box)) {
     checked = !checked;
     if (callback) callback(checked);
   }
 
-  DrawRectangleRec(box, m_colors.base);
-  DrawRectangleLinesEx(box, m_borderWidth, m_colors.border);
+  DrawRectangleRec(box, d.colors.base);
+  if (d.borderWidth != 0) {
+    DrawRectangleLinesEx(box, d.borderWidth, d.colors.border);
+  }
 
   if (checked) {
-    const float gap = m_borderWidth * 2;
+    const float gap = d.borderWidth * 2;
     DrawRectangleRec({box.x + gap,
                       box.y + gap,
                       box.width - (2 * gap),
                       box.height - (2 * gap)},
-                     m_colors.border);
+                     d.colors.border);
   }
 }
 

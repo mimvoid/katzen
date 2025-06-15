@@ -10,24 +10,6 @@ struct IconLabel : Widget {
   Label label;
 
   IconLabel(uint8_t iconId,
-            const Font &font,
-            std::string_view text,
-            float size,
-            std::function<void(IconLabel &)> setup =
-                std::function<void(IconLabel &)>());
-
-  template <typename E>
-  IconLabel(E enumIconId,
-            const Font &font,
-            std::string_view text,
-            float size,
-            std::function<void(IconLabel &)> setup =
-                std::function<void(IconLabel &)>())
-      : icon(enumIconId), label(font, text, size) {
-    if (setup) setup(*this);
-  }
-
-  IconLabel(uint8_t iconId,
             std::string_view text,
             std::size_t fontIndex = theme::defaultFontId(),
             std::function<void(IconLabel &)> setup =
@@ -44,7 +26,7 @@ struct IconLabel : Widget {
   }
 
   void repaint(Gctx g) override;
-  void draw() override;
+  void draw(Dctx &d) override;
 
 protected:
   float measureSize(Axis axis) const override;

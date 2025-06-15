@@ -1,6 +1,5 @@
 set(KATZEN_SOURCES
     components/icons.cpp
-    components/Text.cpp
     components/textHelpers.cpp
     theming/fonts.cpp
     theming/themer.cpp

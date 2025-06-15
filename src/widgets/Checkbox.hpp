@@ -21,12 +21,9 @@ struct Checkbox : Widget, Reactive {
   constexpr float scale() const { return m_scale; }
   constexpr void scale(float scale) { m_scale = glm::max(0.1f, scale); }
 
-  void draw() override;
+  void draw(Dctx &d) override;
 
 protected:
-  unsigned int m_borderWidth =
-      theme::getProperty(theme::UIntProp::BORDER_WIDTH);
-
   float measureSize(Axis axis) const override;
 
 private:

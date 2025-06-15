@@ -12,24 +12,16 @@ public:
   constexpr bool enabled() const { return m_state != State::DISABLED; }
 
   void enable() {
-    if (m_state != State::DISABLED) return;
-
-    m_state = State::NORMAL;
-    m_colors = theme::getStateColors(State::NORMAL);
+    if (m_state == State::DISABLED) {
+      m_state = State::NORMAL;
+    }
   }
 
-  void disable() {
-    if (m_state == State::DISABLED) return;
-
-    m_state = State::DISABLED;
-    m_colors = theme::getStateColors(State::DISABLED);
-  }
-
+  void disable() { m_state = State::DISABLED; }
   void toggle() { m_state == State::DISABLED ? enable() : disable(); }
 
 protected:
   State m_state = State::NORMAL;
-  theme::StateColors m_colors = theme::getStateColors(State::NORMAL);
 
   /**
    * Updates the state and colors based on whether the given area is focused or
@@ -38,27 +30,25 @@ protected:
    * @param widgetArea The mouse-sensitive area of the widget.
    * @returns Whether the widget area has been pressed.
    */
-  bool updateState(Rectangle widgetArea) {
+  bool updateState(Dctx &d, Rectangle widgetArea) {
     bool pressed = false;
 
-    if (m_state == State::DISABLED) {
-      return pressed;
+    if (m_state != State::DISABLED) {
+      if (CheckCollisionPointRec(GetMousePosition(), widgetArea)) {
+        m_state =
+            IsMouseButtonDown(MOUSE_LEFT_BUTTON) ? State::ACTIVE : State::FOCUS;
+
+        d.cursor = MOUSE_CURSOR_POINTING_HAND;
+        pressed = IsMouseButtonReleased(MOUSE_LEFT_BUTTON);
+      } else {
+        m_state = State::NORMAL;
+      }
     }
 
-    const State prevState = m_state;
-
-    if (CheckCollisionPointRec(GetMousePosition(), widgetArea)) {
-      m_state =
-          IsMouseButtonDown(MOUSE_LEFT_BUTTON) ? State::ACTIVE : State::FOCUS;
-
-      pressed = IsMouseButtonReleased(MOUSE_LEFT_BUTTON);
-    } else {
-      m_state = State::NORMAL;
-    }
-
-    if (m_state != prevState) {
+    if (m_state != d.state) {
       // The state changed, update colors
-      m_colors = theme::getStateColors(m_state);
+      d.state = m_state;
+      d.colors = theme::getStateColors(m_state);
     }
 
     return pressed;

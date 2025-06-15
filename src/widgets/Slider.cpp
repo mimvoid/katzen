@@ -14,16 +14,15 @@ Slider::Slider(float initialValue,
   if (setup) setup(*this);
 }
 
-void Slider::draw() {
-  Widget::draw();
-  const Rectangle box = rlRectangle(rect());
+void Slider::draw(Dctx &d) {
+  const Rectangle box = rlRectangle(m_box);
 
-  const float gap = m_borderWidth * 2;
+  const float gap = d.borderWidth * 2;
   const Rectangle trough{
       box.x + gap, box.y + gap, box.width - (2 * gap), box.height - (2 * gap)};
 
   if (!m_dragging) {
-    updateState(box);
+    updateState(d, box);
 
     // Store the dragging state, such that the slider still responds when the
     // mouse leaves the slider if the left mouse button has not been released.
@@ -33,6 +32,13 @@ void Slider::draw() {
   if (m_dragging) {
     if (IsMouseButtonReleased(MOUSE_LEFT_BUTTON)) {
       m_dragging = false;
+    }
+
+    d.cursor = MOUSE_CURSOR_POINTING_HAND;
+
+    if (d.state != State::ACTIVE) {
+      // Even if the state isn't active, use the active colors anyway
+      d.colors = theme::getStateColors(State::ACTIVE);
     }
 
     // Update the slider value
@@ -57,14 +63,16 @@ void Slider::draw() {
   }
 
   // Drawing the slider
-  DrawRectangleRec(box, m_colors.base);                      // base
-  DrawRectangleLinesEx(box, m_borderWidth, m_colors.border); // border
+  DrawRectangleRec(box, d.colors.base); // base
+  if (d.borderWidth != 0) {
+    DrawRectangleLinesEx(box, d.borderWidth, d.colors.border); // border
+  }
 
   if (m_value == 0.0f) {
     return; // no trough to draw
   }
   if (m_value == 1.0f) {
-    DrawRectangleRec(trough, m_colors.border);
+    DrawRectangleRec(trough, d.colors.border);
     return;
   }
 
@@ -77,7 +85,7 @@ void Slider::draw() {
     filledTrough.y += trough.height - filledTrough.height;
   }
 
-  DrawRectangleRec(filledTrough, m_colors.border);
+  DrawRectangleRec(filledTrough, d.colors.border);
 }
 
 float Slider::measureSize(Axis axis) const {

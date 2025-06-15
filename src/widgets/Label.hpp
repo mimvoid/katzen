@@ -12,12 +12,6 @@ struct Label : Widget {
   Text text;
   bool wrapWords;
 
-  Label(const Font &font,
-        std::string_view content,
-        float size,
-        bool wrapWords = true,
-        std::function<void(Label &)> setup = std::function<void(Label &)>());
-
   Label(std::string_view content,
         bool wrapWords = true,
         std::size_t fontIndex = theme::defaultFontId(),
@@ -28,7 +22,7 @@ struct Label : Widget {
   }
 
   void repaint(Gctx g) override;
-  void draw() override;
+  void draw(Dctx &d) override;
 
 protected:
   float measureSize(Axis axis) const override;
