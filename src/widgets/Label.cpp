@@ -1,5 +1,5 @@
 #include "Label.hpp"
-#include "helpers.hpp"
+#include "../components/textHelpers.hpp"
 
 namespace katzen {
 Label::Label(const Font &font,

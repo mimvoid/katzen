@@ -1,9 +1,9 @@
 set(KATZEN_SOURCES
     components/icons.cpp
     components/Text.cpp
+    components/textHelpers.cpp
     theming/fonts.cpp
     theming/themer.cpp
-    widgets/helpers.cpp
     widgets/Box.cpp
     widgets/Checkbox.cpp
     widgets/Label.cpp
