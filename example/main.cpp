@@ -25,7 +25,7 @@ int main(void) {
       katzen::KatzIcon::CAT_HEAD,
       "katzen Widget Factory",
       1,
-      [](katzen::IconLabel &self) { self.icon.iconSize(2); });
+      [](katzen::IconLabel &self) { self.icon.scale(2); });
 
   root.child.emplace<katzen::Label>(
       "Introducing katzen, a dynamic retained mode GUI library written with raylib and C++17!");
@@ -34,24 +34,22 @@ int main(void) {
   // However, you can still access the contained widgets with the returned
   // pointer!
   katzen::Box *buttons = root.child.emplaceGet<katzen::Box>(
-      4, katzen::Axis::X, katzen::Align::CENTER, katzen::Align::START);
+      4, katzen::Axis::X, katzen::Align::CENTER, katzen::Align::CENTER);
 
-  katzen::Button<katzen::Icon> *toggler =
-      buttons->emplaceGet<katzen::Button<katzen::Icon>>(
-          katzen::Icon(katzen::KatzIcon::REPEAT));
+  katzen::Checkbox *toggler = buttons->emplaceGet<katzen::Checkbox>();
 
   katzen::Button<katzen::Label> *stockButton =
       buttons->emplaceGet<katzen::Button<katzen::Label>>(
           katzen::Label("Disabled"));
   stockButton->disable();
 
-  toggler->callback = [&stockButton, &root]() {
-    if (stockButton->enabled()) {
-      stockButton->disable();
-      stockButton->child.text.content = "Disabled";
-    } else {
+  toggler->callback = [&stockButton, &root](bool checked) {
+    if (checked) {
       stockButton->enable();
       stockButton->child.text.content = "Click me!";
+    } else {
+      stockButton->disable();
+      stockButton->child.text.content = "Disabled";
     }
     root.repaint();
   };
@@ -62,13 +60,14 @@ int main(void) {
     TraceLog(LOG_INFO, stockButton->child.text.content.data());
   };
 
+  root.child.emplace<katzen::Slider>(0.5f);
+
   root.repaint();
 
   while (!WindowShouldClose()) {
     root.update();
 
     BeginDrawing();
-    ClearBackground(WHITE);
     root.draw();
     EndDrawing();
   }
