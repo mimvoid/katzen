@@ -57,7 +57,7 @@ struct Root {
   }
 
   // A shortcut to draw the child widget.
-  void draw() { child.Widget::draw(); }
+  void draw() { child.draw(); }
 
 private:
   Gctx m_g;

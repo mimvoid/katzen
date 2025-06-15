@@ -41,10 +41,11 @@ struct Icon : Widget {
   // TODO: Consider the actual icon's bitset
   constexpr bool empty() const { return iconId() == 0; }
 
-  void draw(glm::vec2 p) override {
+  void draw() override {
+    Widget::draw();
     if (!empty()) {
       drawIcon(
-          iconId(), p.x + padding.left, p.y + padding.top, m_iconSize, color);
+          iconId(), x() + padding.left, y() + padding.top, m_iconSize, color);
     }
   }
 

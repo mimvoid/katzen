@@ -1,5 +1,6 @@
 #include "IconLabel.hpp"
 #include <raylib.h>
+#include <optional>
 
 namespace katzen {
 IconLabel::IconLabel(uint8_t iconId,
@@ -73,15 +74,9 @@ void IconLabel::repaint(Gctx g) {
   label.position(gLabel);
 }
 
-void IconLabel::draw(glm::vec2 p) {
-  p.x -= x();
-  p.y -= y();
-
-  if (!icon.empty()) {
-    icon.draw({p.x + icon.x(), p.y + icon.y()});
-  }
-  if (!label.text.empty()) {
-    label.draw({p.x + label.x(), p.y + label.y()});
-  }
+void IconLabel::draw() {
+  Widget::draw();
+  icon.draw();
+  label.draw();
 }
 } // namespace katzen

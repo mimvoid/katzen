@@ -126,21 +126,11 @@ struct Widget {
   }
 
   // Render the widget on the screen at its retained position.
-  constexpr void draw() {
+  virtual void draw() {
 #if defined(KATZEN_DEBUG)
     DrawRectangleLinesEx(rlRectangle(rect()), 1, RED);
 #endif
-
-    draw(position());
   }
-
-  /**
-   * A utility function to render the widget on the screen at a
-   * given position.
-   *
-   * This is meant for widgets to draw the widgets they inherited from.
-   */
-  virtual void draw(glm::vec2 p) = 0;
 
 protected:
   Rect m_box;
@@ -157,4 +147,4 @@ protected:
   // Recalculate and return the height.
   constexpr float measureHeight() const { return measureSize(Axis::Y); }
 };
-} // namespace katzen::widgets
+} // namespace katzen

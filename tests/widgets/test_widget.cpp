@@ -1,15 +1,11 @@
-#include "../../src/widgets/Widget.hpp"
 #include <catch2/catch_test_macros.hpp>
+#include "../../src/widgets/Widget.hpp"
 
 using katzen::Axis;
 using katzen::Edges;
 using katzen::Gctx;
 using katzen::Rect;
-
-// Widget is an abstract class, so create a basic child class for testing
-struct Stock : katzen::Widget {
-  void draw(glm::vec2 p) override {}
-};
+using katzen::Widget;
 
 constexpr Gctx DebugGctx() {
   // The tests run without a window open,
@@ -17,14 +13,14 @@ constexpr Gctx DebugGctx() {
   return {0, 0, 960, 640};
 }
 
-Stock InitStock() {
-  Stock w = Stock();
+Widget InitWidget() {
+  Widget w = Widget();
   w.repaint(DebugGctx());
   return w;
 }
 
-TEST_CASE("Stock position", "[widget]") {
-  Stock w = Stock();
+TEST_CASE("Widget position", "[widget]") {
+  Widget w = Widget();
   const Gctx g = DebugGctx();
   w.repaint(g);
 
@@ -53,15 +49,15 @@ TEST_CASE("Stock position", "[widget]") {
 }
 
 TEST_CASE("No widget padding by default", "[widget]") {
-  const Edges padding = InitStock().padding;
+  const Edges padding = InitWidget().padding;
   REQUIRE(padding.top == 0);
   REQUIRE(padding.right == 0);
   REQUIRE(padding.bottom == 0);
   REQUIRE(padding.left == 0);
 }
 
-TEST_CASE("Stock max size", "[widget]") {
-  Stock w = Stock();
+TEST_CASE("Widget max size", "[widget]") {
+  Widget w = Widget();
   const Gctx g = DebugGctx();
   w.repaint(g);
 
@@ -88,8 +84,8 @@ TEST_CASE("Stock max size", "[widget]") {
   }
 }
 
-TEST_CASE("Stock min size", "[widget]") {
-  Stock w = Stock();
+TEST_CASE("Widget min size", "[widget]") {
+  Widget w = Widget();
   const Gctx g = DebugGctx();
   w.repaint(g);
 

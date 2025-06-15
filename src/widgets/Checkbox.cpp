@@ -2,8 +2,9 @@
 #include "../theming/fonts.hpp"
 
 namespace katzen {
-void Checkbox::draw(glm::vec2 p) {
-  const Rectangle box{p.x, p.y, width(), height()};
+void Checkbox::draw() {
+  Widget::draw();
+  const Rectangle box = rlRectangle(rect());
 
   if (updateState(box)) {
     checked = !checked;

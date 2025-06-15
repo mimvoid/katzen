@@ -29,7 +29,8 @@ struct Button : Widget, Reactive {
     updateSize();
   }
 
-  void draw(glm::vec2 p) override {
+  void draw() override {
+    Widget::draw();
     const Rectangle box = rlRectangle(rect());
 
     if (updateState(box) && callback) {
@@ -41,7 +42,7 @@ struct Button : Widget, Reactive {
       DrawRectangleLinesEx(box, m_borderWidth, m_colors.border);
     }
 
-    child.draw({p.x - x() + child.x(), p.y - y() + child.y()});
+    child.draw();
   }
 
 protected:

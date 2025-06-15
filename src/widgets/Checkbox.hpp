@@ -21,7 +21,7 @@ struct Checkbox : Widget, Reactive {
   constexpr float scale() const { return m_scale; }
   constexpr void scale(float scale) { m_scale = glm::max(0.1f, scale); }
 
-  void draw(glm::vec2 p) override;
+  void draw() override;
 
 protected:
   unsigned int m_borderWidth =

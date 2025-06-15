@@ -94,12 +94,12 @@ void Box::repaint(Gctx g) {
   position(g);
 
   m_box.w = glm::clamp(measureChildren(Axis::X) + padding.get(Axis::X),
-                      (float)bounds.min.x,
-                      (float)maxWidth());
+                       (float)bounds.min.x,
+                       (float)maxWidth());
 
   m_box.h = glm::clamp(measureChildren(Axis::Y) + padding.get(Axis::Y),
-                      (float)bounds.min.y,
-                      (float)maxHeight());
+                       (float)bounds.min.y,
+                       (float)maxHeight());
 
   if (children.empty()) return;
 
@@ -166,18 +166,10 @@ void Box::repaint(Gctx g) {
   }
 }
 
-void Box::draw(glm::vec2 p) {
-  if (p.x == x() && p.y == y()) {
-    for (std::unique_ptr<Widget> &w : children) {
-      w->draw();
-    }
-  } else {
-    p.x += padding.left - x();
-    p.y += padding.top - y();
-
-    for (std::unique_ptr<Widget> &w : children) {
-      w->draw({p.x + w->x(), p.y + w->y()});
-    }
+void Box::draw() {
+  Widget::draw();
+  for (std::unique_ptr<Widget> &w : children) {
+    w->draw();
   }
 }
-} // namespace katzen::widgets
+} // namespace katzen

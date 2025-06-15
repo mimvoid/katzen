@@ -14,12 +14,13 @@ Slider::Slider(float initialValue,
   if (setup) setup(*this);
 }
 
-void Slider::draw(glm::vec2 p) {
-  const Rectangle box{p.x, p.y, width(), height()};
+void Slider::draw() {
+  Widget::draw();
+  const Rectangle box = rlRectangle(rect());
 
   const float gap = m_borderWidth * 2;
   const Rectangle trough{
-      p.x + gap, p.y + gap, box.width - (2 * gap), box.height - (2 * gap)};
+      box.x + gap, box.y + gap, box.width - (2 * gap), box.height - (2 * gap)};
 
   if (!m_dragging) {
     updateState(box);

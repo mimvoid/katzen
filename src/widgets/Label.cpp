@@ -48,11 +48,11 @@ void Label::repaint(Gctx g) {
   updateSize();
 }
 
-void Label::draw(glm::vec2 p) {
+void Label::draw() {
+  Widget::draw();
   if (text.empty()) return;
 
-  p.x += padding.left;
-  p.y += padding.top;
+  const Vector2 p{x() + padding.left, y() + padding.top};
 
   if (willWrap()) {
     drawTextBoxed(text.font,
@@ -67,7 +67,7 @@ void Label::draw(glm::vec2 p) {
   } else {
     DrawTextEx(text.font,
                text.content.data(),
-               {p.x, p.y},
+               p,
                text.fontSize(),
                text.fontSpacing,
                text.color);
