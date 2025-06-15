@@ -22,6 +22,7 @@ set(KATZEN_PUBLIC_HEADERS
     core/vec.hpp
     components/icons.hpp
     components/Text.hpp
+    components/Reactive.hpp
     widgets/Root.hpp
     widgets/Widget.hpp
     widgets/Spacer.hpp
