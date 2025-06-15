@@ -3,13 +3,15 @@
 
 namespace katzen {
 constexpr bool isWhitespaceCharacter(int codepoint) {
-  const char wsChars[]{' ', '\t', '\n', '\f', '\r', '\v'};
-
-  for (char chara : wsChars) {
-    if (codepoint == chara) return true;
+  switch (codepoint) {
+  case ' ':
+  case '\n':
+  case '\t':
+  case '\f':
+  case '\r':
+  case '\v': return true;
+  default:   return false;
   }
-
-  return false;
 }
 
 void drawTextBoxed(const Font &font,
