@@ -5,6 +5,7 @@ set(KATZEN_SOURCES
     theming/themer.cpp
     widgets/helpers.cpp
     widgets/Box.cpp
+    widgets/Checkbox.cpp
     widgets/Label.cpp
     widgets/IconLabel.cpp
 )
@@ -28,6 +29,7 @@ set(KATZEN_PUBLIC_HEADERS
     widgets/Spacer.hpp
     widgets/Box.hpp
     widgets/Button.hpp
+    widgets/Checkbox.hpp
     widgets/Icon.hpp
     widgets/IconLabel.hpp
     widgets/Label.hpp

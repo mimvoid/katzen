@@ -3,6 +3,7 @@
 #include "widgets/Root.hpp"
 #include "widgets/Box.hpp"
 #include "widgets/Button.hpp"
+#include "widgets/Checkbox.hpp"
 #include "widgets/Icon.hpp"
 #include "widgets/IconLabel.hpp"
 #include "widgets/Label.hpp"
