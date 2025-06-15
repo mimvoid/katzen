@@ -34,15 +34,25 @@ struct Root {
   Root(const T &child) : child(child), m_g(Gctx::init()) {}
 
   // Call this when it is needed to manually repaint or update the state.
-  void repaint() { child.repaint(resetGctx()); }
+  void repaint() {
+    child.repaint(resetGctx());
+    m_repaintedLastFrame = true;
+  }
 
   /**
    * Checks if the window has been resized and calls repaint automatically.
    * This should usually be invoked every frame.
+   *
+   * HACK: raylib's window size measurements are a little off the frame after
+   * window resizing (which is especially bad when switching to fullscreen).
+   * To solve this, repaint twice.
    */
   void update() {
     if (IsWindowResized()) {
       repaint();
+    } else if (m_repaintedLastFrame) {
+      child.repaint(resetGctx());
+      m_repaintedLastFrame = false;
     }
   }
 
@@ -51,6 +61,7 @@ struct Root {
 
 private:
   Gctx m_g;
+  bool m_repaintedLastFrame = false;
 
   /**
    * Sizes and positions the Gctx according to the window size, alignment,
@@ -65,4 +76,4 @@ private:
     return m_g;
   }
 };
-} // namespace katzen::widgets
+} // namespace katzen
