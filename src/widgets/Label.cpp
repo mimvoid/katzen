@@ -1,12 +1,11 @@
 #include "Label.hpp"
-#include "../components/textHelpers.hpp"
 
 namespace katzen {
 Label::Label(std::string_view content,
              bool wrapWords,
-             std::size_t fontIndex,
+             std::size_t fontId,
              std::function<void(Label &)> setup)
-    : text(content, fontIndex), wrapWords(wrapWords) {
+    : text(content, fontId), wrapWords(wrapWords) {
   if (setup) setup(*this);
 }
 
@@ -21,18 +20,14 @@ float Label::measureSize(Axis axis) const {
     const int lines =
         glm::ceil(text.width() / (maxWidth() - padding.get(Axis::X)));
 
-    if (lines != 0) {
-      size += text.height() * lines;
-    }
+    size += text.height() * lines;
   }
 
   return clampSize(size, axis);
 }
 
 void Label::repaint(Gctx g) {
-  externalBounds.x = g.w;
-  externalBounds.y = g.h;
-
+  setExternalBounds(g);
   position(g);
 
   text.updateSize();

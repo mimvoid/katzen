@@ -11,17 +11,17 @@ struct IconLabel : Widget {
 
   IconLabel(uint8_t iconId,
             std::string_view text,
-            std::size_t fontIndex = theme::defaultFontId(),
+            std::size_t fontId = theme::defaultFontId(),
             std::function<void(IconLabel &)> setup =
                 std::function<void(IconLabel &)>());
 
   template <typename E>
   IconLabel(E enumIconId,
             std::string_view text,
-            std::size_t fontIndex = theme::defaultFontId(),
+            std::size_t fontId = theme::defaultFontId(),
             std::function<void(IconLabel &)> setup =
                 std::function<void(IconLabel &)>())
-      : icon(enumIconId), label(text, fontIndex) {
+      : icon(enumIconId), label(text, fontId) {
     if (setup) setup(*this);
   }
 

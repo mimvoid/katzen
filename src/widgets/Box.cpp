@@ -1,7 +1,16 @@
 #include "Box.hpp"
 
 namespace katzen {
-float Box::measureChildren(Axis axis) {
+Box::Box(int spacing,
+         Axis direction,
+         Align halign,
+         Align valign,
+         std::function<void(Box &)> setup)
+    : spacing(spacing), direction(direction), halign(halign), valign(valign) {
+  if (setup) setup(*this);
+}
+
+float Box::updateChildrenSize(Axis axis) {
   float size = 0.0f;
 
   if (children.empty()) return size;
@@ -50,36 +59,33 @@ float Box::measureChildren(Axis axis) {
   return size;
 }
 
-float Box::childrenSize(Axis axis) const {
-  using std::unique_ptr;
-
+float Box::measureChildren(Axis axis) const {
   float size = 0.0f;
+  if (children.empty()) return size;
 
-  if (!children.empty()) {
-    if (axis == direction) {
-      size += spacing * (children.size() - 1);
+  if (axis == direction) {
+    size += spacing * (children.size() - 1);
 
-      for (const unique_ptr<Widget> &w : children) {
-        if (get(w->expand, axis)) return maxSize(axis) - padding.get(axis);
+    for (const std::unique_ptr<Widget> &w : children) {
+      if (get(w->expand, axis)) return maxSize(axis) - padding.get(axis);
 
-        size += w->size(axis);
-      }
-    } else {
-      float maxChildSize = 0.0f;
-      for (const unique_ptr<Widget> &w : children) {
-        if (get(w->expand, axis)) return maxSize(axis) - padding.get(axis);
-
-        maxChildSize = glm::max(w->size(axis), maxChildSize);
-      }
-      size += maxChildSize;
+      size += w->size(axis);
     }
+  } else {
+    float maxChildSize = 0.0f;
+    for (const std::unique_ptr<Widget> &w : children) {
+      if (get(w->expand, axis)) return maxSize(axis) - padding.get(axis);
+
+      maxChildSize = glm::max(w->size(axis), maxChildSize);
+    }
+    size += maxChildSize;
   }
 
   return size;
 }
 
 float Box::measureSize(Axis axis) const {
-  const float size = padding.get(axis) + childrenSize(axis);
+  const float size = padding.get(axis) + measureChildren(axis);
   return clampSize(size, axis);
 }
 
@@ -89,15 +95,17 @@ void Box::repaint(Gctx g) {
   setExternalBounds(g);
   position(g);
 
-  m_box.w = glm::clamp(measureChildren(Axis::X) + padding.get(Axis::X),
+  m_box.w = glm::clamp(updateChildrenSize(Axis::X) + padding.get(Axis::X),
                        (float)bounds.min.x,
                        (float)maxWidth());
 
-  m_box.h = glm::clamp(measureChildren(Axis::Y) + padding.get(Axis::Y),
+  m_box.h = glm::clamp(updateChildrenSize(Axis::Y) + padding.get(Axis::Y),
                        (float)bounds.min.y,
                        (float)maxHeight());
 
-  if (children.empty()) return;
+  if (children.empty()) {
+    return;
+  }
 
   g.pad(padding);
 
@@ -106,7 +114,7 @@ void Box::repaint(Gctx g) {
 
     if (dirAlign != Align::START) {
       const float sizeDiff = offset(size(direction) - padding.get(direction),
-                                    childrenSize(direction),
+                                    measureChildren(direction),
                                     dirAlign);
 
       g.translateClip(direction, sizeDiff);
@@ -116,12 +124,13 @@ void Box::repaint(Gctx g) {
   const Axis flipDir = flip(direction);
   const Align flipAlign = align(flipDir);
 
-  const auto repaintChildBase = [&](unique_ptr<Widget> &w, Gctx &gctx) {
-    if (get(w->expand, direction)) {
-      const unsigned int prevSize = glm::max(0.0f, w->size(direction));
+  const Axis dirCopy = direction;
+  const auto repaintChildBase = [dirCopy](unique_ptr<Widget> &w, Gctx &gctx) {
+    if (get(w->expand, dirCopy)) {
+      const unsigned int prevSize = glm::max(0.0f, w->size(dirCopy));
       w->repaint(gctx);
-      set(w->externalBounds, direction, prevSize);
-      w->updateSize(direction);
+      set(w->externalBounds, dirCopy, prevSize);
+      w->updateSize(dirCopy);
     } else {
       w->repaint(gctx);
     }

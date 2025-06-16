@@ -16,7 +16,9 @@ struct Slider : Widget, Reactive {
          std::function<void(Slider &)> setup = std::function<void(Slider &)>());
 
   constexpr float value() const { return m_value; }
-  constexpr void value(float value) { m_value = glm::clamp(value, 0.0f, 1.0f); }
+  constexpr void value(float newValue) {
+    m_value = glm::clamp(newValue, 0.0f, 1.0f);
+  }
 
   void draw(Dctx &d) override;
 

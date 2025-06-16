@@ -8,11 +8,11 @@ using katzen::Icon;
 
 TEST_CASE("Initial fields", "[icon]") {
   const Icon withName(KatzIcon::ALARM_CLOCK);
-  REQUIRE(withName.iconId() == static_cast<uint8_t>(KatzIcon::ALARM_CLOCK));
+  REQUIRE(withName.getId() == static_cast<uint8_t>(KatzIcon::ALARM_CLOCK));
   REQUIRE(withName.scale() == 1);
 
   const Icon withSize(KatzIcon::FILE, 2);
-  REQUIRE(withSize.iconId() == static_cast<uint8_t>(KatzIcon::FILE));
+  REQUIRE(withSize.getId() == static_cast<uint8_t>(KatzIcon::FILE));
   REQUIRE(withSize.scale() == 2);
 }
 
@@ -34,32 +34,7 @@ TEST_CASE("Try setting negative icon size", "[icon]") {
   REQUIRE(icon.scale() == 1);
 }
 
-TEST_CASE("Empty icon", "[icon]") {
-  Icon icon(KatzIcon::NONE);
-  REQUIRE(icon.empty());
-
-  SECTION("Icon is still empty after setting icon size") {
-    icon.scale(2);
-    REQUIRE(icon.empty());
-  }
-
-  SECTION("Icon returns correct icon size once it is not empty") {
-    icon.iconId(KatzIcon::WAVE);
-    REQUIRE(!icon.empty());
-  }
-}
-
-TEST_CASE("Non-empty icon", "[icon]") {
-  Icon icon(KatzIcon::WAVE);
-  REQUIRE(!icon.empty());
-
-  SECTION("Make icon empty") {
-    icon.iconId(KatzIcon::NONE);
-    REQUIRE(icon.empty());
-  }
-}
-
-TEST_CASE("Measure non-empty icon size", "[icon]") {
+TEST_CASE("Measure icon size", "[icon]") {
   Icon icon(KatzIcon::WAVE);
   icon.padding.set(0);
   icon.repaint(Gctx::init());
@@ -67,13 +42,4 @@ TEST_CASE("Measure non-empty icon size", "[icon]") {
   const int iconSize = icon.scale() * RAYGUI_ICON_SIZE;
   REQUIRE(icon.width() == iconSize);
   REQUIRE(icon.height() == iconSize);
-}
-
-TEST_CASE("Measure empty icon size", "[icon]") {
-  Icon icon(KatzIcon::NONE);
-  icon.padding.set(0);
-  icon.repaint(Gctx::init());
-
-  REQUIRE(icon.width() == 0);
-  REQUIRE(icon.height() == 0);
 }

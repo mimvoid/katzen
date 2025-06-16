@@ -16,7 +16,7 @@ struct Label : Widget {
 
   Label(std::string_view content,
         bool wrapWords = true,
-        std::size_t fontIndex = theme::defaultFontId(),
+        std::size_t fontId = theme::defaultFontId(),
         std::function<void(Label &)> setup = std::function<void(Label &)>());
 
   constexpr bool willWrap() const {

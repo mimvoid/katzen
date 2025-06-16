@@ -17,11 +17,7 @@ struct Box : Widget, Container {
       Axis direction = Axis::X,
       Align halign = Align::START,
       Align valign = Align::START,
-      std::function<void(Box &)> setup =
-          std::function<void(Box &)>())
-      : spacing(spacing), direction(direction), halign(halign), valign(valign) {
-    if (setup) setup(*this);
-  }
+      std::function<void(Box &)> setup = std::function<void(Box &)>());
 
   constexpr Align align(Axis axis) const {
     switch (axis) {
@@ -34,8 +30,8 @@ struct Box : Widget, Container {
   void draw(Dctx &d) override;
 
 protected:
-  float measureChildren(Axis axis);
-  float childrenSize(Axis axis) const;
+  float updateChildrenSize(Axis axis);
+  float measureChildren(Axis axis) const;
   float measureSize(Axis a) const override;
 };
 } // namespace katzen

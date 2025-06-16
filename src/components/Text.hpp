@@ -12,8 +12,8 @@ struct Text {
   std::string_view content;
   const theme::ThemeFont &font;
 
-  Text(std::string_view content, std::size_t fontIndex = theme::defaultFontId())
-      : content(content), font(theme::getThemeFont(fontIndex)) {
+  Text(std::string_view content, std::size_t fontId = theme::defaultFontId())
+      : content(content), font(theme::getThemeFont(fontId)) {
     updateSize();
   }
 

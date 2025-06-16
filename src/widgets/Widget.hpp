@@ -21,9 +21,9 @@ struct Widget {
   glm::bvec2 expand{false, false};
 
   // Minimum and maximum sizes intrinsic to the Widget.
-  Bounds bounds{{0, 0}, {INT_MAX, INT_MAX}};
+  Bounds bounds{{0, 0}, {UINT_MAX, UINT_MAX}};
 
-  virtual ~Widget() {}
+  virtual ~Widget() = default;
 
   /** A rectangle with the retained position and size. */
   constexpr Rect rect() const { return m_box; }
