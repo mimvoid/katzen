@@ -5,6 +5,7 @@
 #include <string_view>
 #include "../core/Axis.hpp"
 #include "../theming/fonts.hpp"
+#include "textHelpers.hpp"
 
 namespace katzen {
 struct Text {
@@ -52,6 +53,20 @@ struct Text {
   constexpr void updateSize() {
     updateWidth();
     updateHeight();
+  }
+
+  constexpr void drawWrapped(Rectangle box, Color color) {
+    drawTextBoxed(
+        font.font, content.data(), box, font.fontSize(), font.spacing, color);
+  }
+
+  constexpr void draw(Vector2 position, Color color) {
+    DrawTextEx(font.font,
+               content.data(),
+               position,
+               font.fontSize(),
+               font.spacing,
+               color);
   }
 
 private:

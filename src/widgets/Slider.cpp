@@ -93,6 +93,6 @@ float Slider::measureSize(Axis axis) const {
       padding.get(axis)
       + (m_sizeScale * theme::getFontSize() * ((axis == direction) ? 4 : 1));
 
-  return glm::clamp(size, (float)minSize(axis), (float)maxSize(axis));
+  return clampSize(size, axis);
 }
 } // namespace katzen

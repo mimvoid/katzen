@@ -10,9 +10,9 @@ struct Icon : Widget {
   friend struct IconLabel;
 
   Icon(uint8_t id,
-       uint8_t size = theme::getProperty(theme::UIntProp::ICON_SIZE)) {
+       uint8_t iconScale = theme::getProperty(theme::UIntProp::ICON_SIZE)) {
     iconId(id);
-    scale(size);
+    scale(iconScale);
   }
 
   template <typename E>

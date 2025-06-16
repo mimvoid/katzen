@@ -105,9 +105,7 @@ struct Widget {
   /**********/
 
   virtual void repaint(Gctx g) {
-    externalBounds.x = g.w;
-    externalBounds.y = g.h;
-
+    setExternalBounds(g);
     position(g);
     updateSize();
   }
@@ -131,6 +129,11 @@ protected:
     m_box.y = g.y;
   }
 
+  constexpr void setExternalBounds(Gctx g) {
+    externalBounds.x = g.w;
+    externalBounds.y = g.h;
+  }
+
   // Recalculate and return the size on the x-axis (width) or y-axis (height).
   virtual float measureSize(Axis axis) const {
     return glm::clamp(
@@ -142,5 +145,9 @@ protected:
 
   // Recalculate and return the height.
   constexpr float measureHeight() const { return measureSize(Axis::Y); }
+
+  constexpr float clampSize(float size, Axis axis) const {
+    return glm::clamp(size, (float)minSize(axis), (float)maxSize(axis));
+  }
 };
 } // namespace katzen

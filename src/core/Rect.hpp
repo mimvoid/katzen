@@ -48,6 +48,9 @@ struct rect_t {
     }
   }
 
+  constexpr void translateX(T dx) { x += dx; }
+  constexpr void translateY(T dy) { y += dy; }
+
   constexpr void translate(T dx, T dy) {
     x += dx;
     y += dy;

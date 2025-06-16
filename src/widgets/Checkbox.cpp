@@ -27,6 +27,6 @@ void Checkbox::draw(Dctx &d) {
 
 float Checkbox::measureSize(Axis axis) const {
   const float size = (m_scale * theme::getFontSize()) + padding.get(axis);
-  return glm::clamp(size, (float)minSize(axis), (float)maxSize(axis));
+  return clampSize(size, axis);
 }
 } // namespace katzen

@@ -23,10 +23,9 @@ void setDefaultTheme() {
 
 void addTheme(std::string_view name, Theme theme) { themes[name] = theme; }
 void setTheme(std::string_view name) {
-  if (themes.find(name) == themes.end()) {
-    return; // Theme does not exist
+  if (themes.find(name) != themes.end()) {
+    currentThemeName = name;
   }
-  currentThemeName = name;
 }
 
 bool hasThemeName(std::string_view name) {

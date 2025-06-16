@@ -23,7 +23,7 @@ float IconLabel::measureSize(Axis axis) const {
     break;
   }
 
-  return glm::clamp(size, (float)minSize(axis), (float)maxSize(axis));
+  return clampSize(size, axis);
 }
 
 void IconLabel::repaint(Gctx g) {
@@ -31,21 +31,16 @@ void IconLabel::repaint(Gctx g) {
   gIcon.pad(padding);
   Gctx gLabel = gIcon;
 
-  icon.externalBounds.x = g.w;
-  icon.externalBounds.y = g.h;
+  icon.setExternalBounds(g);
+  icon.updateSize();
 
-  icon.updateWidth();
   gLabel.translateClip(Axis::X,
                        (icon.empty() || label.text.empty())
                            ? icon.width()
                            : icon.width() + spacing);
 
-  label.externalBounds.x = gLabel.w;
-  label.externalBounds.y = gLabel.h;
-
-  icon.updateHeight();
-  label.updateWidth();
-  label.updateHeight();
+  label.setExternalBounds(g);
+  label.updateSize();
 
   Widget::repaint(g);
 
@@ -54,9 +49,9 @@ void IconLabel::repaint(Gctx g) {
     const float labelHeight = label.height();
 
     if (iconHeight > labelHeight) {
-      gLabel.translate(Axis::Y, (iconHeight - labelHeight) / 2.0f);
-    } else if (labelHeight > iconHeight) {
-      gIcon.translate(Axis::Y, (labelHeight - iconHeight) / 2.0f);
+      gLabel.translateY((iconHeight - labelHeight) / 2.0f);
+    } else if (iconHeight < labelHeight) {
+      gIcon.translateY((labelHeight - iconHeight) / 2.0f);
     }
   }
 

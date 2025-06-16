@@ -11,10 +11,10 @@ Label::Label(std::string_view content,
 }
 
 float Label::measureSize(Axis axis) const {
-  float labelSize = padding.get(axis);
+  float size = padding.get(axis);
 
   if (axis == Axis::X || !willWrap()) {
-    labelSize += text.size(axis);
+    size += text.size(axis);
   } else {
     // Estimate the height after text wrapping
     // It's not perfect, but it's simple
@@ -22,11 +22,11 @@ float Label::measureSize(Axis axis) const {
         glm::ceil(text.width() / (maxWidth() - padding.get(Axis::X)));
 
     if (lines != 0) {
-      labelSize += text.height() * lines;
+      size += text.height() * lines;
     }
   }
 
-  return glm::clamp(labelSize, (float)minSize(axis), (float)maxSize(axis));
+  return clampSize(size, axis);
 }
 
 void Label::repaint(Gctx g) {
@@ -45,22 +45,13 @@ void Label::draw(Dctx &d) {
   const Vector2 p{x() + padding.left, y() + padding.top};
 
   if (willWrap()) {
-    drawTextBoxed(text.font.font,
-                  text.content.data(),
-                  {p.x,
-                   p.y,
-                   width() - padding.get(Axis::X),
-                   height() - padding.get(Axis::Y)},
-                  text.font.fontSize(),
-                  text.font.spacing,
-                  d.colors.text);
+    text.drawWrapped({p.x,
+                      p.y,
+                      width() - padding.get(Axis::X),
+                      height() - padding.get(Axis::Y)},
+                     d.colors.text);
   } else {
-    DrawTextEx(text.font.font,
-               text.content.data(),
-               p,
-               text.font.fontSize(),
-               text.font.spacing,
-               d.colors.text);
+    text.draw(p, d.colors.text);
   }
 }
 } // namespace katzen

@@ -18,9 +18,7 @@ struct Button : Widget, Reactive {
   }
 
   void repaint(Gctx g) override {
-    externalBounds.x = g.w;
-    externalBounds.y = g.h;
-
+    setExternalBounds(g);
     position(g);
 
     g.pad(padding);
@@ -47,7 +45,7 @@ struct Button : Widget, Reactive {
 protected:
   float measureSize(Axis axis) const override {
     const float size = child.size(axis) + padding.get(axis);
-    return glm::clamp(size, (float)minSize(axis), (float)maxSize(axis));
+    return clampSize(size, axis);
   }
 };
 } // namespace katzen

@@ -2,8 +2,6 @@
 
 namespace katzen {
 float Box::measureChildren(Axis axis) {
-  using std::unique_ptr;
-
   float size = 0.0f;
 
   if (children.empty()) return size;
@@ -15,7 +13,7 @@ float Box::measureChildren(Axis axis) {
     std::vector<Widget *> expandedChildren;
     expandedChildren.reserve(childrenCount);
 
-    for (unique_ptr<Widget> &w : children) {
+    for (std::unique_ptr<Widget> &w : children) {
       if (get(w->expand, axis)) {
         expandedChildren.push_back(w.get());
       } else {
@@ -41,7 +39,7 @@ float Box::measureChildren(Axis axis) {
     }
   } else {
     float maxChildSize = 0.0f;
-    for (unique_ptr<Widget> &w : children) {
+    for (std::unique_ptr<Widget> &w : children) {
       set(w->externalBounds, axis, maxSize(axis));
       w->updateSize(axis);
       maxChildSize = glm::max(w->size(axis), maxChildSize);
@@ -82,15 +80,13 @@ float Box::childrenSize(Axis axis) const {
 
 float Box::measureSize(Axis axis) const {
   const float size = padding.get(axis) + childrenSize(axis);
-  return glm::clamp(size, (float)minSize(axis), (float)maxSize(axis));
+  return clampSize(size, axis);
 }
 
 void Box::repaint(Gctx g) {
   using std::unique_ptr;
 
-  externalBounds.x = g.w;
-  externalBounds.y = g.h;
-
+  setExternalBounds(g);
   position(g);
 
   m_box.w = glm::clamp(measureChildren(Axis::X) + padding.get(Axis::X),
