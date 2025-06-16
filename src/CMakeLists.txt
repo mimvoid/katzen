@@ -10,7 +10,7 @@ set(KATZEN_SOURCES
     widgets/Slider.cpp
 )
 
-set(KATZEN_PUBLIC_HEADERS
+set(KATZEN_HEADERS
     katzen.hpp
     core.hpp
     widgets.hpp
@@ -20,11 +20,13 @@ set(KATZEN_PUBLIC_HEADERS
     core/Edges.hpp
     core/Gctx.hpp
     core/Rect.hpp
-    core/vec.hpp
+    components/Container.hpp
     components/icons.hpp
     components/Text.hpp
     components/Reactive.hpp
     components/scales.hpp
+    theming/themer.hpp
+    theming/fonts.hpp
     widgets/Root.hpp
     widgets/Widget.hpp
     widgets/Spacer.hpp
@@ -37,11 +39,14 @@ set(KATZEN_PUBLIC_HEADERS
     widgets/Slider.hpp
 )
 
-add_library(katzen ${KATZEN_SOURCES} ${KATZEN_PUBLIC_HEADERS})
-set_target_properties(katzen PROPERTIES
-    PUBLIC_HEADER "${KATZEN_PUBLIC_HEADERS}"
-    VERSION "${PROJECT_VERSION}"
+add_library(katzen ${KATZEN_SOURCES})
+target_sources(katzen PUBLIC
+    FILE_SET HEADERS
+    TYPE HEADERS
+    FILES ${KATZEN_HEADERS}
 )
+
+set_target_properties(katzen PROPERTIES VERSION ${PROJECT_VERSION})
 
 # Dependencies
 find_package(raylib REQUIRED)
@@ -49,3 +54,14 @@ find_package(glm REQUIRED)
 
 target_link_libraries(katzen PRIVATE raylib glm::glm)
 target_link_options(katzen PRIVATE "LINKER:-as-needed")
+
+# Installation
+install(TARGETS katzen
+    DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+    EXPORT katzenTargets
+    FILE_SET HEADERS DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/katzen"
+)
+
+install(FILES "${CMAKE_SOURCE_DIR}/icons/katz_icons.hpp"
+    DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/katzen"
+)

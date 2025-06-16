@@ -22,14 +22,15 @@
             path = pkgs.lib.cleanSource ./.;
           };
 
-          nativeBuildInputs = [ pkgs.cmake ];
+          nativeBuildInputs = [
+            pkgs.cmake
+            pkgs.ninja
+          ];
+
           buildInputs = [
             pkgs.raylib
             pkgs.glm
-            pkgs.catch2_3
           ];
-
-          cmakeFlags = [ "-DCMAKE_BUILD_TYPE=Release" ];
         };
       });
 

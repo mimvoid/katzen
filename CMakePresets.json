@@ -9,7 +9,9 @@
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
         "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
-        "CMAKE_CXX_FLAGS_INIT": "-Wall -Wextra -Wpedantic -Werror=return-type"
+        "CMAKE_CXX_FLAGS_INIT": "-Wall -Wextra -Wpedantic -Werror=return-type",
+        "KATZEN_BUILD_TESTS": "ON",
+        "KATZEN_BUILD_EXAMPLES": "ON"
       }
     },
     {
@@ -19,7 +21,7 @@
       "generator": "Ninja",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
-        "CMAKE_CXX_FLAGS_INIT": "-Wall -Wextra -Wpedantic -march=haswell -flto"
+        "CMAKE_CXX_FLAGS_INIT": "-Wall -Wextra -Wpedantic -Os -flto"
       }
     }
   ]
