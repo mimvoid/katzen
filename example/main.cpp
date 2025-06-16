@@ -21,44 +21,70 @@ int main(void) {
   katzen::Root<katzen::Box> root(
       8, katzen::Axis::Y, katzen::Align::CENTER, katzen::Align::CENTER);
 
-  root.child.emplace<katzen::IconLabel>(
-      katzen::KatzIcon::CAT_HEAD,
-      "katzen Widget Factory",
-      1,
-      [](katzen::IconLabel &self) { self.icon.scale(2); });
+  /**
+   * Widgets can be emplaced or pushed into container widgets.
+   * It's recommended to emplace them to avoid multiple allocations.
+   */
+  root.child.emplace<katzen::IconLabel>(katzen::KatzIcon::CAT_HEAD,
+                                        "katzen Widget Factory",
+                                        titleId,
+                                        [](katzen::IconLabel &self) {
+                                          /**
+                                           * An example of a setup function. The
+                                           * widget calls it on itself after the
+                                           * rest of it is initialized.
+                                           *
+                                           * It's a way to set properties that
+                                           * are not specified in the
+                                           * constructor.
+                                           */
+                                          self.icon.scale(2);
+                                        });
 
   root.child.emplace<katzen::Label>(
       "Introducing katzen, a dynamic retained mode GUI library written with raylib and C++17!");
 
-  // Emplacing and pushing to container widgets gives them ownership.
-  // However, you can still access the contained widgets with the returned
-  // pointer!
-  katzen::Box *buttons = root.child.emplaceGet<katzen::Box>(
-      4, katzen::Axis::X, katzen::Align::CENTER, katzen::Align::CENTER);
+  {
+    /**
+     * Emplacing and pushing to container widgets gives them ownership.
+     *
+     * However, you can still access the contained widgets with the returned
+     * raw pointer.
+     *
+     * Note that these raw pointers will go out of scope before the main loop,
+     * but have been copied by the lambda callbacks.
+     */
+    katzen::Box *buttons = root.child.emplaceGet<katzen::Box>(
+        4, katzen::Axis::X, katzen::Align::CENTER, katzen::Align::CENTER);
 
-  katzen::Checkbox *toggler = buttons->emplaceGet<katzen::Checkbox>();
+    katzen::Checkbox *toggler = buttons->emplaceGet<katzen::Checkbox>();
 
-  katzen::Button<katzen::Label> *stockButton =
-      buttons->emplaceGet<katzen::Button<katzen::Label>>(
-          katzen::Label("Disabled"));
-  stockButton->disable();
+    katzen::Button<katzen::Label> *stockButton =
+        buttons->emplaceGet<katzen::Button<katzen::Label>>(
+            katzen::Label("Disabled"));
+    stockButton->disable();
 
-  toggler->callback = [&stockButton, &root](bool checked) {
-    if (checked) {
-      stockButton->enable();
-      stockButton->child.text.content = "Click me!";
-    } else {
-      stockButton->disable();
-      stockButton->child.text.content = "Disabled";
-    }
-    root.repaint();
-  };
+    toggler->callback = [stockButton, &root](bool checked) {
+      if (!stockButton) return;
 
-  stockButton->callback = [&stockButton, &root]() {
-    stockButton->child.text.content = "I got clicked!";
-    root.repaint();
-    TraceLog(LOG_INFO, stockButton->child.text.content.data());
-  };
+      if (checked) {
+        stockButton->enable();
+        stockButton->child.text.content = "Click me!";
+      } else {
+        stockButton->disable();
+        stockButton->child.text.content = "Disabled";
+      }
+      root.repaint();
+    };
+
+    stockButton->callback = [stockButton, &root]() {
+      if (!stockButton) return;
+
+      stockButton->child.text.content = "I got clicked!";
+      root.repaint();
+      TraceLog(LOG_INFO, stockButton->child.text.content.data());
+    };
+  }
 
   root.child.emplace<katzen::Slider>(0.5f);
 
