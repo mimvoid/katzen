@@ -8,23 +8,23 @@ struct Container {
   std::vector<std::unique_ptr<Widget>> children{};
 
   template <typename T>
-  void push(T &&child) {
+  void pushBack(T &&child) {
     children.push_back(std::make_unique<T>(std::move(child)));
   }
 
   template <typename T>
-  T *pushGet(T &&child) {
+  T *pushBackGet(T &&child) {
     children.push_back(std::make_unique<T>(std::move(child)));
     return dynamic_cast<T *>(children.back().get());
   }
 
   template <typename T, typename... Args>
-  void emplace(Args &&...args) {
+  void emplaceBack(Args &&...args) {
     children.emplace_back(std::make_unique<T>(std::forward<Args>(args)...));
   }
 
   template <typename T, typename... Args>
-  T *emplaceGet(Args &&...args) {
+  T *emplaceBackGet(Args &&...args) {
     children.emplace_back(std::make_unique<T>(std::forward<Args>(args)...));
     return dynamic_cast<T *>(children.back().get());
   }

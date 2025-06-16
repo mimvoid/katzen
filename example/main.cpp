@@ -25,7 +25,7 @@ int main(void) {
    * Widgets can be emplaced or pushed into container widgets.
    * It's recommended to emplace them to avoid multiple allocations.
    */
-  root.child.emplace<katzen::IconLabel>(katzen::KatzIcon::CAT_HEAD,
+  root.child.emplaceBack<katzen::IconLabel>(katzen::KatzIcon::CAT_HEAD,
                                         "katzen Widget Factory",
                                         titleId,
                                         [](katzen::IconLabel &self) {
@@ -41,7 +41,7 @@ int main(void) {
                                           self.icon.scale(2);
                                         });
 
-  root.child.emplace<katzen::Label>(
+  root.child.emplaceBack<katzen::Label>(
       "Introducing katzen, a dynamic retained mode GUI library written with raylib and C++17!");
 
   {
@@ -54,13 +54,13 @@ int main(void) {
      * Note that these raw pointers will go out of scope before the main loop,
      * but have been copied by the lambda callbacks.
      */
-    katzen::Box *buttons = root.child.emplaceGet<katzen::Box>(
+    katzen::Box *buttons = root.child.emplaceBackGet<katzen::Box>(
         4, katzen::Axis::X, katzen::Align::CENTER, katzen::Align::CENTER);
 
-    katzen::Checkbox *toggler = buttons->emplaceGet<katzen::Checkbox>();
+    katzen::Checkbox *toggler = buttons->emplaceBackGet<katzen::Checkbox>();
 
     katzen::Button<katzen::Label> *stockButton =
-        buttons->emplaceGet<katzen::Button<katzen::Label>>(
+        buttons->emplaceBackGet<katzen::Button<katzen::Label>>(
             katzen::Label("Disabled"));
     stockButton->disable();
 
@@ -86,7 +86,7 @@ int main(void) {
     };
   }
 
-  root.child.emplace<katzen::Slider>(0.5f);
+  root.child.emplaceBack<katzen::Slider>(0.5f);
 
   root.repaint();
 
