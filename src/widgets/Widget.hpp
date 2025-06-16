@@ -15,14 +15,13 @@ namespace katzen {
  * A basic widget for a retained mode GUI library.
  */
 struct Widget {
+  friend struct Box;
+
   Edges padding{0, 0, 0, 0};
   glm::bvec2 expand{false, false};
 
   // Minimum and maximum sizes intrinsic to the Widget.
   Bounds bounds{{0, 0}, {INT_MAX, INT_MAX}};
-
-  // Maximum sizes that may be overridden by repaints.
-  glm::uvec2 externalBounds{GetRenderWidth(), GetRenderHeight()};
 
   virtual ~Widget() {}
 
@@ -41,17 +40,6 @@ struct Widget {
 
   // The retained position.
   constexpr glm::vec2 position() const { return {m_box.x, m_box.y}; };
-
-  // Change the retained position.
-  constexpr void position(glm::vec2 p) {
-    m_box.x = p.x;
-    m_box.y = p.y;
-  }
-
-  constexpr void position(Gctx g) {
-    m_box.x = g.x;
-    m_box.y = g.y;
-  }
 
   /********/
   /* Size */
@@ -128,7 +116,20 @@ struct Widget {
   virtual void draw(Dctx &d) = 0;
 
 protected:
+  // Maximum sizes that may be overridden by repaints.
+  glm::uvec2 externalBounds{GetRenderWidth(), GetRenderHeight()};
   Rect m_box;
+
+  // Change the retained position.
+  constexpr void position(glm::vec2 p) {
+    m_box.x = p.x;
+    m_box.y = p.y;
+  }
+
+  constexpr void position(Gctx g) {
+    m_box.x = g.x;
+    m_box.y = g.y;
+  }
 
   // Recalculate and return the size on the x-axis (width) or y-axis (height).
   virtual float measureSize(Axis axis) const {

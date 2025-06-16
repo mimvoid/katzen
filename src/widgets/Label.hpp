@@ -9,6 +9,8 @@ namespace katzen {
  * A widget that displays text.
  */
 struct Label : Widget {
+  friend struct IconLabel;
+
   Text text;
   bool wrapWords;
 

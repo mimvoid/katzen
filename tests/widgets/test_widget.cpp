@@ -42,14 +42,6 @@ TEST_CASE("Stock position", "[widget]") {
     REQUIRE(pos.x == g.x);
     REQUIRE(pos.y == g.y);
   }
-
-  SECTION("Get new position") {
-    const glm::vec2 newPos{pos.x + 5.0f, pos.y + 9.0f};
-    w.position(newPos);
-
-    REQUIRE(w.x() == newPos.x);
-    REQUIRE(w.y() == newPos.y);
-  }
 }
 
 TEST_CASE("No widget padding by default", "[widget]") {

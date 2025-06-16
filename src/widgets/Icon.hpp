@@ -7,6 +7,8 @@
 
 namespace katzen {
 struct Icon : Widget {
+  friend struct IconLabel;
+
   Icon(uint8_t id,
        uint8_t size = theme::getProperty(theme::UIntProp::ICON_SIZE)) {
     iconId(id);
