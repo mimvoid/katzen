@@ -2,6 +2,7 @@
 // For now, the Katz iconset is hardcoded.
 #pragma once
 #include <raylib.h>
+#include <cstdint>
 
 #ifndef RAYGUI_ICON_SIZE
 #define RAYGUI_ICON_SIZE 16 // Size of icons (squared)
@@ -24,5 +25,6 @@
 #endif
 
 namespace katzen {
-void drawIcon(int iconId, int posX, int posY, int pixelSize, Color color);
+void drawIcon(
+    uint8_t iconId, float posX, float posY, uint8_t pixelSize, Color color);
 } // namespace katzen

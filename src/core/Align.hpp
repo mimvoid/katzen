@@ -1,7 +1,8 @@
 #pragma once
+#include <cstdint>
 
 namespace katzen {
-enum class Align { START, CENTER, END };
+enum class Align : uint8_t { START, CENTER, END };
 
 /**
  * Calculate how much to offset a child according to how it is align with the

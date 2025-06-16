@@ -1,11 +1,14 @@
 #pragma once
 #include <raylib.h>
+#include <type_traits>
 #include "Axis.hpp"
 #include "Edges.hpp"
 
 namespace katzen {
 template <typename T>
 struct rect_t {
+  static_assert(std::is_arithmetic_v<T>,
+                "A katzen rect_t must contain an arithmetic type.");
   T x, y, w, h;
 
   constexpr bool operator==(const rect_t &other) const {

@@ -3,7 +3,7 @@
 #include <cstdint>
 
 namespace katzen {
-enum class State { NORMAL, DISABLED, FOCUS, ACTIVE };
+enum class State : uint8_t { NORMAL, DISABLED, FOCUS, ACTIVE };
 
 struct StateColors {
   Color border;
@@ -22,6 +22,6 @@ struct Dctx {
 
   StateColors colors;
   State state = State::NORMAL;
-  int cursor = MOUSE_CURSOR_DEFAULT;
+  uint8_t cursor = MOUSE_CURSOR_DEFAULT;
 };
 } // namespace katzen

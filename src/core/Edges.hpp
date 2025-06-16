@@ -1,8 +1,9 @@
 #pragma once
+#include <cstdint>
 #include "Axis.hpp"
 
 namespace katzen {
-enum class Edge { TOP, RIGHT, BOTTOM, LEFT };
+enum class Edge : uint8_t { TOP, RIGHT, BOTTOM, LEFT };
 
 struct Edges {
   int top = 0;

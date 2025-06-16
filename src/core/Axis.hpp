@@ -1,7 +1,7 @@
 #pragma once
 
 namespace katzen {
-enum class Axis { X, Y };
+enum class Axis : bool { X, Y };
 
 constexpr Axis flip(Axis axis) {
   switch (axis) {

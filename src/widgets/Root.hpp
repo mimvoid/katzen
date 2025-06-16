@@ -19,7 +19,7 @@ namespace katzen {
 template <typename T>
 struct Root {
   static_assert(std::is_base_of_v<Widget, T>,
-                "rootWidget is derived from katzen's Widget");
+                "A katzen Root must have a child derived from Widget");
   T child;
 
   bool drawBackground = true;
@@ -29,14 +29,11 @@ struct Root {
 
   // Construct the Root object's child widget in-place.
   template <typename... Args>
-  Root(Args &&...args)
-      : child(std::forward<Args>(args)...), m_g(Gctx::init()) {
+  Root(Args &&...args) : child(std::forward<Args>(args)...), m_g(Gctx::init()) {
     repaint();
   }
 
-  Root(const T &child) : child(child), m_g(Gctx::init()) {
-    repaint();
-  }
+  Root(const T &child) : child(child), m_g(Gctx::init()) { repaint(); }
 
   // Call this when it is needed to manually repaint or update the state.
   void repaint() {

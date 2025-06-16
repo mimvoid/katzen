@@ -11,26 +11,26 @@ namespace katzen {
 struct Container {
   std::vector<std::unique_ptr<Widget>> children{};
 
-  template <typename T>
+  template <class T>
   void pushBack(T &&child) {
     STATIC_ASSERT_WIDGET(T);
     children.push_back(std::make_unique<T>(std::move(child)));
   }
 
-  template <typename T>
+  template <class T>
   T *pushBackGet(T &&child) {
     STATIC_ASSERT_WIDGET(T);
     children.push_back(std::make_unique<T>(std::move(child)));
     return dynamic_cast<T *>(children.back().get());
   }
 
-  template <typename T, typename... Args>
+  template <class T, typename... Args>
   void emplaceBack(Args &&...args) {
     STATIC_ASSERT_WIDGET(T);
     children.emplace_back(std::make_unique<T>(std::forward<Args>(args)...));
   }
 
-  template <typename T, typename... Args>
+  template <class T, typename... Args>
   T *emplaceBackGet(Args &&...args) {
     STATIC_ASSERT_WIDGET(T);
     const std::unique_ptr<Widget> &ref =

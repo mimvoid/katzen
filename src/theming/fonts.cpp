@@ -1,5 +1,6 @@
 #include "fonts.hpp"
 #include <glm/ext/scalar_common.hpp>
+#include <iterator>
 #include <memory>
 #include <vector>
 
@@ -11,30 +12,25 @@ static std::size_t m_defaultFontId;
 // its Rectangles and GlyphInfo
 static std::vector<std::unique_ptr<ThemeFont>> fonts{};
 
-std::size_t newId() {
-  const std::size_t id = fonts.size() - 1;
-  if (id == 0) {
-    m_defaultFontId = 0;
-  }
-
-  return id;
-}
-
 std::size_t loadFont(Font &&font) {
-  fonts.push_back(std::make_unique<ThemeFont>(std::move(font)));
-  return newId();
+  auto iter =
+      fonts.emplace(fonts.cend(), std::make_unique<ThemeFont>(std::move(font)));
+  return std::distance(fonts.begin(), iter);
 }
 
 std::size_t loadFont(std::string_view filePath) {
-  fonts.push_back(std::make_unique<ThemeFont>(LoadFont(filePath.data())));
-  return newId();
+  auto iter = fonts.emplace(
+      fonts.cend(), std::make_unique<ThemeFont>(LoadFont(filePath.data())));
+  return std::distance(fonts.begin(), iter);
 }
 
 std::size_t
 loadFont(std::string_view filePath, float preferredSize, int codepointCount) {
-  fonts.push_back(std::make_unique<ThemeFont>(
-      LoadFontEx(filePath.data(), preferredSize, 0, codepointCount)));
-  return newId();
+  auto iter =
+      fonts.emplace(fonts.cend(),
+                    std::make_unique<ThemeFont>(LoadFontEx(
+                        filePath.data(), preferredSize, 0, codepointCount)));
+  return std::distance(fonts.begin(), iter);
 }
 
 const ThemeFont &getThemeFont(std::size_t fontId) {
@@ -43,13 +39,9 @@ const ThemeFont &getThemeFont(std::size_t fontId) {
 
 const Font &getFont(std::size_t fontId) { return fonts.at(fontId)->font; }
 
-float getFontSize(std::size_t fontId) {
-  return fonts.at(fontId)->fontSize();
-}
+float getFontSize(std::size_t fontId) { return fonts.at(fontId)->fontSize(); }
 
-float getFontSpacing(std::size_t fontId) {
-  return fonts.at(fontId)->spacing;
-}
+float getFontSpacing(std::size_t fontId) { return fonts.at(fontId)->spacing; }
 
 std::size_t defaultFontId() { return m_defaultFontId; }
 const ThemeFont &getDefaultFont() { return *fonts.at(m_defaultFontId); }

@@ -1,8 +1,9 @@
 // An enum for the Katz iconset.
 #pragma once
+#include <cstdint>
 
 namespace katzen {
-enum class KatzIcon : int {
+enum class KatzIcon : uint8_t {
   NONE,
   SAVE,
   FOLDER,

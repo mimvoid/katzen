@@ -5,7 +5,7 @@
 #include "Theme.hpp"
 
 namespace katzen::theme {
-enum class ColorProp {
+enum class ColorProp : uint8_t {
   BACKGROUND,
   NORMAL_BORDER,
   NORMAL_BASE,
@@ -21,7 +21,7 @@ enum class ColorProp {
   ACTIVE_TEXT,
 };
 
-enum class UIntProp {
+enum class UIntProp : uint8_t {
   BORDER_WIDTH,
   BORDER_RADIUS,
   ICON_SIZE,
