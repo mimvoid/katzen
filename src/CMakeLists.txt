@@ -1,8 +1,8 @@
 set(KATZEN_SOURCES
     components/icons.cpp
     components/textHelpers.cpp
-    theming/fonts.cpp
-    theming/themer.cpp
+    theme/fonts.cpp
+    theme/themer.cpp
     widgets/Box.cpp
     widgets/Checkbox.cpp
     widgets/Label.cpp
@@ -17,6 +17,7 @@ set(KATZEN_HEADERS
     core/Align.hpp
     core/Axis.hpp
     core/Bounds.hpp
+    core/Dctx.hpp
     core/Edges.hpp
     core/Gctx.hpp
     core/Rect.hpp
@@ -25,8 +26,10 @@ set(KATZEN_HEADERS
     components/Text.hpp
     components/Reactive.hpp
     components/scales.hpp
-    theming/themer.hpp
-    theming/fonts.hpp
+    theme/themer.hpp
+    theme/fonts.hpp
+    theme/Theme.hpp
+    theme/ThemeFont.hpp
     widgets/Root.hpp
     widgets/Widget.hpp
     widgets/Spacer.hpp

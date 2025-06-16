@@ -8,7 +8,6 @@
 #include "../core/Dctx.hpp"
 #include "../core/Edges.hpp"
 #include "../core/Gctx.hpp"
-#include "../core/vec.hpp"
 
 namespace katzen {
 /**
@@ -82,7 +81,10 @@ struct Widget {
   /**********/
 
   constexpr unsigned int minSize(Axis axis) const {
-    return get(bounds.min, axis);
+    switch (axis) {
+    case Axis::X: return bounds.min.x;
+    case Axis::Y: return bounds.min.y;
+    }
   }
 
   constexpr unsigned int maxWidth() const {

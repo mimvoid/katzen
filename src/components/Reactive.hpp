@@ -1,5 +1,5 @@
 #pragma once
-#include "../theming/themer.hpp"
+#include "../theme/themer.hpp"
 
 namespace katzen {
 /**

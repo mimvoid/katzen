@@ -1,4 +1,5 @@
 #include "Box.hpp"
+#include "../core/vec.hpp"
 
 namespace katzen {
 Box::Box(int spacing,

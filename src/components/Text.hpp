@@ -4,8 +4,7 @@
 #include <glm/ext/vector_float2.hpp>
 #include <string_view>
 #include "../core/Axis.hpp"
-#include "../theming/fonts.hpp"
-#include "textHelpers.hpp"
+#include "../theme/fonts.hpp"
 
 namespace katzen {
 struct Text {
@@ -55,19 +54,8 @@ struct Text {
     updateHeight();
   }
 
-  constexpr void drawWrapped(Rectangle box, Color color) {
-    drawTextBoxed(
-        font.font, content.data(), box, font.fontSize(), font.spacing, color);
-  }
-
-  constexpr void draw(Vector2 position, Color color) {
-    DrawTextEx(font.font,
-               content.data(),
-               position,
-               font.fontSize(),
-               font.spacing,
-               color);
-  }
+  void drawWrapped(Rectangle box, Color color);
+  void draw(Vector2 position, Color color);
 
 private:
   float m_width;

@@ -2,7 +2,7 @@
 #include <cstdint>
 #include <type_traits>
 #include "../components/icons.hpp"
-#include "../theming/themer.hpp"
+#include "../theme/themer.hpp"
 #include "Widget.hpp"
 
 namespace katzen {

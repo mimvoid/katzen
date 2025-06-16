@@ -3,7 +3,7 @@
 #include <type_traits>
 #include <utility>
 #include "../core/Align.hpp"
-#include "../theming/themer.hpp"
+#include "../theme/themer.hpp"
 #include "Widget.hpp"
 
 namespace katzen {

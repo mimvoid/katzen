@@ -1,7 +1,7 @@
 #include "Slider.hpp"
 #include <raylib.h>
 #include "../components/scales.hpp"
-#include "../theming/fonts.hpp"
+#include "../theme/fonts.hpp"
 
 namespace katzen {
 Slider::Slider(float initialValue,

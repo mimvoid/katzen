@@ -1,5 +1,5 @@
 #include "Checkbox.hpp"
-#include "../theming/fonts.hpp"
+#include "../theme/fonts.hpp"
 
 namespace katzen {
 void Checkbox::draw(Dctx &d) {
