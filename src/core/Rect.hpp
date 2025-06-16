@@ -15,6 +15,11 @@ struct rect_t {
     return (x != other.x) || (y != other.y) || (w != other.w) || (h != other.h);
   }
 
+  constexpr operator Rectangle() const {
+    // Convert to raylib Rectangle
+    return {(float)x, (float)y, (float)w, (float)h};
+  }
+
   constexpr T position(Axis axis) const {
     switch (axis) {
     case Axis::X: return x;
@@ -83,10 +88,10 @@ struct rect_t {
   }
 };
 
-typedef rect_t<float> Rect;
-
-template <typename T>
-constexpr Rectangle rlRectangle(rect_t<T> rec) {
-  return {(float)rec.x, (float)rec.y, (float)rec.w, (float)rec.h};
+template <>
+constexpr rect_t<float>::operator Rectangle() const {
+  return {x, y, w, h};
 }
+
+typedef rect_t<float> Rect;
 } // namespace katzen

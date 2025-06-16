@@ -3,7 +3,7 @@
 
 namespace katzen {
 void Checkbox::draw(Dctx &d) {
-  const Rectangle box = rlRectangle(m_box);
+  const Rectangle box = m_box;
 
   if (updateState(d, box)) {
     checked = !checked;

@@ -30,7 +30,7 @@ struct Button : Widget, Reactive {
   }
 
   void draw(Dctx &d) override {
-    const Rectangle box = rlRectangle(m_box);
+    const Rectangle box = m_box;
 
     if (updateState(d, box) && callback) {
       callback();

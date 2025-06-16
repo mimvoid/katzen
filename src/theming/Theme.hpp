@@ -1,12 +1,13 @@
 #pragma once
 #include "../core/Dctx.hpp"
 #include <raylib.h>
+#include <cstdint>
 
 namespace katzen::theme {
 struct Theme {
-  unsigned int borderWidth;
-  unsigned int borderRadius;
-  unsigned int iconSize;
+  uint8_t borderWidth;
+  uint8_t borderRadius;
+  uint8_t iconSize;
   Color backgroundColor;
 
   StateColors normal;

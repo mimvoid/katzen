@@ -1,5 +1,6 @@
 #pragma once
 #include <raylib.h>
+#include <cstdint>
 
 namespace katzen {
 enum class State { NORMAL, DISABLED, FOCUS, ACTIVE };
@@ -15,9 +16,9 @@ struct StateColors {
  * lookups, and stores a widget state that can be passed to children.
  */
 struct Dctx {
-  const unsigned int borderWidth;
-  const unsigned int borderRadius;
-  const unsigned int iconSize;
+  const uint8_t borderWidth;
+  const uint8_t borderRadius;
+  const uint8_t iconSize;
 
   StateColors colors;
   State state = State::NORMAL;

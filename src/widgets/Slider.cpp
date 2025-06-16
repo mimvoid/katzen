@@ -15,7 +15,7 @@ Slider::Slider(float initialValue,
 }
 
 void Slider::draw(Dctx &d) {
-  const Rectangle box = rlRectangle(m_box);
+  const Rectangle box = m_box;
 
   const float gap = d.borderWidth * 2;
   const Rectangle trough{
