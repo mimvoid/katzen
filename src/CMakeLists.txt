@@ -1,6 +1,9 @@
+add_library(katzen)
+
 set(KATZEN_SOURCES
     components/icons.cpp
     components/textHelpers.cpp
+    components/Text.cpp
     theme/fonts.cpp
     theme/themer.cpp
     widgets/Box.cpp
@@ -42,29 +45,54 @@ set(KATZEN_HEADERS
     widgets/Slider.hpp
 )
 
-add_library(katzen ${KATZEN_SOURCES})
+target_sources(katzen PRIVATE ${KATZEN_SOURCES})
 target_sources(katzen PUBLIC
     FILE_SET HEADERS
     TYPE HEADERS
     FILES ${KATZEN_HEADERS}
 )
 
-set_target_properties(katzen PROPERTIES VERSION ${PROJECT_VERSION})
+set_target_properties(katzen PROPERTIES
+    VERSION ${PROJECT_VERSION}
+    SOVERSION ${PROJECT_VERSION_MAJOR}
+)
+
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+target_compile_features(katzen PUBLIC cxx_std_17)
 
 # Dependencies
 find_package(raylib REQUIRED)
 find_package(glm REQUIRED)
 
 target_link_libraries(katzen PRIVATE raylib glm::glm)
-target_link_options(katzen PRIVATE "LINKER:-as-needed")
 
 # Installation
-install(TARGETS katzen
-    DESTINATION "${CMAKE_INSTALL_LIBDIR}"
-    EXPORT katzenTargets
-    FILE_SET HEADERS DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/katzen"
-)
+if (KATZEN_BUILD_INSTALL)
+    include(GNUInstallDirs)
 
-install(FILES "${CMAKE_SOURCE_DIR}/icons/katz_icons.hpp"
-    DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/katzen"
-)
+    install(TARGETS katzen
+        DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+        EXPORT katzenTargets
+        FILE_SET HEADERS DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/katzen"
+    )
+    install(EXPORT katzenTargets
+        NAMESPACE katzen::
+        DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/katzen"
+    )
+    install(
+        FILES "${CMAKE_SOURCE_DIR}/icons/katz_icons.hpp"
+        DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/katzen"
+    )
+
+    include(CMakePackageConfigHelpers)
+
+    write_basic_package_version_file(
+        "${CMAKE_CURRENT_BINARY_DIR}/katzenConfigVersion.cmake"
+        COMPATIBILITY AnyNewerVersion
+    )
+    install(FILES
+        "${CMAKE_SOURCE_DIR}/cmake/katzenConfig.cmake"
+        "${CMAKE_CURRENT_BINARY_DIR}/katzenConfigVersion.cmake"
+        DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/katzen"
+    )
+endif()

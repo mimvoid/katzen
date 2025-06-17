@@ -24,7 +24,7 @@ struct Gctx : Rect {
     h = GetRenderHeight();
   }
 
-  constexpr void reset(Edges padding) {
+  void reset(Edges padding) {
     reset();
     pad(padding);
   }

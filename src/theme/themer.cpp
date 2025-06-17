@@ -60,6 +60,7 @@ Color getProperty(ColorProp property) {
   case ColorProp::ACTIVE_BORDER:   return t.active.border;
   case ColorProp::ACTIVE_BASE:     return t.active.base;
   case ColorProp::ACTIVE_TEXT:     return t.active.text;
+  default:                         return BLANK;
   }
 }
 
@@ -70,6 +71,7 @@ unsigned int getProperty(UIntProp property) {
   case UIntProp::BORDER_WIDTH:  return t.borderWidth;
   case UIntProp::BORDER_RADIUS: return t.borderRadius;
   case UIntProp::ICON_SIZE:     return t.iconSize;
+  default:                      return 0;
   }
 }
 
@@ -77,10 +79,10 @@ const StateColors &getStateColors(State state) {
   const Theme &t = getCurrentTheme();
 
   switch (state) {
-  case State::NORMAL:   return t.normal;
   case State::DISABLED: return t.disabled;
   case State::FOCUS:    return t.focus;
   case State::ACTIVE:   return t.active;
+  default:              return t.normal;
   }
 }
 

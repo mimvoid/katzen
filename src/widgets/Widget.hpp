@@ -54,22 +54,22 @@ struct Widget {
   constexpr float height() const { return m_box.h; }
 
   // Remeasure and save the width.
-  constexpr void updateWidth() {
+  inline void updateWidth() {
     m_box.w = expand.x ? maxWidth() : measureWidth();
   }
 
   // Remeasure and save the height.
-  constexpr void updateHeight() {
+  inline void updateHeight() {
     m_box.h = expand.y ? maxHeight() : measureHeight();
   }
 
-  constexpr void updateSize() {
+  inline void updateSize() {
     updateWidth();
     updateHeight();
   }
 
   // Remeasure and save the size for the x-axis (width) or y-axis (height).
-  constexpr void updateSize(Axis axis) {
+  inline void updateSize(Axis axis) {
     switch (axis) {
     case Axis::X: updateWidth(); break;
     case Axis::Y: updateHeight(); break;
@@ -143,10 +143,10 @@ protected:
   }
 
   // Recalculate and return the width.
-  constexpr float measureWidth() const { return measureSize(Axis::X); }
+  inline float measureWidth() const { return measureSize(Axis::X); }
 
   // Recalculate and return the height.
-  constexpr float measureHeight() const { return measureSize(Axis::Y); }
+  inline float measureHeight() const { return measureSize(Axis::Y); }
 
   constexpr float clampSize(float size, Axis axis) const {
     return glm::clamp(size, (float)minSize(axis), (float)maxSize(axis));

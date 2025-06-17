@@ -54,7 +54,8 @@
           ];
 
           shellHook = ''
-            export CMAKE_PREFIX_PATH="${pkgs.raygui}"
+            export CC=${pkgs.clang}/bin/clang
+            export CXX=${pkgs.clang}/bin/clang++
           '';
         };
       });

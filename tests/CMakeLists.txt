@@ -15,4 +15,3 @@ PRIVATE
     katzen
     Catch2::Catch2WithMain
 )
-target_link_options(katzen_tests PRIVATE "LINKER:-as-needed")

@@ -38,7 +38,7 @@ struct Edges {
     case Edge::TOP:    return top;
     case Edge::RIGHT:  return right;
     case Edge::BOTTOM: return bottom;
-    case Edge::LEFT:   return left;
+    default:           return left;
     }
   }
 
