@@ -2,9 +2,9 @@
 #include <raylib.h>
 #include <type_traits>
 #include <utility>
-#include "../core/Align.hpp"
-#include "../theme/themer.hpp"
-#include "Widget.hpp"
+#include "core/Align.hpp"
+#include "theme/themer.hpp"
+#include "widgets/Widget.hpp"
 
 namespace katzen {
 /**

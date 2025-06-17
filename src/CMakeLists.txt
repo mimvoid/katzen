@@ -17,6 +17,7 @@ set(KATZEN_HEADERS
     katzen.hpp
     core.hpp
     widgets.hpp
+    Root.hpp
     core/Align.hpp
     core/Axis.hpp
     core/Bounds.hpp
@@ -33,7 +34,6 @@ set(KATZEN_HEADERS
     theme/fonts.hpp
     theme/Theme.hpp
     theme/ThemeFont.hpp
-    widgets/Root.hpp
     widgets/Widget.hpp
     widgets/Spacer.hpp
     widgets/Box.hpp

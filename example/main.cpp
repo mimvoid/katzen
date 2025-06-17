@@ -1,6 +1,7 @@
 #include <raylib.h>
 #include <functional>
 #include "../icons/katz_icons.hpp"
+#include "../src/Root.hpp"
 #include "../src/widgets.hpp"
 
 int main(void) {

@@ -1,6 +1,5 @@
 #pragma once
 
-#include "widgets/Root.hpp"
 #include "widgets/Box.hpp"
 #include "widgets/Button.hpp"
 #include "widgets/Checkbox.hpp"
