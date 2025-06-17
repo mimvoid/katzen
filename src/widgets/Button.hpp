@@ -24,7 +24,7 @@ struct Button : Widget, Reactive {
 
   template <typename... Args>
   Button(std::function<void()> callback, Args &&...args)
-      : child(std::forward(args...)), callback(callback) {
+      : child(std::forward<Args>(args)...), callback(callback) {
     padding.set(8);
   }
 
