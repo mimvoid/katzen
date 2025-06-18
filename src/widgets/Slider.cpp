@@ -55,7 +55,7 @@ void Slider::draw(Dctx &d) {
       break;
     }
 
-    newValue = glm::clamp(newValue, 0.0f, 1.0f);
+    newValue = std::clamp(newValue, 0.0f, 1.0f);
     if (newValue != prevValue) {
       m_value = newValue;
       if (callback) callback(newValue);

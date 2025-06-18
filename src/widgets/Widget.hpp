@@ -1,13 +1,12 @@
 #pragma once
 #include <raylib.h>
+#include <algorithm>
 #include <climits>
-#include <glm/ext/scalar_common.hpp>
-#include <glm/ext/vector_bool2.hpp>
-#include <glm/ext/vector_float2.hpp>
 #include "../core/Bounds.hpp"
 #include "../core/Dctx.hpp"
 #include "../core/Edges.hpp"
 #include "../core/Gctx.hpp"
+#include "../core/vectors.hpp"
 
 namespace katzen {
 /**
@@ -19,7 +18,7 @@ struct Widget {
   friend struct Box;
 
   Edges padding{0, 0, 0, 0};
-  glm::bvec2 expand{false, false};
+  BVec2 expand{false, false};
 
   virtual ~Widget() = default;
 
@@ -37,7 +36,7 @@ struct Widget {
   constexpr float y() const { return m_rect.y; }
 
   // Get the retained position.
-  constexpr glm::vec2 position() const { return {m_rect.x, m_rect.y}; };
+  constexpr Vec2 position() const { return {m_rect.x, m_rect.y}; };
 
   /********/
   /* Size */
@@ -99,10 +98,10 @@ struct Widget {
   }
 
   constexpr unsigned int maxWidth() const {
-    return glm::clamp(m_externalBounds.x, m_bounds.min.x, m_bounds.max.x);
+    return std::clamp(m_externalBounds.x, m_bounds.min.x, m_bounds.max.x);
   }
   constexpr unsigned int maxHeight() const {
-    return glm::clamp(m_externalBounds.y, m_bounds.min.y, m_bounds.max.y);
+    return std::clamp(m_externalBounds.y, m_bounds.min.y, m_bounds.max.y);
   }
 
   constexpr unsigned int maxSize(Axis axis) const {
@@ -120,12 +119,7 @@ struct Widget {
     setMaxHeight(height);
   }
 
-  constexpr bool expands(Axis axis) const {
-    switch (axis) {
-    case Axis::X: return expand.x;
-    case Axis::Y: return expand.y;
-    }
-  }
+  constexpr bool expands(Axis axis) const { return get(expand, axis); }
 
   /***********/
   /* Padding */
@@ -161,10 +155,10 @@ protected:
   Bounds m_bounds{{0, 0}, {UINT_MAX, UINT_MAX}};
 
   // Maximum sizes that may be overridden by repaints.
-  glm::uvec2 m_externalBounds{GetRenderWidth(), GetRenderHeight()};
+  UVec2 m_externalBounds{GetRenderWidth(), GetRenderHeight()};
 
   // Change the retained position.
-  constexpr void reposition(glm::vec2 p) {
+  constexpr void reposition(Vec2 p) {
     m_rect.x = p.x;
     m_rect.y = p.y;
   }
@@ -189,7 +183,7 @@ protected:
   inline float measureHeight() const { return measure(Axis::Y); }
 
   constexpr float clampSize(float size, Axis axis) const {
-    return glm::clamp(size, (float)minSize(axis), (float)maxSize(axis));
+    return std::clamp(size, (float)minSize(axis), (float)maxSize(axis));
   }
 };
 } // namespace katzen

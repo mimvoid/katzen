@@ -1,9 +1,8 @@
 #pragma once
 #include <raylib.h>
-#include <glm/ext/scalar_common.hpp>
-#include <glm/ext/vector_float2.hpp>
 #include <string_view>
 #include "../core/Axis.hpp"
+#include "../core/vectors.hpp"
 #include "../theme/fonts.hpp"
 
 namespace katzen {
@@ -28,7 +27,7 @@ struct Text {
   constexpr float width() const { return m_width; }
   constexpr float height() const { return m_height; }
 
-  constexpr glm::vec2 measureSize() const {
+  constexpr Vec2 measureSize() const {
     if (content.empty()) return {0.0f, 0.0f};
 
     const Vector2 textSize =

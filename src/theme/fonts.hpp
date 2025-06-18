@@ -1,6 +1,5 @@
 #pragma once
 #include <raylib.h>
-#include <cstddef>
 #include <string_view>
 #include "ThemeFont.hpp"
 

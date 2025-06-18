@@ -1,5 +1,4 @@
 #include "fonts.hpp"
-#include <glm/ext/scalar_common.hpp>
 #include <iterator>
 #include <memory>
 #include <vector>

@@ -1,20 +1,18 @@
 #pragma once
-#include <glm/ext/vector_uint2.hpp>
 #include "Axis.hpp"
+#include "vectors.hpp"
 
 namespace katzen {
 struct Bounds {
-  glm::uvec2 min;
-  glm::uvec2 max;
+  UVec2 min;
+  UVec2 max;
 
   constexpr bool operator==(const Bounds &other) const {
-    return (min.x == other.min.x) && (min.y == other.min.y)
-           && (max.x == other.max.x) && (max.y == other.max.y);
+    return (min == other.min) && (max == other.max);
   }
 
   constexpr bool operator!=(const Bounds &other) const {
-    return (min.x != other.min.x) || (min.y != other.min.y)
-           || (max.x != other.max.x) || (max.y != other.max.y);
+    return (min != other.min) || (max != other.max);
   }
 
   // Set the minimum width, increasing the maximum width if needed.

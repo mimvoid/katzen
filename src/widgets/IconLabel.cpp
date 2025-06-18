@@ -14,7 +14,7 @@ float IconLabel::measure(Axis axis) const {
   float size = padding.get(axis);
 
   switch (axis) {
-  case Axis::Y: size += glm::max(icon.height(), label.height()); break;
+  case Axis::Y: size += std::max(icon.height(), label.height()); break;
   case Axis::X: size += icon.width() + spacing + label.width(); break;
   }
 

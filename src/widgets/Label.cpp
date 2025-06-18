@@ -1,4 +1,5 @@
 #include "Label.hpp"
+#include <cmath>
 
 namespace katzen {
 Label::Label(std::string_view content,
@@ -18,7 +19,7 @@ float Label::measure(Axis axis) const {
     // Estimate the height after text wrapping
     // It's not perfect, but it's simple
     const int lines =
-        glm::ceil(text.width() / (maxWidth() - padding.get(Axis::X)));
+        std::ceil(text.width() / (maxWidth() - padding.get(Axis::X)));
 
     size += text.height() * lines;
   }

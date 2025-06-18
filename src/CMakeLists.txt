@@ -26,6 +26,7 @@ set(KATZEN_HEADERS
     core/Edges.hpp
     core/Gctx.hpp
     core/Rect.hpp
+    core/vectors.hpp
     components/Container.hpp
     components/icons.hpp
     components/Text.hpp
@@ -63,9 +64,7 @@ target_compile_features(katzen PUBLIC cxx_std_17)
 
 # Dependencies
 find_package(raylib REQUIRED)
-find_package(glm REQUIRED)
-
-target_link_libraries(katzen PRIVATE raylib glm::glm)
+target_link_libraries(katzen PRIVATE raylib)
 
 # Installation
 if (KATZEN_BUILD_INSTALL)

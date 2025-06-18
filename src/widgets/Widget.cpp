@@ -8,6 +8,6 @@ void Widget::repaint(Gctx g) {
 }
 
 float Widget::measure(Axis axis) const {
-  return glm::clamp(padding.get(axis), (int)minSize(axis), (int)maxSize(axis));
+  return std::clamp(padding.get(axis), (int)minSize(axis), (int)maxSize(axis));
 }
 } // namespace katzen

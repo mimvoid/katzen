@@ -1,6 +1,5 @@
 #pragma once
 #include <functional>
-#include <glm/ext/scalar_common.hpp>
 #include "../components/Reactive.hpp"
 #include "Widget.hpp"
 
@@ -20,7 +19,7 @@ struct Checkbox : Widget, Reactive {
   }
 
   constexpr float getScale() const { return m_scale; }
-  constexpr void setScale(float scale) { m_scale = glm::max(0.1f, scale); }
+  constexpr void setScale(float scale) { m_scale = std::max(0.1f, scale); }
 
   void draw(Dctx &d) override;
 

@@ -1,6 +1,6 @@
 #pragma once
 #include <raylib.h>
-#include <glm/ext/scalar_common.hpp>
+#include <algorithm>
 
 namespace katzen::theme {
 struct ThemeFont {
@@ -28,7 +28,7 @@ struct ThemeFont {
   ~ThemeFont() { UnloadFont(font); }
 
   constexpr float fontSize() const { return m_size; }
-  constexpr void fontSize(float size) { m_size = glm::max(1.0f, size); }
+  constexpr void fontSize(float size) { m_size = std::max(1.0f, size); }
 
 private:
   float m_size;

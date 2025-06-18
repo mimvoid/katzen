@@ -2,6 +2,7 @@
 #include <catch2/catch_test_macros.hpp>
 
 using katzen::Axis;
+using katzen::Vec2;
 using katzen::Edges;
 using katzen::Gctx;
 using katzen::Rect;
@@ -28,7 +29,7 @@ TEST_CASE("Stock position", "[widget]") {
   const Gctx g = DebugGctx();
   w.repaint(g);
 
-  const glm::vec2 pos = w.position();
+  const Vec2 pos = w.position();
   SECTION("Getting position is consistent") {
     REQUIRE(pos.x == w.x());
     REQUIRE(pos.y == w.y());

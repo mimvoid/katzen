@@ -1,6 +1,5 @@
 #pragma once
 #include <functional>
-#include <glm/ext/scalar_common.hpp>
 #include "../components/Reactive.hpp"
 #include "Widget.hpp"
 
@@ -17,7 +16,7 @@ struct Slider : Widget, Reactive {
 
   constexpr float value() const { return m_value; }
   constexpr void value(float newValue) {
-    m_value = glm::clamp(newValue, 0.0f, 1.0f);
+    m_value = std::clamp(newValue, 0.0f, 1.0f);
   }
 
   void draw(Dctx &d) override;

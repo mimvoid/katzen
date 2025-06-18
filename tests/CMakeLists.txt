@@ -3,7 +3,7 @@ add_executable(katzen_tests
   core/test_bounds.cpp
   core/test_edges.cpp
   core/test_rect.cpp
-  core/test_vec.cpp
+  core/test_vectors.cpp
   widgets/test_widget.cpp
   widgets/test_icon.cpp
 )

@@ -32,7 +32,7 @@ struct Icon : Widget {
   }
 
   constexpr uint8_t scale() const { return m_scale; }
-  constexpr void scale(int size) { m_scale = glm::max(1, size); }
+  constexpr void scale(int size) { m_scale = std::max(1, size); }
 
   constexpr int measureIcon() const { return m_scale * RAYGUI_ICON_SIZE; }
 
