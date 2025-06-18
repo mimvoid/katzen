@@ -19,19 +19,19 @@ struct Box : Widget, Container {
       Align valign = Align::START,
       std::function<void(Box &)> setup = std::function<void(Box &)>());
 
+  void repaint(Gctx g) override;
+  void draw(Dctx &d) override;
+
+protected:
+  Vec2 remeasureChildren();
+  float measureChildren(Axis axis) const;
+  float measure(Axis a) const override;
+
   constexpr Align align(Axis axis) const {
     switch (axis) {
     case Axis::X: return halign;
     case Axis::Y: return valign;
     }
   }
-
-  void repaint(Gctx g) override;
-  void draw(Dctx &d) override;
-
-protected:
-  float updateChildrenSize(Axis axis);
-  float measureChildren(Axis axis) const;
-  float measure(Axis a) const override;
 };
 } // namespace katzen

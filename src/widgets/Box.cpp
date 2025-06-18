@@ -11,78 +11,84 @@ Box::Box(int spacing,
   if (setup) setup(*this);
 }
 
-float Box::updateChildrenSize(Axis axis) {
-  float size = 0.0f;
+Vec2 Box::remeasureChildren() {
+  if (children.empty()) return {0.0f, 0.0f};
 
-  if (children.empty()) return size;
+  float dirSize = 0.0f;
+  float flipDirSize = 0.0f;
 
-  if (axis == direction) {
-    const int childrenCount = children.size();
-    size += spacing * (childrenCount - 1);
+  const std::size_t childrenCount = children.size();
+  dirSize += spacing * (childrenCount - 1);
 
-    std::vector<Widget *> expandedChildren;
-    expandedChildren.reserve(childrenCount);
+  std::vector<Widget *> expandedChildren;
+  expandedChildren.reserve(childrenCount);
 
-    for (std::unique_ptr<Widget> &w : children) {
-      if (get(w->expand, axis)) {
-        expandedChildren.push_back(w.get());
-      } else {
-        set(w->m_externalBounds,
-            axis,
-            (unsigned int)std::max(0.0f,
-                                   maxSize(axis) - padding.get(axis) - size));
-        w->resize(axis);
-        size += w->size(axis);
-      }
+  const Axis flipDir = flip(direction);
+  float maxChildSize = 0.0f;
+
+  const unsigned int maxDir = maxSize(direction) - padding.get(direction);
+  const unsigned int maxFlipDir = maxSize(flipDir) - padding.get(flipDir);
+
+  for (std::unique_ptr<Widget> &w : children) {
+    // Box direction
+    if (get(w->expand, direction)) {
+      expandedChildren.push_back(w.get());
+    } else {
+      set(w->m_externalBounds,
+          direction,
+          static_cast<unsigned int>(maxDir - dirSize));
+      w->resize(direction);
+      dirSize += w->size(direction);
     }
 
-    if (!expandedChildren.empty()) {
-      const unsigned int expandedSize =
-          std::max(0.0f, maxSize(axis) - padding.get(axis) - size)
-          / expandedChildren.size();
-
-      for (Widget *w : expandedChildren) {
-        set(w->m_externalBounds, axis, expandedSize);
-        w->resize(axis);
-        size += w->size(axis);
-      }
-    }
-  } else {
-    float maxChildSize = 0.0f;
-    for (std::unique_ptr<Widget> &w : children) {
-      set(w->m_externalBounds, axis, maxSize(axis));
-      w->resize(axis);
-      maxChildSize = std::max(w->size(axis), maxChildSize);
-    }
-    size += maxChildSize;
+    // Flipped direction
+    set(w->m_externalBounds, flipDir, maxFlipDir);
+    w->resize(flipDir);
+    maxChildSize = std::max(w->size(flipDir), maxChildSize);
   }
 
-  return size;
+  flipDirSize += maxChildSize;
+
+  if (!expandedChildren.empty()) {
+    const unsigned int expandedSize =
+        std::max(0.0f, maxSize(direction) - padding.get(direction) - dirSize)
+        / expandedChildren.size();
+
+    for (Widget *w : expandedChildren) {
+      set(w->m_externalBounds, direction, expandedSize);
+      w->resize(direction);
+      dirSize += w->size(direction);
+    }
+  }
+
+  if (direction == Axis::X) {
+    return {dirSize, flipDirSize};
+  }
+  return {flipDirSize, dirSize};
 }
 
 float Box::measureChildren(Axis axis) const {
-  float size = 0.0f;
-  if (children.empty()) return size;
+  if (children.empty()) return 0.0f;
 
   if (axis == direction) {
-    size += spacing * (children.size() - 1);
+    float childrenSize = spacing * (children.size() - 1);
 
     for (const std::unique_ptr<Widget> &w : children) {
       if (get(w->expand, axis)) return maxSize(axis) - padding.get(axis);
-
-      size += w->size(axis);
+      childrenSize += w->size(axis);
     }
-  } else {
-    float maxChildSize = 0.0f;
-    for (const std::unique_ptr<Widget> &w : children) {
-      if (get(w->expand, axis)) return maxSize(axis) - padding.get(axis);
 
-      maxChildSize = std::max(w->size(axis), maxChildSize);
-    }
-    size += maxChildSize;
+    return childrenSize;
   }
 
-  return size;
+  float maxChildSize = 0.0f;
+
+  for (const std::unique_ptr<Widget> &w : children) {
+    if (get(w->expand, axis)) return maxSize(axis) - padding.get(axis);
+    maxChildSize = std::max(w->size(axis), maxChildSize);
+  }
+
+  return maxChildSize;
 }
 
 float Box::measure(Axis axis) const {
@@ -91,18 +97,12 @@ float Box::measure(Axis axis) const {
 }
 
 void Box::repaint(Gctx g) {
-  using std::unique_ptr;
-
   setExternalBounds(g);
   reposition(g);
 
-  m_rect.w = std::clamp(updateChildrenSize(Axis::X) + padding.get(Axis::X),
-                       (float)m_bounds.min.x,
-                       (float)maxWidth());
-
-  m_rect.h = std::clamp(updateChildrenSize(Axis::Y) + padding.get(Axis::Y),
-                       (float)m_bounds.min.y,
-                       (float)maxHeight());
+  Vec2 cSize = remeasureChildren();
+  m_rect.w = clampSize(cSize.x + padding.get(Axis::X), Axis::X);
+  m_rect.h = clampSize(cSize.y + padding.get(Axis::Y), Axis::Y);
 
   if (children.empty()) {
     return;
@@ -115,7 +115,7 @@ void Box::repaint(Gctx g) {
 
     if (dirAlign != Align::START) {
       const float sizeDiff = offset(size(direction) - padding.get(direction),
-                                    measureChildren(direction),
+                                    get(cSize, direction),
                                     dirAlign);
 
       g.translateClip(direction, sizeDiff);
@@ -126,49 +126,43 @@ void Box::repaint(Gctx g) {
   const Align flipAlign = align(flipDir);
 
   const Axis dirCopy = direction;
-  const auto repaintChildBase = [dirCopy](unique_ptr<Widget> &w, Gctx &gctx) {
-    if (get(w->expand, dirCopy)) {
-      const unsigned int prevSize = std::max(0.0f, w->size(dirCopy));
-      w->repaint(gctx);
-      set(w->m_externalBounds, dirCopy, prevSize);
-      w->resize(dirCopy);
+  const auto repaintChild = [dirCopy](Widget &w, Gctx &gctx) {
+    if (get(w.expand, dirCopy)) {
+      const unsigned int prevSize = std::max(0.0f, w.size(dirCopy));
+      w.repaint(gctx);
+      set(w.m_externalBounds, dirCopy, prevSize);
+      w.resize(dirCopy);
     } else {
-      w->repaint(gctx);
+      w.repaint(gctx);
     }
   };
 
-  const auto repaintChild = [&](unique_ptr<Widget> &w) {
-    repaintChildBase(w, g);
-  };
-  const auto repaintChildOffset = [&](unique_ptr<Widget> &w, float offset) {
-    Gctx gCopy = g;
-    gCopy.translateClip(flipDir, offset);
-    repaintChildBase(w, gCopy);
-  };
-
-  bool isFirst = true;
-  for (unique_ptr<Widget> &w : children) {
-    if (isFirst) {
-      isFirst = false;
-    } else {
+  for (auto i = children.begin(); i != children.end(); i++) {
+    if (i != children.begin()) {
       g.translateClip(direction, spacing);
     }
 
-    if (flipAlign == Align::START || get(w->expand, flipDir)) {
-      repaintChild(w);
+    Widget &w = *i.base()->get();
+
+    if (flipAlign == Align::START || get(w.expand, flipDir)) {
+      repaintChild(w, g);
     } else {
       const float sizeDiff =
-          size(flipDir) - padding.get(flipDir) - w->size(flipDir);
+          size(flipDir) - padding.get(flipDir) - w.size(flipDir);
 
       if (sizeDiff <= 0.0f) {
-        repaintChild(w);
+        repaintChild(w, g);
       } else {
-        repaintChildOffset(
-            w, (flipAlign == Align::CENTER) ? (sizeDiff / 2.0f) : sizeDiff);
+        Gctx gCopy = g;
+        gCopy.translateClip(
+            flipDir,
+            (flipAlign == Align::CENTER) ? (sizeDiff / 2.0f) : sizeDiff);
+
+        repaintChild(w, gCopy);
       }
     }
 
-    g.translateClip(direction, w->size(direction));
+    g.translateClip(direction, w.size(direction));
   }
 }
 
