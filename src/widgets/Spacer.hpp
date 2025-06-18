@@ -10,8 +10,8 @@ namespace katzen {
  */
 struct Spacer : Widget {
   Spacer(unsigned int width, unsigned int height) {
-    bounds.min.x = width;
-    bounds.min.y = height;
+    m_bounds.min.x = width;
+    m_bounds.min.y = height;
   }
 
   Spacer(bool hexpand, bool vexpand) {

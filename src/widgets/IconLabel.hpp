@@ -29,6 +29,6 @@ struct IconLabel : Widget {
   void draw(Dctx &d) override;
 
 protected:
-  float measureSize(Axis axis) const override;
+  float measure(Axis axis) const override;
 };
 } // namespace katzen

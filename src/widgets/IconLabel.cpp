@@ -10,7 +10,7 @@ IconLabel::IconLabel(uint8_t iconId,
   if (setup) setup(*this);
 }
 
-float IconLabel::measureSize(Axis axis) const {
+float IconLabel::measure(Axis axis) const {
   float size = padding.get(axis);
 
   switch (axis) {
@@ -27,12 +27,12 @@ void IconLabel::repaint(Gctx g) {
   Gctx gLabel = gIcon;
 
   icon.setExternalBounds(g);
-  icon.updateSize();
+  icon.resize();
 
   gLabel.translateClip(Axis::X, icon.width() + spacing);
 
   label.setExternalBounds(g);
-  label.updateSize();
+  label.resize();
 
   Widget::repaint(g);
 
@@ -45,8 +45,8 @@ void IconLabel::repaint(Gctx g) {
     gIcon.translateY((labelHeight - iconHeight) / 2.0f);
   }
 
-  icon.position(gIcon);
-  label.position(gLabel);
+  icon.reposition(gIcon);
+  label.reposition(gLabel);
 }
 
 void IconLabel::draw(Dctx &d) {

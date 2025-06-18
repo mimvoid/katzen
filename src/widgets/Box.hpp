@@ -32,6 +32,6 @@ struct Box : Widget, Container {
 protected:
   float updateChildrenSize(Axis axis);
   float measureChildren(Axis axis) const;
-  float measureSize(Axis a) const override;
+  float measure(Axis a) const override;
 };
 } // namespace katzen

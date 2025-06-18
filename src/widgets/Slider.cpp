@@ -15,7 +15,7 @@ Slider::Slider(float initialValue,
 }
 
 void Slider::draw(Dctx &d) {
-  const Rectangle box = m_box;
+  const Rectangle box = m_rect;
 
   const float gap = d.borderWidth * 2;
   const Rectangle trough{
@@ -88,7 +88,7 @@ void Slider::draw(Dctx &d) {
   DrawRectangleRec(filledTrough, d.colors.border);
 }
 
-float Slider::measureSize(Axis axis) const {
+float Slider::measure(Axis axis) const {
   const float size =
       padding.get(axis)
       + (m_sizeScale * theme::getFontSize() * ((axis == direction) ? 4 : 1));

@@ -3,7 +3,7 @@
 
 namespace katzen {
 void Checkbox::draw(Dctx &d) {
-  const Rectangle box = m_box;
+  const Rectangle box = m_rect;
 
   if (updateState(d, box)) {
     checked = !checked;
@@ -25,7 +25,7 @@ void Checkbox::draw(Dctx &d) {
   }
 }
 
-float Checkbox::measureSize(Axis axis) const {
+float Checkbox::measure(Axis axis) const {
   const float size = (m_scale * theme::getFontSize()) + padding.get(axis);
   return clampSize(size, axis);
 }

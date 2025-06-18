@@ -25,7 +25,7 @@ struct Checkbox : Widget, Reactive {
   void draw(Dctx &d) override;
 
 protected:
-  float measureSize(Axis axis) const override;
+  float measure(Axis axis) const override;
 
 private:
   float m_scale;

@@ -9,7 +9,7 @@ Label::Label(std::string_view content,
   if (setup) setup(*this);
 }
 
-float Label::measureSize(Axis axis) const {
+float Label::measure(Axis axis) const {
   float size = padding.get(axis);
 
   if (axis == Axis::X || !willWrap()) {
@@ -28,10 +28,10 @@ float Label::measureSize(Axis axis) const {
 
 void Label::repaint(Gctx g) {
   setExternalBounds(g);
-  position(g);
+  reposition(g);
 
   text.updateSize();
-  updateSize();
+  resize();
 }
 
 void Label::draw(Dctx &d) {

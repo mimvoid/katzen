@@ -27,11 +27,11 @@ float Box::updateChildrenSize(Axis axis) {
       if (get(w->expand, axis)) {
         expandedChildren.push_back(w.get());
       } else {
-        set(w->externalBounds,
+        set(w->m_externalBounds,
             axis,
             (unsigned int)glm::max(0.0f,
                                    maxSize(axis) - padding.get(axis) - size));
-        w->updateSize(axis);
+        w->resize(axis);
         size += w->size(axis);
       }
     }
@@ -42,16 +42,16 @@ float Box::updateChildrenSize(Axis axis) {
           / expandedChildren.size();
 
       for (Widget *w : expandedChildren) {
-        set(w->externalBounds, axis, expandedSize);
-        w->updateSize(axis);
+        set(w->m_externalBounds, axis, expandedSize);
+        w->resize(axis);
         size += w->size(axis);
       }
     }
   } else {
     float maxChildSize = 0.0f;
     for (std::unique_ptr<Widget> &w : children) {
-      set(w->externalBounds, axis, maxSize(axis));
-      w->updateSize(axis);
+      set(w->m_externalBounds, axis, maxSize(axis));
+      w->resize(axis);
       maxChildSize = glm::max(w->size(axis), maxChildSize);
     }
     size += maxChildSize;
@@ -85,7 +85,7 @@ float Box::measureChildren(Axis axis) const {
   return size;
 }
 
-float Box::measureSize(Axis axis) const {
+float Box::measure(Axis axis) const {
   const float size = padding.get(axis) + measureChildren(axis);
   return clampSize(size, axis);
 }
@@ -94,14 +94,14 @@ void Box::repaint(Gctx g) {
   using std::unique_ptr;
 
   setExternalBounds(g);
-  position(g);
+  reposition(g);
 
-  m_box.w = glm::clamp(updateChildrenSize(Axis::X) + padding.get(Axis::X),
-                       (float)bounds.min.x,
+  m_rect.w = glm::clamp(updateChildrenSize(Axis::X) + padding.get(Axis::X),
+                       (float)m_bounds.min.x,
                        (float)maxWidth());
 
-  m_box.h = glm::clamp(updateChildrenSize(Axis::Y) + padding.get(Axis::Y),
-                       (float)bounds.min.y,
+  m_rect.h = glm::clamp(updateChildrenSize(Axis::Y) + padding.get(Axis::Y),
+                       (float)m_bounds.min.y,
                        (float)maxHeight());
 
   if (children.empty()) {
@@ -130,8 +130,8 @@ void Box::repaint(Gctx g) {
     if (get(w->expand, dirCopy)) {
       const unsigned int prevSize = glm::max(0.0f, w->size(dirCopy));
       w->repaint(gctx);
-      set(w->externalBounds, dirCopy, prevSize);
-      w->updateSize(dirCopy);
+      set(w->m_externalBounds, dirCopy, prevSize);
+      w->resize(dirCopy);
     } else {
       w->repaint(gctx);
     }

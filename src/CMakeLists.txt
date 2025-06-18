@@ -6,6 +6,7 @@ set(KATZEN_SOURCES
     components/Text.cpp
     theme/fonts.cpp
     theme/themer.cpp
+    widgets/Widget.cpp
     widgets/Box.cpp
     widgets/Checkbox.cpp
     widgets/Label.cpp

@@ -71,8 +71,8 @@ TEST_CASE("Stock max size", "[widget]") {
     const float newMaxWidth = g.w - 15.0f;
     const float newMaxHeight = g.h - 20.0f;
 
-    w.bounds.max.x = newMaxWidth;
-    w.bounds.max.y = newMaxHeight;
+    w.setMaxWidth(newMaxWidth);
+    w.setMaxHeight(newMaxHeight);
     w.repaint(g);
 
     REQUIRE(w.maxWidth() == newMaxWidth);
@@ -86,21 +86,21 @@ TEST_CASE("Stock min size", "[widget]") {
   w.repaint(g);
 
   SECTION("Minimum size is 0 by default") {
-    REQUIRE(w.bounds.min.x == 0);
-    REQUIRE(w.bounds.min.y == 0);
+    REQUIRE(w.minWidth() == 0);
+    REQUIRE(w.minHeight() == 0);
   }
 
   SECTION("Getting min size by axis is consistent") {
-    REQUIRE(w.minSize(Axis::X) == w.bounds.min.x);
-    REQUIRE(w.minSize(Axis::Y) == w.bounds.min.y);
+    REQUIRE(w.minSize(Axis::X) == w.minWidth());
+    REQUIRE(w.minSize(Axis::Y) == w.minHeight());
   }
 
   SECTION("Set minimum size to greater than Gctx bounds") {
     const unsigned int minWidth = g.w + 15.0f;
     const unsigned int minHeight = g.h + 20.0f;
 
-    w.bounds.min.x = minWidth;
-    w.bounds.min.y = minHeight;
+    w.setMinWidth(minWidth);
+    w.setMinHeight(minHeight);
     w.repaint(g);
 
     REQUIRE(w.maxWidth() == minWidth);

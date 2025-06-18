@@ -30,16 +30,16 @@ struct Button : Widget, Reactive {
 
   void repaint(Gctx g) override {
     setExternalBounds(g);
-    position(g);
+    reposition(g);
 
     g.pad(padding);
     child.repaint(g);
 
-    updateSize();
+    resize();
   }
 
   void draw(Dctx &d) override {
-    const Rectangle box = m_box;
+    const Rectangle box = m_rect;
 
     if (updateState(d, box) && callback) {
       callback();
@@ -54,7 +54,7 @@ struct Button : Widget, Reactive {
   }
 
 protected:
-  float measureSize(Axis axis) const override {
+  float measure(Axis axis) const override {
     const float size = child.size(axis) + padding.get(axis);
     return clampSize(size, axis);
   }
