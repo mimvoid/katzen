@@ -5,18 +5,19 @@
 #include "../src/widgets.hpp"
 
 int main(void) {
+  using katzen::theme::FontStyle;
+
   SetConfigFlags(FLAG_WINDOW_HIGHDPI | FLAG_WINDOW_RESIZABLE
                  | FLAG_WINDOW_MAXIMIZED);
   InitWindow(960, 720, "katzen Widget Factory");
   SetTargetFPS(60);
   SetWindowFocused();
 
-  // Set up katzen fonts
-  katzen::theme::loadFont(GetFontDefault());
-  katzen::theme::setFontProperties(18, 2.0f);
-
-  const size_t titleId = katzen::theme::loadFont(GetFontDefault());
-  katzen::theme::setFontProperties(48, 2.0f, titleId);
+  // Set up font styles
+  Font font = GetFontDefault();
+  FontStyle bodyStyle(font, 18.0f, 2.0f);
+  FontStyle titleStyle(font, 36.0f, 2.0f);
+  katzen::theme::setFontStyle(bodyStyle);
 
   // Root and widget creation
   katzen::Root<katzen::Box> root(
@@ -27,20 +28,21 @@ int main(void) {
    * It's recommended to emplace them to avoid multiple allocations.
    */
   root.child.emplaceBack<katzen::IconLabel>(katzen::KatzIcon::CAT_HEAD,
-                                        "katzen Widget Factory",
-                                        titleId,
-                                        [](katzen::IconLabel &self) {
-                                          /**
-                                           * An example of a setup function. The
-                                           * widget calls it on itself after the
-                                           * rest of it is initialized.
-                                           *
-                                           * It's a way to set properties that
-                                           * are not specified in the
-                                           * constructor.
-                                           */
-                                          self.icon.scale(2);
-                                        });
+                                            "katzen Widget Factory",
+                                            titleStyle,
+                                            [](katzen::IconLabel &self) {
+                                              /**
+                                               * An example of a setup function.
+                                               * The widget calls it on itself
+                                               * after the rest of it is
+                                               * initialized.
+                                               *
+                                               * It's a way to set properties
+                                               * that are not specified in the
+                                               * constructor.
+                                               */
+                                              self.icon.scale(2);
+                                            });
 
   root.child.emplaceBack<katzen::Label>(
       "Introducing katzen, a dynamic retained mode GUI library written with raylib and C++17!");
@@ -99,5 +101,6 @@ int main(void) {
     EndDrawing();
   }
 
+  UnloadFont(font);
   CloseWindow();
 }

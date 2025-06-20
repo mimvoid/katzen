@@ -1,24 +1,18 @@
 #pragma once
 #include <raylib.h>
-#include <string_view>
-#include "ThemeFont.hpp"
+#include "FontStyle.hpp"
 
 namespace katzen::theme {
-std::size_t loadFont(Font &&font);
-std::size_t loadFont(std::string_view filePath);
-std::size_t loadFont(std::string_view filePath,
-                     float preferredSize,
-                     int codepointCount = 0);
+FontStyle loadDefaultFontStyle();
+void setFontStyle(FontStyle style);
 
-std::size_t defaultFontId();
-void setDefaultFont(std::size_t fontId);
+FontStyle &getFontStyle();
+Font getFont();
 
-const ThemeFont &getThemeFont(std::size_t fontId = defaultFontId());
-const Font &getFont(std::size_t fontId = defaultFontId());
-float getFontSize(std::size_t fontId = defaultFontId());
-float getFontSpacing(std::size_t fontId = defaultFontId());
+float getFontSize();
+float getFontSpacing();
 
-void setFontProperties(float size, float spacing, std::size_t fontId = defaultFontId());
-void setFontSize(float size, std::size_t fontId = defaultFontId());
-void setFontSpacing(float spacing, std::size_t fontId = defaultFontId());
+void setFontProperties(float size, float spacing);
+void setFontSize(float size);
+void setFontSpacing(float spacing);
 } // namespace katzen::theme

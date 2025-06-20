@@ -5,23 +5,23 @@
 
 namespace katzen {
 struct IconLabel : Widget {
-  const static int spacing = 4;
+  int spacing;
   Icon icon;
   Label label;
 
   IconLabel(uint8_t iconId,
             std::string_view text,
-            std::size_t fontId = theme::defaultFontId(),
+            theme::FontStyle &style = theme::getFontStyle(),
             std::function<void(IconLabel &)> setup =
                 std::function<void(IconLabel &)>());
 
   template <typename E>
   IconLabel(E enumIconId,
             std::string_view text,
-            std::size_t fontId = theme::defaultFontId(),
+            theme::FontStyle &style = theme::getFontStyle(),
             std::function<void(IconLabel &)> setup =
                 std::function<void(IconLabel &)>())
-      : icon(enumIconId), label(text, fontId) {
+      : spacing(style.fontSize() / 4), icon(enumIconId), label(text, style) {
     if (setup) setup(*this);
   }
 

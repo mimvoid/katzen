@@ -32,10 +32,10 @@ set(KATZEN_HEADERS
     components/Text.hpp
     components/Reactive.hpp
     components/scales.hpp
-    theme/themer.hpp
     theme/fonts.hpp
+    theme/FontStyle.hpp
     theme/Theme.hpp
-    theme/ThemeFont.hpp
+    theme/themer.hpp
     widgets/Widget.hpp
     widgets/Spacer.hpp
     widgets/Box.hpp

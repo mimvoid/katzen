@@ -3,15 +3,15 @@
 #include <string_view>
 #include "../core/Axis.hpp"
 #include "../core/vectors.hpp"
-#include "../theme/fonts.hpp"
+#include "../theme/FontStyle.hpp"
 
 namespace katzen {
 struct Text {
   std::string_view content;
-  const theme::ThemeFont &font;
+  theme::FontStyle &style;
 
-  Text(std::string_view content, std::size_t fontId = theme::defaultFontId())
-      : content(content), font(theme::getThemeFont(fontId)) {
+  Text(std::string_view content, theme::FontStyle &style)
+      : content(content), style(style) {
     updateSize();
   }
 
@@ -29,10 +29,8 @@ struct Text {
 
   constexpr Vec2 measureSize() const {
     if (content.empty()) return {0.0f, 0.0f};
-
-    const Vector2 textSize =
-        MeasureTextEx(font.font, content.data(), font.fontSize(), font.spacing);
-    return {textSize.x, textSize.y};
+    return MeasureTextEx(
+        style.font, content.data(), style.fontSize(), style.spacing);
   }
 
   constexpr float measureWidth() const { return measureSize().x; }

@@ -4,9 +4,9 @@
 namespace katzen {
 IconLabel::IconLabel(uint8_t iconId,
                      std::string_view text,
-                     std::size_t fontId,
+                     theme::FontStyle &style,
                      std::function<void(IconLabel &)> setup)
-    : icon(iconId), label(text, fontId) {
+    : spacing(style.fontSize() / 4), icon(iconId), label(text, style) {
   if (setup) setup(*this);
 }
 

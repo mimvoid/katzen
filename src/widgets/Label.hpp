@@ -2,6 +2,7 @@
 #include <functional>
 #include <string_view>
 #include "../components/Text.hpp"
+#include "../theme/fonts.hpp"
 #include "Widget.hpp"
 
 namespace katzen {
@@ -15,8 +16,8 @@ struct Label : Widget {
   bool wrapWords;
 
   Label(std::string_view content,
+        theme::FontStyle &style = theme::getFontStyle(),
         bool wrapWords = true,
-        std::size_t fontId = theme::defaultFontId(),
         std::function<void(Label &)> setup = std::function<void(Label &)>());
 
   constexpr bool willWrap() const {

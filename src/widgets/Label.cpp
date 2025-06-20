@@ -3,10 +3,10 @@
 
 namespace katzen {
 Label::Label(std::string_view content,
+             theme::FontStyle &style,
              bool wrapWords,
-             std::size_t fontId,
              std::function<void(Label &)> setup)
-    : text(content, fontId), wrapWords(wrapWords) {
+    : text(content, style), wrapWords(wrapWords) {
   if (setup) setup(*this);
 }
 
