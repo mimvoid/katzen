@@ -16,7 +16,7 @@ namespace katzen {
  * Since Root only holds one widget, it is recommended to use a container widget
  * like Box to hold multiple widgets and handle the layout.
  */
-template <typename T>
+template <class T>
 struct Root {
   static_assert(std::is_base_of_v<Widget, T>,
                 "A katzen Root must have a child derived from Widget");
@@ -29,11 +29,11 @@ struct Root {
 
   // Construct the Root object's child widget in-place.
   template <typename... Args>
-  Root(Args &&...args) : child(std::forward<Args>(args)...), m_g(Gctx::init()) {
+  Root(Args &&...args) : child(std::forward<Args>(args)...) {
     repaint();
   }
 
-  Root(const T &child) : child(child), m_g(Gctx::init()) { repaint(); }
+  Root(const T &child) : child(child) { repaint(); }
 
   // Call this when it is needed to manually repaint or update the state.
   void repaint() {
@@ -60,24 +60,20 @@ struct Root {
 
   // A shortcut to draw the child widget.
   void draw() {
+    const theme::Theme &t = theme::getTheme();
+
     if (drawBackground) {
-      ClearBackground(m_bgColor);
+      ClearBackground(t.backgroundColor);
     }
 
-    const theme::Theme &t = theme::getCurrentTheme();
-    Dctx d{t.borderWidth,
-           t.borderRadius,
-           t.iconSize,
-           theme::getStateColors(State::NORMAL)};
-
+    Dctx d{t.borderWidth, t.borderRadius, t.iconSize, t.normal};
     child.draw(d);
 
     SetMouseCursor(d.cursor);
   }
 
 private:
-  Gctx m_g;
-  Color m_bgColor = theme::getProperty(theme::ColorProp::BACKGROUND);
+  Gctx m_g = Gctx::init();
   bool m_repaintedLastFrame = false;
 
   /**

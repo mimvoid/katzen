@@ -9,15 +9,13 @@ namespace katzen {
 struct Icon : Widget {
   friend struct IconLabel;
 
-  Icon(uint8_t id,
-       uint8_t iconScale = theme::getProperty(theme::UIntProp::ICON_SIZE)) {
+  Icon(uint8_t id, uint8_t iconScale = theme::getTheme().iconSize) {
     setId(id);
     scale(iconScale);
   }
 
   template <typename E>
-  Icon(E iconEnumId,
-       uint8_t iconScale = theme::getProperty(theme::UIntProp::ICON_SIZE)) {
+  Icon(E iconEnumId, uint8_t iconScale = theme::getTheme().iconSize) {
     setId(iconEnumId);
     scale(iconScale);
   }

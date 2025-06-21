@@ -1,16 +1,7 @@
 #pragma once
-#include <raylib.h>
-#include <cstdint>
+#include "State.hpp"
 
 namespace katzen {
-enum class State : uint8_t { NORMAL, DISABLED, FOCUS, ACTIVE };
-
-struct StateColors {
-  Color border;
-  Color base;
-  Color text;
-};
-
 /**
  * A drawing context, which keeps track of simple theme variables for fewer
  * lookups, and stores a widget state that can be passed to children.

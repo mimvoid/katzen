@@ -26,6 +26,7 @@ set(KATZEN_HEADERS
     core/Edges.hpp
     core/Gctx.hpp
     core/Rect.hpp
+    core/State.hpp
     core/vectors.hpp
     components/Container.hpp
     components/icons.hpp
