@@ -17,6 +17,12 @@ struct Widget {
   // modify their children with less overhead.
   friend struct Box;
 
+  struct Props {
+    Edges padding{0, 0, 0, 0};
+    BVec2 expand{false, false};
+    Bounds bounds{{0, 0}, {UINT_MAX, UINT_MAX}};
+  };
+
   Edges padding{0, 0, 0, 0};
   BVec2 expand{false, false};
 
@@ -149,6 +155,14 @@ struct Widget {
   virtual void draw(Dctx &d) = 0;
 
 protected:
+  constexpr Widget() = default;
+
+  inline Widget(Edges padding, BVec2 expand, Bounds bounds)
+      : padding(padding), expand(expand), m_bounds(bounds) {}
+
+  inline Widget(Props props)
+      : Widget(props.padding, props.expand, props.bounds) {}
+
   Rect m_rect{0, 0, 0, 0};
 
   // Minimum and maximum sizes intrinsic to the Widget.

@@ -29,7 +29,7 @@ Vec2 Box::remeasureChildren() {
   const unsigned int maxDir = maxSize(direction) - padding.get(direction);
   const unsigned int maxFlipDir = maxSize(flipDir) - padding.get(flipDir);
 
-  for (std::unique_ptr<Widget> &w : children) {
+  for (value_type &w : children) {
     // Box direction
     if (get(w->expand, direction)) {
       expandedChildren.push_back(w.get());
@@ -73,7 +73,7 @@ float Box::measureChildren(Axis axis) const {
   if (axis == direction) {
     float childrenSize = spacing * (children.size() - 1);
 
-    for (const std::unique_ptr<Widget> &w : children) {
+    for (const value_type &w : children) {
       if (get(w->expand, axis)) return maxSize(axis) - padding.get(axis);
       childrenSize += w->size(axis);
     }
@@ -83,7 +83,7 @@ float Box::measureChildren(Axis axis) const {
 
   float maxChildSize = 0.0f;
 
-  for (const std::unique_ptr<Widget> &w : children) {
+  for (const value_type &w : children) {
     if (get(w->expand, axis)) return maxSize(axis) - padding.get(axis);
     maxChildSize = std::max(w->size(axis), maxChildSize);
   }
@@ -170,7 +170,7 @@ void Box::draw(Dctx &d) {
   const State savedState = d.state;
   const StateColors savedColors = d.colors;
 
-  for (std::unique_ptr<Widget> &w : children) {
+  for (value_type &w : children) {
     w->draw(d);
 
     // Reset

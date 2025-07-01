@@ -9,18 +9,26 @@ template <typename T>
 struct rect_t {
   static_assert(std::is_arithmetic_v<T>,
                 "A katzen rect_t must contain an arithmetic type.");
-  T x, y, w, h;
+  using value_type = T;
 
-  constexpr bool operator==(const rect_t &other) const {
-    return (x == other.x) && (y == other.y) && (w == other.w) && (h == other.h);
+  T x = 0;
+  T y = 0;
+  T w = 0;
+  T h = 0;
+
+  constexpr bool operator==(const rect_t &that) const {
+    return (x == that.x) && (y == that.y) && (w == that.w) && (h == that.h);
   }
-  constexpr bool operator!=(const rect_t &other) const {
-    return (x != other.x) || (y != other.y) || (w != other.w) || (h != other.h);
+  constexpr bool operator!=(const rect_t &that) const {
+    return !(*this == that);
   }
 
+  // Convert to raylib Rectangle
   constexpr operator Rectangle() const {
-    // Convert to raylib Rectangle
-    return {(float)x, (float)y, (float)w, (float)h};
+    return {static_cast<float>(x),
+            static_cast<float>(y),
+            static_cast<float>(w),
+            static_cast<float>(h)};
   }
 
   constexpr T position(Axis axis) const {

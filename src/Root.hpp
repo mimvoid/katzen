@@ -3,7 +3,7 @@
 #include <type_traits>
 #include <utility>
 #include "core/Align.hpp"
-#include "theme/themer.hpp"
+#include "theme.hpp"
 #include "widgets/Widget.hpp"
 
 namespace katzen {
@@ -60,13 +60,14 @@ struct Root {
 
   // A shortcut to draw the child widget.
   void draw() {
-    const theme::Theme &t = theme::getTheme();
-
     if (drawBackground) {
-      ClearBackground(t.backgroundColor);
+      ClearBackground(theme::theme.backgroundColor);
     }
 
-    Dctx d{t.borderWidth, t.borderRadius, t.iconSize, t.normal};
+    Dctx d{theme::theme.borderWidth,
+           theme::theme.borderRadius,
+           theme::theme.iconSize,
+           theme::theme.normal};
     child.draw(d);
 
     SetMouseCursor(d.cursor);

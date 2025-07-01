@@ -11,26 +11,21 @@ struct Edges {
   int bottom = 0;
   int left = 0;
 
-  constexpr Edges(int top, int right, int bottom, int left)
+  constexpr Edges(int top, int right, int bottom, int left) noexcept
       : top(top), right(right), bottom(bottom), left(left) {}
 
-  constexpr Edges(int top, int x, int bottom)
-      : top(top), right(x), bottom(bottom), left(x) {}
-
-  constexpr Edges(int y, int x) : Edges(y, x, y, x) {}
-
-  constexpr Edges(int val) : Edges(val, val) {}
-
-  constexpr Edges() {}
+  constexpr Edges(int top, int x, int bottom) noexcept
+      : Edges(top, x, bottom, x) {}
+  constexpr Edges(int y, int x) noexcept : Edges(y, x, y, x) {}
+  constexpr Edges(int val) noexcept : Edges(val, val) {}
+  constexpr Edges() noexcept {}
 
   constexpr bool operator==(const Edges &other) const {
     return (top == other.top) && (right == other.right)
            && (bottom == other.bottom) && (left == other.left);
   }
-
   constexpr bool operator!=(const Edges &other) const {
-    return (top != other.top) || (right != other.right)
-           || (bottom != other.bottom) || (left != other.left);
+    return !(*this == other);
   }
 
   constexpr int get(Edge edge) const {

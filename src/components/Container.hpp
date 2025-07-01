@@ -9,7 +9,8 @@ namespace katzen {
                 "A katzen Container can only have derivatives of Widget.");
 
 struct Container {
-  std::vector<std::unique_ptr<Widget>> children{};
+  using value_type = std::unique_ptr<Widget>;
+  std::vector<value_type> children{};
 
   template <class T>
   void pushBack(T &&child) {

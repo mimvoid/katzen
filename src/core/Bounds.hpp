@@ -10,9 +10,8 @@ struct Bounds {
   constexpr bool operator==(const Bounds &other) const {
     return (min == other.min) && (max == other.max);
   }
-
   constexpr bool operator!=(const Bounds &other) const {
-    return (min != other.min) || (max != other.max);
+    return !(*this == other);
   }
 
   // Set the minimum width, increasing the maximum width if needed.

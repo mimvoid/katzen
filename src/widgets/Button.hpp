@@ -9,15 +9,17 @@ namespace katzen {
 /**
  * A widget that calls a function when pressed.
  */
-template <class T>
+template <class ChildWidgetT>
 struct Button : Widget, Reactive {
-  static_assert(std::is_base_of_v<Widget, T>,
+  static_assert(std::is_base_of_v<Widget, ChildWidgetT>,
                 "A katzen Button must have a child derived from Widget");
+  using value_type = ChildWidgetT;
 
-  T child;
+  ChildWidgetT child;
   std::function<void()> callback;
 
-  Button(T &&child, std::function<void()> callback = std::function<void()>())
+  Button(ChildWidgetT &&child,
+         std::function<void()> callback = std::function<void()>())
       : child(std::move(child)), callback(callback) {
     padding.set(8);
   }

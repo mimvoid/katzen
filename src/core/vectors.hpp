@@ -5,25 +5,28 @@
 namespace katzen {
 template <typename T>
 struct vec2_t {
-  T x;
-  T y;
+  using value_type = T;
+
+  T x = 0;
+  T y = 0;
 
   // Explicit constructors
 
-  constexpr vec2_t() : x(0), y(0) {}
-  constexpr vec2_t(T val) : x(val), y(val) {}
-  constexpr vec2_t(T x, T y) : x(x), y(y) {}
+  constexpr vec2_t() noexcept {}
+  constexpr vec2_t(T val) noexcept : x(val), y(val) {}
+  constexpr vec2_t(T x, T y) noexcept : x(x), y(y) {}
 
   // Conversion constructors
 
   template <typename A, typename B>
-  constexpr vec2_t(A x, B y) : x(static_cast<T>(x)), y(static_cast<T>(y)) {}
+  constexpr vec2_t(A x, B y) noexcept
+      : x(static_cast<T>(x)), y(static_cast<T>(y)) {}
 
   template <typename A>
-  constexpr vec2_t(const vec2_t<A> &that)
+  constexpr vec2_t(const vec2_t<A> &that) noexcept
       : x(static_cast<T>(that.x)), y(static_cast<T>(that.y)) {}
 
-  constexpr vec2_t(const Vector2 &that)
+  constexpr vec2_t(const Vector2 &that) noexcept
       : x(static_cast<T>(that.x)), y(static_cast<T>(that.y)) {}
 
   // Operators
@@ -35,9 +38,8 @@ struct vec2_t {
   constexpr bool operator==(const vec2_t &that) const {
     return (x == that.x) && (y == that.y);
   }
-
   constexpr bool operator!=(const vec2_t &that) const {
-    return (x != that.x) || (y != that.y);
+    return !(*this == that);
   }
 };
 

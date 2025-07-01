@@ -2,20 +2,18 @@
 #include <cstdint>
 #include <type_traits>
 #include "../components/icons.hpp"
-#include "../theme/themer.hpp"
+#include "../theme.hpp"
 #include "Widget.hpp"
 
 namespace katzen {
 struct Icon : Widget {
   friend struct IconLabel;
 
-  Icon(uint8_t id, uint8_t iconScale = theme::getTheme().iconSize) {
-    setId(id);
-    scale(iconScale);
-  }
+  constexpr Icon(uint8_t id, uint8_t iconScale = theme::theme.iconSize)
+      : m_iconId(id), m_scale(iconScale >= 1 ? iconScale : 1) {}
 
   template <typename E>
-  Icon(E iconEnumId, uint8_t iconScale = theme::getTheme().iconSize) {
+  Icon(E iconEnumId, uint8_t iconScale = theme::theme.iconSize) {
     setId(iconEnumId);
     scale(iconScale);
   }
@@ -30,7 +28,7 @@ struct Icon : Widget {
   }
 
   constexpr uint8_t scale() const { return m_scale; }
-  constexpr void scale(int size) { m_scale = std::max(1, size); }
+  constexpr void scale(uint8_t size) { m_scale = size >= 1 ? size : 1; }
 
   constexpr int measureIcon() const { return m_scale * RAYGUI_ICON_SIZE; }
 

@@ -1,6 +1,19 @@
-#include "themer.hpp"
+#pragma once
+#include "core/State.hpp"
 
 namespace katzen::theme {
+struct Theme {
+  uint8_t borderWidth;
+  uint8_t borderRadius;
+  uint8_t iconSize;
+  Color backgroundColor;
+
+  StateColors normal;
+  StateColors disabled;
+  StateColors focus;
+  StateColors active;
+};
+
 static Theme theme{
     2,
     0,
@@ -11,13 +24,7 @@ static Theme theme{
     {{248, 149, 155, 255}, {250, 214, 190, 255}, {39, 39, 42, 255}},
     {{54, 47, 64, 255}, {213, 132, 134, 255}, {252, 229, 233, 255}}};
 
-Theme &getTheme() { return theme; }
-Theme &setTheme(Theme newTheme) {
-  theme = newTheme;
-  return theme;
-}
-
-StateColors &getStateColors(State state) {
+constexpr StateColors &getStateColors(State state) {
   switch (state) {
   case State::DISABLED: return theme.disabled;
   case State::FOCUS:    return theme.focus;

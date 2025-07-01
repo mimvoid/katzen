@@ -5,6 +5,15 @@
 
 namespace katzen {
 struct Slider : Widget, Reactive {
+  using Callback = std::function<void(float)>;
+
+  struct Props : Widget::Props {
+    float value = 0;
+    Axis direction = Axis::X;
+    float scale = 1.0f;
+    Callback callback = Callback();
+  };
+
   Axis direction;
   std::function<void(float)> callback;
 

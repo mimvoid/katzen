@@ -1,5 +1,6 @@
 #pragma once
-#include "../theme/themer.hpp"
+#include "../core/Dctx.hpp"
+#include "../theme.hpp"
 
 namespace katzen {
 /**
@@ -11,14 +12,14 @@ public:
   constexpr State state() const { return m_state; }
   constexpr bool enabled() const { return m_state != State::DISABLED; }
 
-  void enable() {
+  constexpr void enable() {
     if (m_state == State::DISABLED) {
       m_state = State::NORMAL;
     }
   }
 
-  void disable() { m_state = State::DISABLED; }
-  void toggle() { m_state == State::DISABLED ? enable() : disable(); }
+  constexpr void disable() { m_state = State::DISABLED; }
+  constexpr void toggle() { m_state == State::DISABLED ? enable() : disable(); }
 
 protected:
   State m_state = State::NORMAL;

@@ -5,7 +5,6 @@ set(KATZEN_SOURCES
     components/textHelpers.cpp
     components/Text.cpp
     theme/fonts.cpp
-    theme/themer.cpp
     widgets/Widget.cpp
     widgets/Box.cpp
     widgets/Checkbox.cpp
@@ -17,6 +16,7 @@ set(KATZEN_SOURCES
 set(KATZEN_HEADERS
     katzen.hpp
     core.hpp
+    theme.hpp
     widgets.hpp
     Root.hpp
     core/Align.hpp
@@ -35,8 +35,6 @@ set(KATZEN_HEADERS
     components/scales.hpp
     theme/fonts.hpp
     theme/FontStyle.hpp
-    theme/Theme.hpp
-    theme/themer.hpp
     widgets/Widget.hpp
     widgets/Spacer.hpp
     widgets/Box.hpp

@@ -9,6 +9,8 @@ namespace katzen {
  * margins, and padding first.
  */
 struct Spacer : Widget {
+  using Props = Widget::Props;
+
   Spacer(unsigned int width, unsigned int height) {
     m_bounds.min.x = width;
     m_bounds.min.y = height;
@@ -19,6 +21,8 @@ struct Spacer : Widget {
     expand.y = vexpand;
   }
 
-  void draw(Dctx &d) override {}
+  Spacer(Props props) : Widget(props) {}
+
+  void draw([[maybe_unused]] Dctx &d) override {}
 };
 } // namespace katzen
