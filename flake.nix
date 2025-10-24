@@ -27,10 +27,7 @@
             pkgs.ninja
           ];
 
-          buildInputs = [
-            pkgs.raylib
-            pkgs.glm
-          ];
+          buildInputs = [ pkgs.raylib ];
         };
       });
 
@@ -49,7 +46,6 @@
 
             # Libraries
             (raylib.override { platform = "SDL"; })
-            glm
             catch2_3
           ];
 
