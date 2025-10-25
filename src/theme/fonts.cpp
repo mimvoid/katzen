@@ -1,5 +1,6 @@
-#include "fonts.hpp"
+#include "../../include/theme/fonts.hpp"
 #include <raylib.h>
+#include <cassert>
 #include <optional>
 
 namespace katzen::theme {
@@ -16,17 +17,16 @@ FontStyle loadDefaultFontStyle() {
 
 void setFontStyle(FontStyle style) { defaultFontStyle = style; }
 
-FontStyle &getFontStyle() { return defaultFontStyle.value(); }
-Font getFont() { return defaultFontStyle->font; }
+FontStyle &fontStyle() { return defaultFontStyle.value(); }
+Font font() { return defaultFontStyle->font; }
 
-float getFontSize() { return defaultFontStyle->fontSize(); }
-float getFontSpacing() { return defaultFontStyle->spacing; }
+float fontSize() { return defaultFontStyle->size(); }
+float fontSpacing() { return defaultFontStyle->spacing; }
 
 void setFontProperties(float size, float spacing) {
-  defaultFontStyle->fontSize(size);
-  defaultFontStyle->spacing = spacing;
+  setFontSize(size);
+  setFontSpacing(spacing);
 }
-
-void setFontSize(float size) { defaultFontStyle->fontSize(size); }
+void setFontSize(float size) { defaultFontStyle->setSize(size); }
 void setFontSpacing(float spacing) { defaultFontStyle->spacing = spacing; }
 } // namespace katzen::theme

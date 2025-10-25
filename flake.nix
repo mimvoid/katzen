@@ -6,10 +6,7 @@
   outputs = { self, nixpkgs }:
     let
       allSystems = nixpkgs.lib.genAttrs nixpkgs.lib.platforms.all;
-
-      toSystems = passPkgs: allSystems (system:
-        passPkgs (import nixpkgs { inherit system; })
-      );
+      toSystems = passPkgs: allSystems (system: passPkgs (import nixpkgs { inherit system; }));
     in
     {
       packages = toSystems (pkgs: {
@@ -32,27 +29,27 @@
       });
 
       devShells = toSystems (pkgs: {
-        default = pkgs.mkShell {
+        default = pkgs.mkShellNoCC {
+          name = "katzen";
+
+          nativeBuildInputs = [
+            pkgs.clang
+          ];
+
           packages = with pkgs; [
             # C++
             libcxx
             libcxxrt
 
             # Development tools
-            clang
             clang-tools
             cmake
             ninja
 
             # Libraries
-            (raylib.override { platform = "SDL"; })
-            catch2_3
+            (pkgs.raylib.override { platform = "SDL"; })
+            pkgs.catch2_3
           ];
-
-          shellHook = ''
-            export CC=${pkgs.clang}/bin/clang
-            export CXX=${pkgs.clang}/bin/clang++
-          '';
         };
       });
     };

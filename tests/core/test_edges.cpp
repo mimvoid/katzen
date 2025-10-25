@@ -1,5 +1,5 @@
 #include <catch2/catch_test_macros.hpp>
-#include "../../src/core/Edges.hpp"
+#include "../../include/core/Edges.hpp"
 
 using katzen::Edge;
 using katzen::Edges;
@@ -54,11 +54,6 @@ TEST_CASE("Construct Edges", "[edges]") {
     REQUIRE(Edges(1, 2) == expected);
   }
 
-  SECTION("Initialize with three values") {
-    const Edges expected{2, 1, 3, 1};
-    REQUIRE(Edges(2, 1, 3) == expected);
-  }
-
   SECTION("Initialize with four values") {
     const Edges expected{1, 2, 3, 4};
     REQUIRE(Edges(1, 2, 3, 4) == expected);
@@ -111,8 +106,8 @@ TEST_CASE("Set value by enum", "[edges]") {
 TEST_CASE("Get values by axis", "[edges]") {
   const Edges edges{1, 2, 3, 4};
 
-  REQUIRE(edges.get(katzen::Axis::X) == 6);
-  REQUIRE(edges.get(katzen::Axis::Y) == 4);
+  REQUIRE(edges.getSum(katzen::Axis::X) == 6);
+  REQUIRE(edges.getSum(katzen::Axis::Y) == 4);
 }
 
 TEST_CASE("Set field values", "[edges]") {
@@ -129,14 +124,6 @@ TEST_CASE("Set field values", "[edges]") {
     edges.set(5, 6);
 
     const Edges result{5, 6, 5, 6};
-    REQUIRE(edges == result);
-  }
-
-  SECTION("Three values") {
-    Edges edges{1, 2, 3, 4};
-    edges.set(5, 7, 6);
-
-    const Edges result{5, 7, 6, 7};
     REQUIRE(edges == result);
   }
 }

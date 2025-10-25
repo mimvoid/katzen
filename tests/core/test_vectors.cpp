@@ -1,5 +1,5 @@
 #include <catch2/catch_test_macros.hpp>
-#include "../../src/core/vectors.hpp"
+#include "../../include/core/vectors.hpp"
 
 using katzen::Axis;
 using katzen::Vec2;

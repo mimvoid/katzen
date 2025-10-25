@@ -1,5 +1,5 @@
 #include <catch2/catch_test_macros.hpp>
-#include "../../src/core/Align.hpp"
+#include "../../include/core/Align.hpp"
 
 using katzen::Align;
 using katzen::offset;

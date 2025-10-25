@@ -1,17 +1,9 @@
-#include "Label.hpp"
+#include "../../include/widgets/Label.hpp"
 #include <cmath>
 
 namespace katzen {
-Label::Label(std::string_view content,
-             theme::FontStyle &style,
-             bool wrapWords,
-             std::function<void(Label &)> setup)
-    : text(content, style), wrapWords(wrapWords) {
-  if (setup) setup(*this);
-}
-
 float Label::measure(Axis axis) const {
-  float size = padding.get(axis);
+  float size = padding.getSum(axis);
 
   if (axis == Axis::X || !willWrap()) {
     size += text.size(axis);
@@ -19,7 +11,7 @@ float Label::measure(Axis axis) const {
     // Estimate the height after text wrapping
     // It's not perfect, but it's simple
     const int lines =
-        std::ceil(text.width() / (maxWidth() - padding.get(Axis::X)));
+        std::ceil(text.width() / (maxWidth() - padding.getSum(Axis::X)));
 
     size += text.height() * lines;
   }
@@ -28,7 +20,7 @@ float Label::measure(Axis axis) const {
 }
 
 void Label::repaint(Gctx g) {
-  setExternalBounds(g);
+  setBounds(g);
   reposition(g);
 
   text.updateSize();
@@ -43,8 +35,8 @@ void Label::draw(Dctx &d) {
   if (willWrap()) {
     text.drawWrapped({p.x,
                       p.y,
-                      width() - padding.get(Axis::X),
-                      height() - padding.get(Axis::Y)},
+                      width() - padding.getSum(Axis::X),
+                      height() - padding.getSum(Axis::Y)},
                      d.colors.text);
   } else {
     text.draw(p, d.colors.text);

@@ -1,13 +1,14 @@
-#include "Widget.hpp"
+#include "../../include/widgets/Widget.hpp"
 
 namespace katzen {
 void Widget::repaint(Gctx g) {
-  setExternalBounds(g);
+  setBounds(g);
   reposition(g);
   resize();
 }
 
 float Widget::measure(Axis axis) const {
-  return std::clamp(padding.get(axis), (int)minSize(axis), (int)maxSize(axis));
+  return std::clamp(
+      padding.getSum(axis), (int)get(minSize, axis), (int)get(m_bounds, axis));
 }
 } // namespace katzen

@@ -1,19 +1,9 @@
-#include "Slider.hpp"
+#include "../../include/widgets/Slider.hpp"
 #include <raylib.h>
-#include "../components/scales.hpp"
-#include "../theme/fonts.hpp"
+#include "../../include/parts/scales.hpp"
+#include "../../include/theme/fonts.hpp"
 
 namespace katzen {
-Slider::Slider(float initialValue,
-               Axis direction,
-               float sizeScale,
-               std::function<void(float)> callback,
-               std::function<void(Slider &)> setup)
-    : direction(direction), callback(callback), m_sizeScale(sizeScale) {
-  value(initialValue);
-  if (setup) setup(*this);
-}
-
 void Slider::draw(Dctx &d) {
   const Rectangle box = m_rect;
 
@@ -58,7 +48,7 @@ void Slider::draw(Dctx &d) {
     newValue = std::clamp(newValue, 0.0f, 1.0f);
     if (newValue != prevValue) {
       m_value = newValue;
-      if (callback) callback(newValue);
+      if (onValueChange) onValueChange(newValue);
     }
   }
 
@@ -90,8 +80,8 @@ void Slider::draw(Dctx &d) {
 
 float Slider::measure(Axis axis) const {
   const float size =
-      padding.get(axis)
-      + (m_sizeScale * theme::getFontSize() * ((axis == direction) ? 4 : 1));
+      padding.getSum(axis)
+      + (m_sizeScale * theme::fontSize() * ((axis == direction) ? 4 : 1));
 
   return clampSize(size, axis);
 }

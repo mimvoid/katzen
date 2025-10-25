@@ -1,5 +1,5 @@
-#include "Checkbox.hpp"
-#include "../theme/fonts.hpp"
+#include "../../include/widgets/Checkbox.hpp"
+#include "../../include/theme/fonts.hpp"
 
 namespace katzen {
 void Checkbox::draw(Dctx &d) {
@@ -7,7 +7,7 @@ void Checkbox::draw(Dctx &d) {
 
   if (updateState(d, box)) {
     checked = !checked;
-    if (callback) callback(checked);
+    if (onCheck) onCheck(checked);
   }
 
   DrawRectangleRec(box, d.colors.base);
@@ -26,7 +26,7 @@ void Checkbox::draw(Dctx &d) {
 }
 
 float Checkbox::measure(Axis axis) const {
-  const float size = (m_scale * theme::getFontSize()) + padding.get(axis);
+  const float size = (m_scale * theme::fontSize()) + padding.getSum(axis);
   return clampSize(size, axis);
 }
 } // namespace katzen
