@@ -12,7 +12,7 @@ struct Dctx {
   const uint8_t iconSize;
 
   StateColors colors;
-  State state = State::NORMAL;
-  uint8_t cursor = MOUSE_CURSOR_DEFAULT;
+  State state{State::NORMAL};
+  uint8_t cursor{MOUSE_CURSOR_DEFAULT};
 };
 } // namespace katzen

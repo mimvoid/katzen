@@ -6,10 +6,10 @@ namespace katzen {
 enum class Edge : uint8_t { TOP, RIGHT, BOTTOM, LEFT };
 
 struct Edges {
-  int top = 0;
-  int right = 0;
-  int bottom = 0;
-  int left = 0;
+  int top{0};
+  int right{0};
+  int bottom{0};
+  int left{0};
 
   constexpr Edges(int top, int right, int bottom, int left) noexcept
       : top(top), right(right), bottom(bottom), left(left) {}

@@ -11,10 +11,10 @@ struct rect_t {
                 "A katzen rect_t must contain an arithmetic type.");
   using value_type = T;
 
-  T x = 0;
-  T y = 0;
-  T w = 0;
-  T h = 0;
+  T x{0};
+  T y{0};
+  T w{0};
+  T h{0};
 
   constexpr bool operator==(const rect_t &that) const {
     return (x == that.x) && (y == that.y) && (w == that.w) && (h == that.h);
@@ -24,7 +24,7 @@ struct rect_t {
   }
 
   // Convert to raylib Rectangle
-  constexpr operator Rectangle() const {
+  constexpr explicit operator Rectangle() const {
     return {static_cast<float>(x),
             static_cast<float>(y),
             static_cast<float>(w),

@@ -1,5 +1,4 @@
 #pragma once
-#include <utility>
 #include "../parts/Text.hpp"
 #include "../theme/fonts.hpp"
 #include "Widget.hpp"
@@ -10,8 +9,6 @@ namespace katzen {
  * A widget that displays text.
  */
 struct Label : Widget {
-  friend struct IconLabel;
-
   struct Builder : WidgetBuilder {
     Builder(theme::FontStyle &style = theme::fontStyle())
         : m_text("", style) {}
@@ -32,18 +29,18 @@ struct Label : Widget {
     }
 
     Label build() const {
-      Label label{m_text, m_wrapWords};
+      Label label(m_text, m_wrapWords);
       setWidgetProps(label);
       return label;
     }
 
   private:
     Text m_text;
-    bool m_wrapWords = false;
+    bool m_wrapWords{true};
   };
 
   Text text;
-  bool wrapWords;
+  bool wrapWords{true};
 
   Label(const char *content,
         bool wrapWords = true,

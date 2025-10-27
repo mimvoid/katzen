@@ -6,7 +6,7 @@
 
 namespace katzen {
 struct Text {
-  const char *content;
+  const char *content{""};
   theme::FontStyle &style;
 
   Text(const char *content, theme::FontStyle &style)
@@ -16,34 +16,25 @@ struct Text {
 
   constexpr bool empty() const { return content[0] == '\0'; }
 
-  constexpr float size(Axis axis) const {
-    switch (axis) {
-    case Axis::X: return m_width;
-    case Axis::Y: return m_height;
-    }
-  }
-
-  constexpr float width() const { return m_width; }
-  constexpr float height() const { return m_height; }
+  constexpr float size(Axis axis) const { return m_size.get(axis); }
+  constexpr float width() const { return m_size.x; }
+  constexpr float height() const { return m_size.y; }
 
   constexpr Vec2 measureSize() const {
-    if (empty()) return {0.0f, 0.0f};
-    return MeasureTextEx(
-        style.font, content, style.size(), style.spacing);
+    return (empty()) ? Vec2{}
+                     : (Vec2)MeasureTextEx(
+                           style.font, content, style.size(), style.spacing);
   }
 
   constexpr float measureWidth() const { return measureSize().x; }
   constexpr float measureHeight() const { return measureSize().y; }
 
   constexpr float measureSize(Axis axis) const {
-    switch (axis) {
-    case Axis::X: return measureWidth();
-    case Axis::Y: return measureHeight();
-    }
+    return measureSize().get(axis);
   }
 
-  constexpr void updateWidth() { m_width = measureWidth(); }
-  constexpr void updateHeight() { m_height = measureHeight(); }
+  constexpr void updateWidth() { m_size.x = measureWidth(); }
+  constexpr void updateHeight() { m_size.y = measureHeight(); }
 
   constexpr void updateSize() {
     updateWidth();
@@ -54,7 +45,6 @@ struct Text {
   void draw(Vector2 position, Color color);
 
 private:
-  float m_width;
-  float m_height;
+  Vec2 m_size{0.0f, 0.0f};
 };
 } // namespace katzen

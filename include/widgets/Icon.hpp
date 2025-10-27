@@ -9,11 +9,7 @@
 
 namespace katzen {
 struct Icon : Widget {
-  friend struct IconLabel;
-
   struct Builder : WidgetBuilder {
-    constexpr Builder() = default;
-
     Builder &icon(uint8_t value) {
       m_icon = value;
       return *this;
@@ -38,7 +34,7 @@ struct Icon : Widget {
     }
 
   private:
-    uint8_t m_icon = 0;
+    uint8_t m_icon{0};
     std::optional<uint8_t> m_scale{};
   };
 
@@ -80,6 +76,6 @@ protected:
   constexpr int measureIcon() const { return m_scale * RAYGUI_ICON_SIZE; }
 
 private:
-  uint8_t m_scale;
+  uint8_t m_scale{1};
 };
 } // namespace katzen

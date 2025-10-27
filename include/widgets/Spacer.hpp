@@ -8,11 +8,9 @@ namespace katzen {
  */
 struct Spacer : Widget {
   struct Builder : WidgetBuilder {
-    constexpr Builder() = default;
-
     // Create a spacer widget.
     Spacer build() const {
-      Spacer spacer{m_minSize.x, m_minSize.y, m_expand.x, m_expand.y};
+      Spacer spacer(m_minSize.x, m_minSize.y, m_expand.x, m_expand.y);
       spacer.padding = m_padding;
       return spacer;
     }

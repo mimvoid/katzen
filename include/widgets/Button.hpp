@@ -14,15 +14,13 @@ struct Button : Widget, Reactive {
   using OnPress = std::function<void()>;
 
   struct Builder : WidgetBuilder {
-    constexpr Builder() = default;
-
     Builder &onPress(OnPress callback) {
       m_onPress = callback;
       return *this;
     }
 
     Button build(ChildT &&child) const {
-      Button button{child, m_onPress};
+      Button button(child, m_onPress);
       setWidgetProps(button);
       return button;
     }
@@ -50,7 +48,7 @@ struct Button : Widget, Reactive {
   }
 
   void draw(Dctx &d) override {
-    const Rectangle box = m_rect;
+    const Rectangle box = (Rectangle)m_rect;
 
     if (updateState(d, box) && onPress) {
       onPress();

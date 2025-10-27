@@ -9,8 +9,6 @@ struct Checkbox : Widget, Reactive {
   using OnCheck = std::function<void(bool)>;
 
   struct Builder : WidgetBuilder {
-    constexpr Builder() = default;
-
     constexpr Builder &checked(bool value) {
       m_checked = value;
       return *this;
@@ -27,20 +25,20 @@ struct Checkbox : Widget, Reactive {
     }
 
     Checkbox build() const {
-      Checkbox checkbox{m_checked, m_onCheck};
+      Checkbox checkbox(m_checked, m_onCheck);
       checkbox.setScale(m_scale);
       setWidgetProps(checkbox);
       return checkbox;
     }
 
   private:
-    bool m_checked = false;
-    float m_scale = 1.0f;
-    OnCheck m_onCheck = OnCheck();
+    bool m_checked{false};
+    float m_scale{1.0f};
+    OnCheck m_onCheck{};
   };
 
-  bool checked = false;
-  OnCheck onCheck = OnCheck();
+  bool checked{false};
+  OnCheck onCheck{};
 
   Checkbox() = default;
   Checkbox(bool checked, OnCheck callback)
@@ -55,6 +53,6 @@ protected:
   float measure(Axis axis) const override;
 
 private:
-  float m_scale = 1.0f;
+  float m_scale{1.0f};
 };
 } // namespace katzen

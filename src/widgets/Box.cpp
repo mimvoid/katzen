@@ -3,7 +3,7 @@
 
 namespace katzen {
 Vec2 Box::remeasureChildren() {
-  if (children.empty()) return {0.0f, 0.0f};
+  if (children.empty()) return Vec2{0.0f, 0.0f};
 
   float dirSize = 0.0f;
   float flipDirSize = 0.0f;
@@ -17,23 +17,23 @@ Vec2 Box::remeasureChildren() {
   const Axis flipDir = flip(direction);
   float maxChildSize = 0.0f;
 
-  const unsigned int maxDir = get(m_bounds, direction) - padding.getSum(direction);
-  const unsigned int maxFlipDir = get(m_bounds, flipDir) - padding.getSum(flipDir);
+  const unsigned int maxDir =
+      m_bounds.get(direction) - padding.getSum(direction);
+  const unsigned int maxFlipDir =
+      m_bounds.get(flipDir) - padding.getSum(flipDir);
 
   for (value_type &w : children) {
     // Box direction
-    if (get(w->expand, direction)) {
+    if (w->expand.get(direction)) {
       expandedChildren.push_back(w.get());
     } else {
-      set(w->m_bounds,
-          direction,
-          static_cast<unsigned int>(maxDir - dirSize));
+      w->m_bounds.set(direction, static_cast<unsigned int>(maxDir - dirSize));
       w->resize(direction);
       dirSize += w->size(direction);
     }
 
     // Flipped direction
-    set(w->m_bounds, flipDir, maxFlipDir);
+    w->m_bounds.set(flipDir, maxFlipDir);
     w->resize(flipDir);
     maxChildSize = std::max(w->size(flipDir), maxChildSize);
   }
@@ -42,20 +42,19 @@ Vec2 Box::remeasureChildren() {
 
   if (!expandedChildren.empty()) {
     const unsigned int expandedSize =
-        std::max(0.0f, get(m_bounds, direction) - padding.getSum(direction) - dirSize)
+        std::max(0.0f,
+                 m_bounds.get(direction) - padding.getSum(direction) - dirSize)
         / expandedChildren.size();
 
     for (Widget *w : expandedChildren) {
-      set(w->m_bounds, direction, expandedSize);
+      w->m_bounds.set(direction, expandedSize);
       w->resize(direction);
       dirSize += w->size(direction);
     }
   }
 
-  if (direction == Axis::X) {
-    return {dirSize, flipDirSize};
-  }
-  return {flipDirSize, dirSize};
+  return (direction == Axis::X) ? Vec2{dirSize, flipDirSize}
+                                : Vec2{flipDirSize, dirSize};
 }
 
 float Box::measureChildren(Axis axis) const {
@@ -65,7 +64,7 @@ float Box::measureChildren(Axis axis) const {
     float childrenSize = spacing * (children.size() - 1);
 
     for (const value_type &w : children) {
-      if (get(w->expand, axis)) return get(m_bounds, axis) - padding.getSum(axis);
+      if (w->expand.get(axis)) return m_bounds.get(axis) - padding.getSum(axis);
       childrenSize += w->size(axis);
     }
 
@@ -75,7 +74,7 @@ float Box::measureChildren(Axis axis) const {
   float maxChildSize = 0.0f;
 
   for (const value_type &w : children) {
-    if (get(w->expand, axis)) return get(m_bounds, axis) - padding.getSum(axis);
+    if (w->expand.get(axis)) return m_bounds.get(axis) - padding.getSum(axis);
     maxChildSize = std::max(w->size(axis), maxChildSize);
   }
 
@@ -101,12 +100,12 @@ void Box::repaint(Gctx g) {
 
   g.pad(padding);
 
-  if (get(expand, direction)) {
+  if (expand.get(direction)) {
     const Align dirAlign = align(direction);
 
     if (dirAlign != Align::START) {
       const float sizeDiff = offset(size(direction) - padding.getSum(direction),
-                                    get(cSize, direction),
+                                    cSize.get(direction),
                                     dirAlign);
 
       g.translateClip(direction, sizeDiff);
@@ -118,10 +117,10 @@ void Box::repaint(Gctx g) {
 
   const Axis dirCopy = direction;
   const auto repaintChild = [dirCopy](Widget &w, Gctx &gctx) {
-    if (get(w.expand, dirCopy)) {
+    if (w.expand.get(dirCopy)) {
       const unsigned int prevSize = std::max(0.0f, w.size(dirCopy));
       w.repaint(gctx);
-      set(w.m_bounds, dirCopy, prevSize);
+      w.m_bounds.set(dirCopy, prevSize);
       w.resize(dirCopy);
     } else {
       w.repaint(gctx);
@@ -135,7 +134,7 @@ void Box::repaint(Gctx g) {
 
     Widget &w = *i.base()->get();
 
-    if (flipAlign == Align::START || get(w.expand, flipDir)) {
+    if (flipAlign == Align::START || w.expand.get(flipDir)) {
       repaintChild(w, g);
     } else {
       const float sizeDiff =

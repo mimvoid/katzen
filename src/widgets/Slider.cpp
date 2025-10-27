@@ -5,7 +5,7 @@
 
 namespace katzen {
 void Slider::draw(Dctx &d) {
-  const Rectangle box = m_rect;
+  const Rectangle box = (Rectangle)m_rect;
 
   const float gap = d.borderWidth * 2;
   const Rectangle trough{

@@ -21,7 +21,7 @@ struct Reactive {
   constexpr void toggle() { m_state == State::DISABLED ? enable() : disable(); }
 
 protected:
-  State m_state = State::NORMAL;
+  State m_state{State::NORMAL};
 
   /**
    * Updates the state and colors based on whether the given area is focused or

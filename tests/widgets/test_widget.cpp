@@ -76,7 +76,8 @@ TEST_CASE("Stock min size", "[widget]") {
     const unsigned int minWidth = g.w + 15.0f;
     const unsigned int minHeight = g.h + 20.0f;
 
-    w.minSize = {minWidth, minHeight};
+    w.minSize.x = minWidth;
+    w.minSize.y = minHeight;
     w.repaint(g);
 
     REQUIRE(w.maxWidth() == g.w);

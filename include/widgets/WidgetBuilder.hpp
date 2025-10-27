@@ -5,8 +5,6 @@
 
 namespace katzen {
 struct WidgetBuilder {
-  constexpr WidgetBuilder() = default;
-
   // Set whether to expand horizontally within its parent.
   constexpr WidgetBuilder &hexpand(bool value) {
     m_expand.x = value;

@@ -9,8 +9,6 @@ struct Slider : Widget, Reactive {
   using OnValueChange = std::function<void(float)>;
 
   struct Builder : WidgetBuilder {
-    constexpr Builder() = default;
-
     constexpr Builder &value(float value) {
       m_initValue = std::clamp(value, 0.0f, 1.0f);
       return *this;
@@ -22,18 +20,18 @@ struct Slider : Widget, Reactive {
     }
 
     Slider build() const {
-      Slider slider{m_initValue, m_onValueChange};
+      Slider slider(m_initValue, m_onValueChange);
       setWidgetProps(slider);
       return slider;
     }
 
   private:
-    float m_initValue = 0.0f;
+    float m_initValue{0.0f};
     OnValueChange m_onValueChange{};
   };
 
-  Axis direction = Axis::X;
-  OnValueChange onValueChange;
+  Axis direction{Axis::X};
+  OnValueChange onValueChange{};
 
   Slider(float initialValue, OnValueChange onValueChange = OnValueChange())
       : onValueChange(onValueChange) {
@@ -51,8 +49,8 @@ protected:
   float measure(Axis axis) const override;
 
 private:
-  float m_value;
-  float m_sizeScale = 1.0f;
-  bool m_dragging = false;
+  float m_value{0.0f};
+  float m_sizeScale{1.0f};
+  bool m_dragging{false};
 };
 } // namespace katzen

@@ -9,6 +9,6 @@ void Widget::repaint(Gctx g) {
 
 float Widget::measure(Axis axis) const {
   return std::clamp(
-      padding.getSum(axis), (int)get(minSize, axis), (int)get(m_bounds, axis));
+      padding.getSum(axis), (int)minSize.get(axis), (int)m_bounds.get(axis));
 }
 } // namespace katzen

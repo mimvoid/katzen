@@ -22,10 +22,10 @@ struct Root {
                 "A katzen Root must have a child derived from Widget");
   WidgetT child;
 
-  bool drawBackground = true;
+  bool drawBackground{true};
   Edges padding{0, 0, 0, 0};
-  Align halign = Align::CENTER;
-  Align valign = Align::CENTER;
+  Align halign{Align::CENTER};
+  Align valign{Align::CENTER};
 
   // Construct the Root object's child widget in-place.
   template <typename... Args>
@@ -33,7 +33,7 @@ struct Root {
     repaint();
   }
 
-  Root(const WidgetT &child) : child(child) { repaint(); }
+  Root(WidgetT &&child) : child(std::move(child)) { repaint(); }
 
   // Call this when it is needed to manually repaint or update the state.
   void repaint() {
@@ -75,7 +75,7 @@ struct Root {
 
 private:
   Gctx m_g{};
-  bool m_repaintedLastFrame = false;
+  bool m_repaintedLastFrame{false};
 
   /**
    * Sizes and positions the Gctx according to the window size, alignment,
