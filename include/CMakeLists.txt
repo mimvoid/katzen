@@ -20,6 +20,7 @@ set(KATZEN_HEADERS
   core/Align.hpp
   core/Axis.hpp
   core/Dctx.hpp
+  core/DynamicCastPtr.hpp
   core/Edges.hpp
   core/Gctx.hpp
   core/Rect.hpp

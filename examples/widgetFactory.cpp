@@ -39,42 +39,46 @@ int main(void) {
 
   {
     /**
-     * Emplacing and pushing to container widgets gives them ownership.
-     *
-     * However, you can still access the contained widgets with the returned
-     * raw pointer.
-     *
-     * Note that these raw pointers will go out of scope before the main loop,
-     * but have been copied by the lambda callbacks.
+     * You can access contained widgets through katzen's WidgetPtr, a wrapper
+     * around weak_ptr<Widget> that can lock and dynamically cast the
+     * shared_ptr.
      */
-    k::Box *buttons = root.child.emplaceGet<k::Box>(
+    k::WidgetPtr<k::Box> buttons = root.child.emplaceGet<k::Box>(
         4, k::Axis::X, k::Align::CENTER, k::Align::CENTER);
 
-    k::Checkbox *toggler = buttons->emplaceGet<k::Checkbox>();
+    std::shared_ptr<k::Box> buttonsBox = buttons.lock();
+    if (!buttonsBox) {
+      TraceLog(LOG_ERROR, "Failed to create a box for buttons!");
+      return 1;
+    }
 
-    k::Button<k::Label> *stockButton =
-        buttons->emplaceGet<k::Button<k::Label>>(k::Label("Disabled"));
-    stockButton->disable();
+    k::WidgetPtr<k::Checkbox> toggler = buttonsBox->emplaceGet<k::Checkbox>();
 
-    toggler->onCheck = [stockButton, &root](bool checked) {
-      if (!stockButton) return;
+    k::WidgetPtr<k::Button<k::Label>> stockButton =
+        buttonsBox->emplaceGet<k::Button<k::Label>>(k::Label("Disabled"));
+    stockButton.lock()->disable();
+
+    toggler.lock()->onCheck = [stockButton, &root](bool checked) {
+      auto buttonPtr = stockButton.lock();
+      if (!buttonPtr) return;
 
       if (checked) {
-        stockButton->enable();
-        stockButton->child.text.content = "Click me!";
+        buttonPtr->enable();
+        buttonPtr->child.text.content = "Click me!";
       } else {
-        stockButton->disable();
-        stockButton->child.text.content = "Disabled";
+        buttonPtr->disable();
+        buttonPtr->child.text.content = "Disabled";
       }
       root.repaint();
     };
 
-    stockButton->onPress = [stockButton, &root]() {
-      if (!stockButton) return;
+    stockButton.lock()->onPress = [stockButton, &root]() {
+      auto buttonPtr = stockButton.lock();
+      if (!buttonPtr) return;
 
-      stockButton->child.text.content = "I got clicked!";
+      buttonPtr->child.text.content = "I got clicked!";
       root.repaint();
-      TraceLog(LOG_INFO, stockButton->child.text.content);
+      TraceLog(LOG_INFO, buttonPtr->child.text.content);
     };
   }
 
