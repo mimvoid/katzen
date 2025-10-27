@@ -21,13 +21,24 @@ using WidgetPtr = DynamicCastPtr<Widget, To>;
   static_assert(std::is_base_of_v<Widget, type>, \
                 "A katzen Container can only have derivatives of Widget.");
 
+template <class T>
+void pushWidget(std::vector<std::shared_ptr<Widget>> &children, T &&child) {
+  KATZEN_ASSERT_CONTAINER_WIDGET(T);
+  children.push_back(std::make_shared<T>(std::move(child)));
+}
+
+template <class T, typename... Args>
+void emplaceWidget(std::vector<std::shared_ptr<Widget>> &children, Args &&...args) {
+  KATZEN_ASSERT_CONTAINER_WIDGET(T);
+  children.emplace_back(std::make_shared<T>(std::forward<Args>(args)...));
+}
+
 struct Container {
   using value_type = std::shared_ptr<Widget>;
 
   template <class T>
   void push(T &&child) {
-    KATZEN_ASSERT_CONTAINER_WIDGET(T);
-    children.push_back(std::make_shared<T>(std::move(child)));
+    pushWidget<T>(children, std::move(child));
   }
 
   template <class T>
@@ -39,8 +50,7 @@ struct Container {
 
   template <class T, typename... Args>
   void emplace(Args &&...args) {
-    KATZEN_ASSERT_CONTAINER_WIDGET(T);
-    children.emplace_back(std::make_shared<T>(std::forward<Args>(args)...));
+    emplaceWidget<T>(children, std::forward<Args>(args)...);
   }
 
   template <class T, typename... Args>

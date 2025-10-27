@@ -22,17 +22,18 @@ int main(void) {
   // Root and widget creation
   k::Root<k::Box> root(8, k::Axis::Y, k::Align::CENTER, k::Align::CENTER);
 
-  {
-    /**
-     * Widgets can be emplaced or pushed into container widgets.
-     * It's recommended to emplace them to avoid multiple allocations.
-     */
-    k::Box title(4);
-    title.emplace<k::Icon>(k::KatzIcon::CAT_HEAD, 2);
-    title.emplace<k::Label>("katzen Widget Factory", true, titleStyle);
+  /**
+   * Widgets can be emplaced or pushed into container widgets.
+   * It's recommended to emplace them to avoid multiple allocations.
+   */
 
-    root.child.push(std::move(title));
-  }
+  // Title
+  root.child.push(
+      k::Box::Builder()
+          .spacing(4)
+          .emplace<k::Icon>(k::KatzIcon::CAT_HEAD, 2)
+          .emplace<k::Label>("katzen Widget Factory", true, titleStyle)
+          .build());
 
   root.child.emplace<k::Label>(
       "Introducing katzen, a dynamic retained mode GUI library written with raylib and C++17!");

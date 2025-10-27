@@ -1,4 +1,6 @@
 #pragma once
+#include <utility>
+#include <vector>
 #include "../core/Align.hpp"
 #include "../parts/Container.hpp"
 #include "Widget.hpp"
@@ -33,10 +35,23 @@ struct Box : Widget, Container {
       return *this;
     }
 
+    template <class T>
+    Builder &push(T &&child) {
+      pushWidget<T>(m_children, std::move(child));
+      return *this;
+    }
+
+    template <class T, typename... Args>
+    Builder &emplace(Args &&...args) {
+      emplaceWidget<T>(m_children, std::forward<Args>(args)...);
+      return *this;
+    }
+
     Box build() const {
       Box box{m_spacing, m_direction};
       box.halign = m_halign;
       box.valign = m_valign;
+      box.children = std::move(m_children);
       setWidgetProps(box);
       return box;
     }
@@ -46,6 +61,7 @@ struct Box : Widget, Container {
     Axis m_direction = Axis::X;
     Align m_halign = Align::START;
     Align m_valign = Align::START;
+    std::vector<Container::value_type> m_children{};
   };
 
   int spacing;
@@ -57,7 +73,10 @@ struct Box : Widget, Container {
       Axis direction = Axis::X,
       Align halign = Align::START,
       Align valign = Align::START)
-      : spacing(spacing), direction(direction), halign(halign), valign(valign) {}
+      : spacing(spacing),
+        direction(direction),
+        halign(halign),
+        valign(valign) {}
 
   void repaint(Gctx g) override;
   void draw(Dctx &d) override;
