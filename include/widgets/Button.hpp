@@ -1,6 +1,7 @@
 #pragma once
 #include <cassert>
 #include <functional>
+#include "../parts/Bin.hpp"
 #include "../parts/Reactive.hpp"
 #include "Widget.hpp"
 #include "WidgetBuilder.hpp"
@@ -10,17 +11,30 @@ namespace katzen {
  * A widget that calls a function when pressed.
  */
 template <class ChildT>
-struct Button : Widget, Reactive {
+struct Button : Widget, Reactive, Bin<ChildT> {
   using OnPress = std::function<void()>;
 
-  struct Builder : WidgetBuilder {
+  struct Builder : WidgetBuilder, BinBuilder<ChildT> {
     Builder &onPress(OnPress callback) {
       m_onPress = callback;
       return *this;
     }
 
-    Button build(ChildT &&child) const {
-      Button button(child, m_onPress);
+    Builder &child(ChildT &&child) {
+      this->m_child = std::move(child);
+      return *this;
+    }
+
+    template <typename... Args>
+    Builder &emplaceChild(Args &&...args) {
+      this->m_child.emplace(std::forward<Args>(args)...);
+      return *this;
+    }
+
+    Button build() {
+      this->checkChild();
+      Button button(std::move(*this->m_child), m_onPress);
+      this->m_child.reset();
       setWidgetProps(button);
       return button;
     }
@@ -29,11 +43,10 @@ struct Button : Widget, Reactive {
     OnPress m_onPress{};
   };
 
-  ChildT child;
   OnPress onPress;
 
   Button(ChildT &&child, OnPress onPress = OnPress())
-      : child(std::move(child)), onPress(onPress) {
+      : Bin<ChildT>(std::move(child)), onPress(onPress) {
     padding.set(8);
   }
 
@@ -42,7 +55,7 @@ struct Button : Widget, Reactive {
     reposition(g);
 
     g.pad(padding);
-    child.repaint(g);
+    this->child.repaint(g);
 
     resize();
   }
@@ -59,12 +72,12 @@ struct Button : Widget, Reactive {
       DrawRectangleLinesEx(box, d.borderWidth, d.colors.border);
     }
 
-    child.draw(d);
+    this->child.draw(d);
   }
 
 protected:
   float measure(Axis axis) const override {
-    const float size = child.size(axis) + padding.getSum(axis);
+    const float size = this->child.size(axis) + padding.getSum(axis);
     return clampSize(size, axis);
   }
 };

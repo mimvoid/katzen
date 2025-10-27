@@ -1,10 +1,12 @@
 #pragma once
 #include <raylib.h>
-#include <type_traits>
 #include <utility>
 #include "core/Align.hpp"
+#include "core/Dctx.hpp"
+#include "core/Edges.hpp"
+#include "core/Gctx.hpp"
+#include "parts/Bin.hpp"
 #include "theme.hpp"
-#include "widgets/Widget.hpp"
 
 namespace katzen {
 /**
@@ -17,11 +19,7 @@ namespace katzen {
  * like Box to hold multiple widgets and handle the layout.
  */
 template <class WidgetT>
-struct Root {
-  static_assert(std::is_base_of_v<Widget, WidgetT>,
-                "A katzen Root must have a child derived from Widget");
-  WidgetT child;
-
+struct Root : Bin<WidgetT> {
   bool drawBackground{true};
   Edges padding{0, 0, 0, 0};
   Align halign{Align::CENTER};
@@ -29,15 +27,15 @@ struct Root {
 
   // Construct the Root object's child widget in-place.
   template <typename... Args>
-  Root(Args &&...args) : child(std::forward<Args>(args)...) {
+  Root(Args &&...args) : Bin<WidgetT>(std::forward<Args>(args)...) {
     repaint();
   }
 
-  Root(WidgetT &&child) : child(std::move(child)) { repaint(); }
+  Root(WidgetT &&child) : Bin<WidgetT>(std::move(child)) { repaint(); }
 
   // Call this when it is needed to manually repaint or update the state.
   void repaint() {
-    child.repaint(resetGctx());
+    this->child.repaint(resetGctx());
     m_repaintedLastFrame = true;
   }
 
@@ -53,7 +51,7 @@ struct Root {
     if (IsWindowResized()) {
       repaint();
     } else if (m_repaintedLastFrame) {
-      child.repaint(resetGctx());
+      this->child.repaint(resetGctx());
       m_repaintedLastFrame = false;
     }
   }
@@ -68,7 +66,7 @@ struct Root {
            theme::theme.borderRadius,
            theme::theme.iconSize,
            theme::theme.normal};
-    child.draw(d);
+    this->child.draw(d);
 
     SetMouseCursor(d.cursor);
   }
@@ -84,8 +82,8 @@ private:
   Gctx &resetGctx() {
     m_g.reset(padding);
 
-    m_g.x += offset(m_g.w, child.width(), halign);
-    m_g.y += offset(m_g.h, child.height(), valign);
+    m_g.x += offset(m_g.w, this->child.width(), halign);
+    m_g.y += offset(m_g.h, this->child.height(), valign);
 
     return m_g;
   }
