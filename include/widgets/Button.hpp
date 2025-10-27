@@ -15,6 +15,13 @@ struct Button : Widget, Reactive, Bin<ChildT> {
   using OnPress = std::function<void()>;
 
   struct Builder : WidgetBuilder, BinBuilder<ChildT> {
+    Builder() { m_padding.set(8); }
+
+    Builder &enabled(bool value) {
+      m_enabled = value;
+      return *this;
+    }
+
     Builder &onPress(OnPress callback) {
       m_onPress = callback;
       return *this;
@@ -35,12 +42,18 @@ struct Button : Widget, Reactive, Bin<ChildT> {
       this->checkChild();
       Button button(std::move(*this->m_child), m_onPress);
       this->m_child.reset();
+
+      if (!m_enabled) {
+        button.disable();
+      }
+
       setWidgetProps(button);
       return button;
     }
 
   private:
     OnPress m_onPress{};
+    bool m_enabled{true};
   };
 
   OnPress onPress;

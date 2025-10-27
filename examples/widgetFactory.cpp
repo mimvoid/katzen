@@ -56,8 +56,10 @@ int main(void) {
     k::WidgetPtr<k::Checkbox> toggler = buttonsBox->emplaceGet<k::Checkbox>();
 
     k::WidgetPtr<k::Button<k::Label>> stockButton =
-        buttonsBox->emplaceGet<k::Button<k::Label>>(k::Label("Disabled"));
-    stockButton.lock()->disable();
+        buttonsBox->pushGet(k::Button<k::Label>::Builder()
+                                .enabled(false)
+                                .emplaceChild("Disabled")
+                                .build());
 
     toggler.lock()->onCheck = [stockButton, &root](bool checked) {
       auto buttonPtr = stockButton.lock();
