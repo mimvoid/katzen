@@ -3,12 +3,12 @@
 
 namespace katzen {
 Vec2 Box::remeasureChildren() {
-  if (children.empty()) return Vec2{0.0f, 0.0f};
+  if (m_children.empty()) return Vec2{0.0f, 0.0f};
 
   float dirSize = 0.0f;
   float flipDirSize = 0.0f;
 
-  const std::size_t childrenCount = children.size();
+  const std::size_t childrenCount = m_children.size();
   dirSize += spacing * (childrenCount - 1);
 
   std::vector<Widget *> expandedChildren;
@@ -22,7 +22,7 @@ Vec2 Box::remeasureChildren() {
   const unsigned int maxFlipDir =
       m_bounds.get(flipDir) - padding.getSum(flipDir);
 
-  for (value_type &w : children) {
+  for (value_type &w : m_children) {
     // Box direction
     if (w->expand.get(direction)) {
       expandedChildren.push_back(w.get());
@@ -58,12 +58,12 @@ Vec2 Box::remeasureChildren() {
 }
 
 float Box::measureChildren(Axis axis) const {
-  if (children.empty()) return 0.0f;
+  if (m_children.empty()) return 0.0f;
 
   if (axis == direction) {
-    float childrenSize = spacing * (children.size() - 1);
+    float childrenSize = spacing * (m_children.size() - 1);
 
-    for (const value_type &w : children) {
+    for (const value_type &w : m_children) {
       if (w->expand.get(axis)) return m_bounds.get(axis) - padding.getSum(axis);
       childrenSize += w->size(axis);
     }
@@ -73,7 +73,7 @@ float Box::measureChildren(Axis axis) const {
 
   float maxChildSize = 0.0f;
 
-  for (const value_type &w : children) {
+  for (const value_type &w : m_children) {
     if (w->expand.get(axis)) return m_bounds.get(axis) - padding.getSum(axis);
     maxChildSize = std::max(w->size(axis), maxChildSize);
   }
@@ -94,7 +94,7 @@ void Box::repaint(Gctx g) {
   m_rect.w = clampSize(cSize.x + padding.getSum(Axis::X), Axis::X);
   m_rect.h = clampSize(cSize.y + padding.getSum(Axis::Y), Axis::Y);
 
-  if (children.empty()) {
+  if (m_children.empty()) {
     return;
   }
 
@@ -127,8 +127,8 @@ void Box::repaint(Gctx g) {
     }
   };
 
-  for (auto i = children.begin(); i != children.end(); i++) {
-    if (i != children.begin()) {
+  for (auto i = m_children.begin(); i != m_children.end(); i++) {
+    if (i != m_children.begin()) {
       g.translateClip(direction, spacing);
     }
 
@@ -160,7 +160,7 @@ void Box::draw(Dctx &d) {
   const State savedState = d.state;
   const StateColors savedColors = d.colors;
 
-  for (value_type &w : children) {
+  for (value_type &w : m_children) {
     w->draw(d);
 
     // Reset

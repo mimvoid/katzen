@@ -12,7 +12,7 @@ namespace katzen {
  * It handles their sizes and alignments.
  */
 struct Box : Widget, Container {
-  struct Builder : WidgetBuilder {
+  struct Builder : WidgetBuilder, ContainerBuilder<Builder> {
     Builder &spacing(int value) {
       m_spacing = value;
       return *this;
@@ -33,23 +33,11 @@ struct Box : Widget, Container {
       return *this;
     }
 
-    template <class T>
-    Builder &push(T &&child) {
-      pushWidget<T>(m_children, std::move(child));
-      return *this;
-    }
-
-    template <class T, typename... Args>
-    Builder &emplace(Args &&...args) {
-      emplaceWidget<T>(m_children, std::forward<Args>(args)...);
-      return *this;
-    }
-
     Box build() const {
       Box box(m_spacing, m_direction);
       box.halign = m_halign;
       box.valign = m_valign;
-      box.children = std::move(m_children);
+      box.m_children = std::move(m_children);
       setWidgetProps(box);
       return box;
     }
@@ -59,7 +47,6 @@ struct Box : Widget, Container {
     Axis m_direction{Axis::X};
     Align m_halign{Align::START};
     Align m_valign{Align::START};
-    std::vector<Container::value_type> m_children{};
   };
 
   int spacing{0};
