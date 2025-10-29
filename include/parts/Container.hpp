@@ -26,6 +26,7 @@ constexpr void checkIsWidget() {
 
 struct OpaqueContainer {
   using value_type = std::shared_ptr<Widget>;
+  using size_type = std::vector<value_type>::size_type;
 
   template <class T>
   void push(T &&child) {
@@ -39,12 +40,16 @@ struct OpaqueContainer {
     m_children.emplace_back(std::make_shared<T>(std::forward<Args>(args)...));
   }
 
+  // Wrapper around std::vector::reserve for the underlying children vector.
+  void reserve(size_type newCap) { m_children.reserve(newCap); }
+
 protected:
   std::vector<value_type> m_children{};
 };
 
 struct Container : OpaqueContainer {
   using OpaqueContainer::value_type;
+  using OpaqueContainer::size_type;
 
   template <class T>
   WidgetPtr<T> pushGet(T &&child) {
@@ -73,6 +78,11 @@ struct ContainerBuilder : protected OpaqueContainer {
   template <class T, typename... Args>
   DerivedT &emplace(Args &&...args) {
     OpaqueContainer::emplace<T>(std::forward<Args>(args)...);
+    return *static_cast<DerivedT *>(this);
+  }
+
+  DerivedT &reserve(size_type newCap) {
+    OpaqueContainer::reserve(newCap);
     return *static_cast<DerivedT *>(this);
   }
 };

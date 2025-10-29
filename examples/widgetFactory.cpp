@@ -21,6 +21,7 @@ int main(void) {
 
   // Root and widget creation
   k::Root<k::Box> root(8, k::Axis::Y, k::Align::CENTER, k::Align::CENTER);
+  root.child.reserve(4);
 
   /**
    * Widgets can be emplaced or pushed into container widgets.
@@ -31,6 +32,7 @@ int main(void) {
   root.child.push(
       k::Box::Builder()
           .spacing(4)
+          .reserve(2)
           .emplace<k::Icon>(k::KatzIcon::CAT_HEAD, 2)
           .emplace<k::Label>("katzen Widget Factory", true, titleStyle)
           .build());
@@ -52,6 +54,7 @@ int main(void) {
       TraceLog(LOG_ERROR, "Failed to create a box for buttons!");
       return 1;
     }
+    buttonsBox->reserve(2);
 
     k::WidgetPtr<k::Checkbox> toggler = buttonsBox->emplaceGet<k::Checkbox>();
 
