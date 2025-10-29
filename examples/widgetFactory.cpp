@@ -56,27 +56,11 @@ int main(void) {
     }
     buttonsBox->reserve(2);
 
-    k::WidgetPtr<k::Checkbox> toggler = buttonsBox->emplaceGet<k::Checkbox>();
-
     k::WidgetPtr<k::Button<k::Label>> stockButton =
         buttonsBox->pushGet(k::Button<k::Label>::Builder()
                                 .enabled(false)
                                 .emplaceChild("Disabled")
                                 .build());
-
-    toggler.lock()->onCheck = [stockButton, &root](bool checked) {
-      auto buttonPtr = stockButton.lock();
-      if (!buttonPtr) return;
-
-      if (checked) {
-        buttonPtr->enable();
-        buttonPtr->child.text.content = "Click me!";
-      } else {
-        buttonPtr->disable();
-        buttonPtr->child.text.content = "Disabled";
-      }
-      root.repaint();
-    };
 
     stockButton.lock()->onPress = [stockButton, &root]() {
       auto buttonPtr = stockButton.lock();
@@ -86,6 +70,22 @@ int main(void) {
       root.repaint();
       TraceLog(LOG_INFO, buttonPtr->child.text.content);
     };
+
+    // Toggler
+    buttonsBox->emplaceAt<k::Checkbox>(
+        0, false, [stockButton, &root](bool checked) {
+          auto buttonPtr = stockButton.lock();
+          if (!buttonPtr) return;
+
+          if (checked) {
+            buttonPtr->enable();
+            buttonPtr->child.text.content = "Click me!";
+          } else {
+            buttonPtr->disable();
+            buttonPtr->child.text.content = "Disabled";
+          }
+          root.repaint();
+        });
   }
 
   root.child.emplace<k::Slider>(0.5f);

@@ -40,6 +40,20 @@ struct OpaqueContainer {
     m_children.emplace_back(std::make_shared<T>(std::forward<Args>(args)...));
   }
 
+  template <class T, typename... Args>
+  void emplaceAt(size_type pos, Args &&...args) {
+    checkIsWidget<T>();
+    m_children.emplace(m_children.cbegin() + pos,
+                       std::make_shared<T>(std::forward<Args>(args)...));
+  }
+
+  template <class T>
+  void insert(size_type pos, T &&child) {
+    checkIsWidget<T>();
+    m_children.insert(m_children.cbegin() + pos,
+                      std::make_shared<T>(std::move(child)));
+  }
+
   // Wrapper around std::vector::reserve for the underlying children vector.
   void reserve(size_type newCap) { m_children.reserve(newCap); }
 
@@ -78,6 +92,18 @@ struct ContainerBuilder : protected OpaqueContainer {
   template <class T, typename... Args>
   DerivedT &emplace(Args &&...args) {
     OpaqueContainer::emplace<T>(std::forward<Args>(args)...);
+    return *static_cast<DerivedT *>(this);
+  }
+
+  template <class T, typename... Args>
+  DerivedT &emplaceAt(size_type pos, Args &&...args) {
+    OpaqueContainer::emplaceAt<T>(pos, std::forward<Args>(args)...);
+    return *static_cast<DerivedT *>(this);
+  }
+
+  template <class T>
+  DerivedT &insert(size_type pos, T &&child) {
+    OpaqueContainer::insert(pos, std::move(child));
     return *static_cast<DerivedT *>(this);
   }
 
