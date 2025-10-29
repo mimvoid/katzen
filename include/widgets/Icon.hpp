@@ -9,20 +9,20 @@
 
 namespace katzen {
 struct Icon : Widget {
-  struct Builder : WidgetBuilder {
-    Builder &icon(uint8_t value) {
+  struct Builder : WidgetBuilder<Builder> {
+    constexpr Builder &icon(uint8_t value) {
       m_icon = value;
       return *this;
     }
 
     template <typename E>
-    Builder &icon(E value) {
+    constexpr Builder &icon(E value) {
       static_assert(std::is_enum_v<E>, "Icon builder only accepts enum icons");
       m_icon = static_cast<std::underlying_type_t<E>>(value);
       return *this;
     }
 
-    Builder &scale(uint8_t value) {
+    constexpr Builder &scale(uint8_t value) {
       m_scale = std::max((uint8_t)1, value);
       return *this;
     }
@@ -44,7 +44,7 @@ struct Icon : Widget {
       : icon(icon), m_scale(std::max((uint8_t)1, scale)) {}
 
   template <typename E>
-  Icon(E icon, uint8_t scale = theme::theme.iconSize) {
+  constexpr Icon(E icon, uint8_t scale = theme::theme.iconSize) {
     setIcon(icon);
     setScale(scale);
   }

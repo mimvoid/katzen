@@ -8,7 +8,7 @@ namespace katzen {
 struct Checkbox : Widget, Reactive {
   using OnCheck = std::function<void(bool)>;
 
-  struct Builder : WidgetBuilder {
+  struct Builder : WidgetBuilder<Builder> {
     constexpr Builder &checked(bool value) {
       m_checked = value;
       return *this;

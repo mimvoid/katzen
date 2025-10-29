@@ -4,47 +4,48 @@
 #include "Widget.hpp"
 
 namespace katzen {
+template <class DerivedT>
 struct WidgetBuilder {
   // Set whether to expand horizontally within its parent.
-  constexpr WidgetBuilder &hexpand(bool value) {
+  constexpr DerivedT &hexpand(bool value) {
     m_expand.x = value;
-    return *this;
+    return *static_cast<DerivedT *>(this);
   }
 
   // Set whether to expand vertically within its parent.
-  constexpr WidgetBuilder &vexpand(bool value) {
+  constexpr DerivedT &vexpand(bool value) {
     m_expand.y = value;
-    return *this;
+    return *static_cast<DerivedT *>(this);
   }
 
   // Set whether to expand vertically and horizontally within its parent.
-  constexpr WidgetBuilder &expand(BVec2 value) {
+  constexpr DerivedT &expand(BVec2 value) {
     m_expand = value;
-    return *this;
+    return *static_cast<DerivedT *>(this);
   }
 
   // Set the minimum width the widget can shrink to.
-  constexpr WidgetBuilder &minWidth(unsigned int value) {
+  constexpr DerivedT &minWidth(unsigned int value) {
     m_minSize.x = value;
-    return *this;
+    return *static_cast<DerivedT *>(this);
   }
 
   // Set the minimum height the widget can shrink to.
-  constexpr WidgetBuilder &minHeight(unsigned int value) {
+  constexpr DerivedT &minHeight(unsigned int value) {
     m_minSize.y = value;
-    return *this;
+    return *static_cast<DerivedT *>(this);
   }
 
   // Set the minimum size the widget can shrink to.
-  constexpr WidgetBuilder &minSize(UVec2 value) {
+  constexpr DerivedT &minSize(UVec2 value) {
     m_minSize = value;
-    return *this;
+    return *static_cast<DerivedT *>(this);
   }
 
   // Set all padding values.
-  constexpr WidgetBuilder &padding(Edges value) {
+  constexpr DerivedT &padding(Edges value) {
     m_padding = value;
-    return *this;
+    return *static_cast<DerivedT *>(this);
   }
 
 protected:

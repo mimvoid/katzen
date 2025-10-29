@@ -8,7 +8,7 @@ namespace katzen {
 struct Slider : Widget, Reactive {
   using OnValueChange = std::function<void(float)>;
 
-  struct Builder : WidgetBuilder {
+  struct Builder : WidgetBuilder<Builder> {
     constexpr Builder &value(float value) {
       m_initValue = std::clamp(value, 0.0f, 1.0f);
       return *this;

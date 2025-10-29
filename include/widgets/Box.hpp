@@ -12,23 +12,23 @@ namespace katzen {
  * It handles their sizes and alignments.
  */
 struct Box : Widget, Container {
-  struct Builder : WidgetBuilder, ContainerBuilder<Builder> {
-    Builder &spacing(int value) {
+  struct Builder : WidgetBuilder<Builder>, ContainerBuilder<Builder> {
+    constexpr Builder &spacing(int value) {
       m_spacing = value;
       return *this;
     }
 
-    Builder &direction(Axis value) {
+    constexpr Builder &direction(Axis value) {
       m_direction = value;
       return *this;
     }
 
-    Builder &halign(Align value) {
+    constexpr Builder &halign(Align value) {
       m_halign = value;
       return *this;
     }
 
-    Builder &valign(Align value) {
+    constexpr Builder &valign(Align value) {
       m_valign = value;
       return *this;
     }

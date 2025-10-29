@@ -14,10 +14,10 @@ template <class ChildT>
 struct Button : Widget, Reactive, Bin<ChildT> {
   using OnPress = std::function<void()>;
 
-  struct Builder : WidgetBuilder, BinBuilder<ChildT> {
-    Builder() { m_padding.set(8); }
+  struct Builder : WidgetBuilder<Builder>, BinBuilder<ChildT> {
+    constexpr Builder() { this->m_padding.set(8); }
 
-    Builder &enabled(bool value) {
+    constexpr Builder &enabled(bool value) {
       m_enabled = value;
       return *this;
     }
@@ -47,7 +47,7 @@ struct Button : Widget, Reactive, Bin<ChildT> {
         button.disable();
       }
 
-      setWidgetProps(button);
+      this->setWidgetProps(button);
       return button;
     }
 

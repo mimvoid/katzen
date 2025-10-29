@@ -9,7 +9,7 @@ namespace katzen {
  * A widget that displays text.
  */
 struct Label : Widget {
-  struct Builder : WidgetBuilder {
+  struct Builder : WidgetBuilder<Builder> {
     Builder(theme::FontStyle &style = theme::fontStyle())
         : m_text("", style) {}
 
