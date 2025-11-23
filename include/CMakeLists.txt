@@ -17,6 +17,8 @@ set(KATZEN_HEADERS
   katzen.hpp
   core.hpp
   widgets.hpp
+  theme.hpp
+  Root.hpp
   core/Align.hpp
   core/Axis.hpp
   core/Dctx.hpp
@@ -29,12 +31,15 @@ set(KATZEN_HEADERS
   icons/katz_fill.h
   icons/katz_icons.hpp
   icons/katz_line.h
+  parts/Bin.hpp
   parts/Container.hpp
   parts/icons.hpp
   parts/Reactive.hpp
   parts/scales.hpp
   parts/Text.hpp
   parts/textHelpers.hpp
+  theme/fonts.hpp
+  theme/FontStyle.hpp
   widgets/Box.hpp
   widgets/Button.hpp
   widgets/Checkbox.hpp
@@ -78,10 +83,6 @@ if (KATZEN_BUILD_INSTALL)
     NAMESPACE katzen::
     DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/katzen"
   )
-  install(
-    FILES "${CMAKE_SOURCE_DIR}/icons/katz_icons.hpp"
-    DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/katzen"
-  )
 
   include(CMakePackageConfigHelpers)
 
@@ -89,9 +90,8 @@ if (KATZEN_BUILD_INSTALL)
     "${CMAKE_CURRENT_BINARY_DIR}/katzenConfigVersion.cmake"
     COMPATIBILITY AnyNewerVersion
   )
-  install(FILES
-    "${CMAKE_SOURCE_DIR}/cmake/katzenConfig.cmake"
-    "${CMAKE_CURRENT_BINARY_DIR}/katzenConfigVersion.cmake"
+  install(
+    FILES "${CMAKE_CURRENT_BINARY_DIR}/katzenConfigVersion.cmake"
     DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/katzen"
   )
 endif()
