@@ -8,11 +8,11 @@ Vec2 Box::remeasureChildren() {
   float dirSize = 0.0f;
   float flipDirSize = 0.0f;
 
-  const std::size_t childrenCount = m_children.size();
-  dirSize += spacing * (childrenCount - 1);
+  const size_type childrenSize = m_children.size();
+  dirSize += spacing * (childrenSize - 1);
 
   std::vector<Widget *> expandedChildren;
-  expandedChildren.reserve(childrenCount);
+  expandedChildren.reserve(childrenSize);
 
   const Axis flipDir = flip(direction);
   float maxChildSize = 0.0f;
@@ -42,9 +42,7 @@ Vec2 Box::remeasureChildren() {
 
   if (!expandedChildren.empty()) {
     const unsigned int expandedSize =
-        std::max(0.0f,
-                 m_bounds.get(direction) - padding.getSum(direction) - dirSize)
-        / expandedChildren.size();
+        std::max(0.0f, maxDir - dirSize) / expandedChildren.size();
 
     for (Widget *w : expandedChildren) {
       w->m_bounds.set(direction, expandedSize);
@@ -127,12 +125,15 @@ void Box::repaint(Gctx g) {
     }
   };
 
-  for (auto i = m_children.begin(); i != m_children.end(); i++) {
-    if (i != m_children.begin()) {
+  bool isFirst = true;
+
+  for (value_type &child : m_children) {
+    if (isFirst) {
       g.translateClip(direction, spacing);
+      isFirst = false;
     }
 
-    Widget &w = *i.base()->get();
+    Widget &w = *child;
 
     if (flipAlign == Align::START || w.expand.get(flipDir)) {
       repaintChild(w, g);
