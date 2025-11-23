@@ -6,6 +6,8 @@ project(katzen
   HOMEPAGE_URL "https://github.com/mimvoid/katzen"
 )
 
+set(CMAKE_CXX_STANDARD 17)
+
 option(KATZEN_BUILD_INSTALL "Generate the install target for katzen" ON)
 option(KATZEN_BUILD_TESTS "Build the tests for katzen" OFF)
 option(KATZEN_BUILD_EXAMPLES "Build the examples for katzen" OFF)

@@ -63,9 +63,6 @@ set_target_properties(katzen PROPERTIES
   SOVERSION ${PROJECT_VERSION_MAJOR}
 )
 
-set(CMAKE_CXX_STANDARD_REQUIRED True)
-target_compile_features(katzen PUBLIC cxx_std_17)
-
 # Dependencies
 find_package(raylib REQUIRED)
 target_link_libraries(katzen PRIVATE raylib)
@@ -90,8 +87,9 @@ if (KATZEN_BUILD_INSTALL)
     "${CMAKE_CURRENT_BINARY_DIR}/katzenConfigVersion.cmake"
     COMPATIBILITY AnyNewerVersion
   )
-  install(
-    FILES "${CMAKE_CURRENT_BINARY_DIR}/katzenConfigVersion.cmake"
+  install(FILES
+    "${CMAKE_SOURCE_DIR}/cmake/katzenConfig.cmake"
+    "${CMAKE_CURRENT_BINARY_DIR}/katzenConfigVersion.cmake"
     DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/katzen"
   )
 endif()
