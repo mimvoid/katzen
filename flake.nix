@@ -43,7 +43,7 @@
 
             # Development tools
             clang-tools
-            cmake
+            cmakeMinimal
             ninja
 
             # Libraries
