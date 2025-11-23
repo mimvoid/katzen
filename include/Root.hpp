@@ -1,5 +1,6 @@
 #pragma once
 #include <raylib.h>
+#include <optional>
 #include <utility>
 #include "core/Align.hpp"
 #include "core/Dctx.hpp"
@@ -20,7 +21,7 @@ namespace katzen {
  */
 template <class WidgetT>
 struct Root : Bin<WidgetT> {
-  bool drawBackground{true};
+  std::optional<Color> customBgColor{};
   Edges padding{0, 0, 0, 0};
   Align halign{Align::CENTER};
   Align valign{Align::CENTER};
@@ -58,9 +59,7 @@ struct Root : Bin<WidgetT> {
 
   // A shortcut to draw the child widget.
   void draw() {
-    if (drawBackground) {
-      ClearBackground(theme::theme.backgroundColor);
-    }
+    ClearBackground(customBgColor.value_or(theme::theme.backgroundColor));
 
     Dctx d{theme::theme.borderWidth,
            theme::theme.borderRadius,
