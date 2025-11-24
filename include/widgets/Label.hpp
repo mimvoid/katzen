@@ -10,8 +10,7 @@ namespace katzen {
  */
 struct Label : Widget {
   struct Builder : WidgetBuilder<Builder> {
-    Builder(theme::FontStyle &style = theme::fontStyle())
-        : m_text("", style) {}
+    Builder(FontStyle &style = theme::fontStyle()) : m_text("", style) {}
 
     constexpr Builder &wrapWords(bool value) {
       m_wrapWords = value;
@@ -23,7 +22,7 @@ struct Label : Widget {
       return *this;
     }
 
-    constexpr Builder &fontStyle(theme::FontStyle &value) {
+    constexpr Builder &fontStyle(FontStyle &value) {
       m_text.style = value;
       return *this;
     }
@@ -44,7 +43,7 @@ struct Label : Widget {
 
   Label(const char *content,
         bool wrapWords = true,
-        theme::FontStyle &style = theme::fontStyle())
+        FontStyle &style = theme::fontStyle())
       : text(content, style), wrapWords(wrapWords) {}
 
   Label(Text text, bool wrapWords = true) : text(text), wrapWords(wrapWords) {}

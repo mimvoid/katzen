@@ -1,16 +1,14 @@
 #pragma once
-#include <raylib.h>
 #include "FontStyle.hpp"
 
 namespace katzen::theme {
-FontStyle loadDefaultFontStyle();
 FontStyle &fontStyle();
-void setFontStyle(FontStyle style);
-
 Font font();
-
 float fontSize();
 float fontSpacing();
+
+void setFontStyle(FontStyle style);
+void setDefaultFontStyle();
 
 void setFontProperties(float size, float spacing);
 void setFontSize(float size);

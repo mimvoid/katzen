@@ -7,10 +7,9 @@
 namespace katzen {
 struct Text {
   const char *content{""};
-  theme::FontStyle &style;
+  FontStyle &style;
 
-  Text(const char *content, theme::FontStyle &style)
-      : content(content), style(style) {
+  Text(const char *content, FontStyle &style) : content(content), style(style) {
     updateSize();
   }
 

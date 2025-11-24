@@ -5,7 +5,6 @@
 
 int main(void) {
   namespace k = katzen;
-  using katzen::theme::FontStyle;
 
   SetConfigFlags(FLAG_WINDOW_HIGHDPI | FLAG_WINDOW_RESIZABLE
                  | FLAG_WINDOW_MAXIMIZED);
@@ -15,8 +14,8 @@ int main(void) {
 
   // Set up font styles
   Font font = GetFontDefault();
-  FontStyle bodyStyle(font, 18.0f, 2.0f);
-  FontStyle titleStyle(font, 36.0f, 2.0f);
+  k::FontStyle bodyStyle(font, 18.0f, 2.0f);
+  k::FontStyle titleStyle(font, 36.0f, 2.0f);
   k::theme::setFontStyle(bodyStyle);
 
   // Root and widget creation

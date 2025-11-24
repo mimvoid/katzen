@@ -1,32 +1,27 @@
 #include "../../include/theme/fonts.hpp"
-#include <raylib.h>
-#include <cassert>
 #include <optional>
 
 namespace katzen::theme {
-static std::optional<FontStyle> defaultFontStyle;
+static std::optional<FontStyle> defaultFontStyle{};
 
-FontStyle loadDefaultFontStyle() {
-  assert(!defaultFontStyle.has_value());
-
-  Font fontDefault = GetFontDefault();
-  defaultFontStyle.emplace(GetFontDefault(), fontDefault.baseSize);
-
-  return defaultFontStyle.value();
-}
-
-void setFontStyle(FontStyle style) { defaultFontStyle = style; }
+// NOTE: Using value() throws an exception if there is no value, while the
+// dereference operators cause undefined behavior.
 
 FontStyle &fontStyle() { return defaultFontStyle.value(); }
-Font font() { return defaultFontStyle->font; }
+Font font() { return defaultFontStyle.value().font; }
+float fontSize() { return defaultFontStyle.value().size(); }
+float fontSpacing() { return defaultFontStyle.value().spacing; }
 
-float fontSize() { return defaultFontStyle->size(); }
-float fontSpacing() { return defaultFontStyle->spacing; }
+void setDefaultFontStyle() { defaultFontStyle.emplace(GetFontDefault()); }
+void setFontStyle(FontStyle style) { defaultFontStyle = style; }
+
+void setFontSize(float size) { defaultFontStyle.value().setSize(size); }
+void setFontSpacing(float spacing) {
+  defaultFontStyle.value().spacing = spacing;
+}
 
 void setFontProperties(float size, float spacing) {
   setFontSize(size);
   setFontSpacing(spacing);
 }
-void setFontSize(float size) { defaultFontStyle->setSize(size); }
-void setFontSpacing(float spacing) { defaultFontStyle->spacing = spacing; }
 } // namespace katzen::theme
