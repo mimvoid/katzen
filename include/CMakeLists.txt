@@ -7,6 +7,7 @@ set(KATZEN_SOURCES
   theme/fonts.cpp
   widgets/Box.cpp
   widgets/Checkbox.cpp
+  widgets/IconLabel.cpp
   widgets/Label.cpp
   widgets/Slider.cpp
   widgets/Widget.cpp
@@ -44,6 +45,7 @@ set(KATZEN_HEADERS
   widgets/Button.hpp
   widgets/Checkbox.hpp
   widgets/Icon.hpp
+  widgets/IconLabel.hpp
   widgets/Label.hpp
   widgets/Slider.hpp
   widgets/Spacer.hpp

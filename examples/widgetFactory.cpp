@@ -29,13 +29,10 @@ int main(void) {
    */
 
   // Title
-  root.child.push(
-      k::Box::Builder()
-          .spacing(4)
-          .reserve(2)
-          .emplace<k::Icon>(k::KatzIcon::CAT_HEAD, 2)
-          .emplace<k::Label>("katzen Widget Factory", true, titleStyle)
-          .build());
+  root.child.emplace<k::IconLabel>(
+      k::Icon(k::KatzIcon::CAT_HEAD, 2),
+      k::Label("katzen Widget Factory", true, titleStyle),
+      4);
 
   root.child.emplace<k::Label>(
       "Introducing katzen, a dynamic retained mode GUI library written with raylib and C++17!");
