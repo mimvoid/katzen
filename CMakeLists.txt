@@ -7,6 +7,10 @@ project(katzen
 )
 
 set(CMAKE_CXX_STANDARD 17)
+add_compile_options(
+  -Wall -Wextra -Wpedantic
+  $<$<CONFIG:Debug>:-Werror=return-type>
+)
 
 option(KATZEN_BUILD_INSTALL "Generate the install target for katzen" ON)
 option(KATZEN_BUILD_TESTS "Build the tests for katzen" OFF)
