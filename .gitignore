@@ -6,3 +6,6 @@ result
 
 # Build directory
 build/
+
+# Clang
+.cache/
