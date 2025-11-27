@@ -1,5 +1,5 @@
-#include "../../include/parts/Text.hpp"
-#include "../../include/parts/textHelpers.hpp"
+#include "parts/Text.hpp"
+#include "parts/textHelpers.hpp"
 
 namespace katzen {
 void Text::draw(Vector2 position, Color color) {

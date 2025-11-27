@@ -1,4 +1,4 @@
-#include "../../include/widgets/Widget.hpp"
+#include "widgets/Widget.hpp"
 
 namespace katzen {
 void Widget::repaint(Gctx g) {

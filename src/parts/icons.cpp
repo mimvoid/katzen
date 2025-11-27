@@ -1,5 +1,5 @@
-#include "../../include/parts/icons.hpp"
-#include "../../include/icons/katz_fill.h"
+#include "parts/icons.hpp"
+#include "icons/katz_fill.h"
 
 namespace katzen {
 const static unsigned int *guiIconsPtr = katzFillIcons;

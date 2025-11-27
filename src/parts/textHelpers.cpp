@@ -1,4 +1,4 @@
-#include "../../include/parts/textHelpers.hpp"
+#include "parts/textHelpers.hpp"
 #include <utility>
 
 namespace katzen {

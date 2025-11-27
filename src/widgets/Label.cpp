@@ -1,4 +1,4 @@
-#include "../../include/widgets/Label.hpp"
+#include "widgets/Label.hpp"
 #include <cmath>
 
 namespace katzen {

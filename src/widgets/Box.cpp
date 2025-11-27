@@ -1,5 +1,5 @@
-#include "../../include/widgets/Box.hpp"
-#include "../../include/core/vectors.hpp"
+#include "widgets/Box.hpp"
+#include "core/vectors.hpp"
 
 namespace katzen {
 Vec2 Box::remeasureChildren() {

@@ -1,4 +1,4 @@
-#include "../../include/widgets/IconLabel.hpp"
+#include "widgets/IconLabel.hpp"
 #include <algorithm>
 #include <cassert>
 #include <utility>

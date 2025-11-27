@@ -1,4 +1,4 @@
-#include "../../include/theme/fonts.hpp"
+#include "theme/fonts.hpp"
 #include <optional>
 
 namespace katzen::theme {
