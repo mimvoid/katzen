@@ -79,4 +79,95 @@ struct Edges {
     left = x;
   }
 };
+
+#ifdef DOCTEST_LIBRARY_INCLUDED
+TEST_CASE("[katzen] Test Edges") {
+  SUBCASE("Equality") {
+    const Edges e1{1, 2, 3, 4};
+
+    SUBCASE("Edges are equal") {
+      const Edges e2{1, 2, 3, 4};
+      REQUIRE(e1 == e2);
+      REQUIRE(!(e1 != e2));
+    }
+
+    SUBCASE("Edges are not equal") {
+      const Edges e2{2, 4, 1, 4};
+      REQUIRE(e1 != e2);
+      REQUIRE(!(e1 == e2));
+    }
+
+    SUBCASE("Edges are aliases") {
+      const Edges &e2 = e1;
+      REQUIRE(e1 == e1);
+      REQUIRE(!(e1 != e1));
+      REQUIRE(e1 == e2);
+      REQUIRE(!(e1 != e2));
+    }
+  }
+
+  SUBCASE("Construct Edges") {
+    REQUIRE(Edges() == Edges{0, 0, 0, 0});
+    REQUIRE(Edges(1) == Edges{1, 1, 1, 1});
+    REQUIRE(Edges(1, 2) == Edges{1, 2, 1, 2});
+    REQUIRE(Edges(1, 2, 3, 4) == Edges{1, 2, 3, 4});
+  }
+
+  SUBCASE("Get Edges value by enum") {
+    const Edges edges{1, 2, 3, 4};
+
+    CHECK(edges.get(Edge::TOP) == 1);
+    CHECK(edges.get(Edge::RIGHT) == 2);
+    CHECK(edges.get(Edge::BOTTOM) == 3);
+    CHECK(edges.get(Edge::LEFT) == 4);
+  }
+
+  SUBCASE("Set Edges value by enum") {
+    SUBCASE("Top field value") {
+      Edges edges{1, 2, 3, 4};
+      edges.set(Edge::TOP, 0);
+      CHECK(edges == Edges{0, 2, 3, 4});
+    }
+
+    SUBCASE("Right field value") {
+      Edges edges{1, 2, 3, 4};
+      edges.set(Edge::RIGHT, 0);
+      CHECK(edges == Edges{1, 0, 3, 4});
+    }
+
+    SUBCASE("Bottom field value") {
+      Edges edges{1, 2, 3, 4};
+      edges.set(Edge::BOTTOM, 0);
+      CHECK(edges == Edges{1, 2, 0, 4});
+    }
+
+    SUBCASE("Left field value") {
+      Edges edges{1, 2, 3, 4};
+      edges.set(Edge::LEFT, 0);
+      CHECK(edges == Edges{1, 2, 3, 0});
+    }
+  }
+
+  SUBCASE("Get Edges values by axis") {
+    const Edges edges{1, 2, 3, 4};
+
+    CHECK(edges.getSum(katzen::Axis::X) == 6);
+    CHECK(edges.getSum(katzen::Axis::Y) == 4);
+  }
+
+  SUBCASE("Set Edges field values") {
+    SUBCASE("One value") {
+      Edges edges{1, 2, 3, 4};
+      edges.set(5);
+      CHECK(edges == Edges{5, 5, 5, 5});
+    }
+
+    SUBCASE("Two values") {
+      Edges edges{1, 2, 3, 4};
+      edges.set(5, 6);
+      CHECK(edges == Edges{5, 6, 5, 6});
+    }
+  }
+}
+#endif
 } // namespace katzen

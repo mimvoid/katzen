@@ -34,7 +34,6 @@ add_subdirectory(src)
 add_subdirectory(include)
 
 if (KATZEN_BUILD_TESTS)
-  enable_testing()
   add_subdirectory(tests)
 endif()
 

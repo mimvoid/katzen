@@ -63,4 +63,31 @@ typedef vec2_t<float> Vec2;
 typedef vec2_t<int> IVec2;
 typedef vec2_t<unsigned int> UVec2;
 typedef vec2_t<bool> BVec2;
+
+#ifdef DOCTEST_LIBRARY_INCLUDED
+TEST_CASE("[katzen] Get Vec2 value by axis") {
+  const Vec2 v{1.0f, 2.0f};
+
+  CHECK(v.get(Axis::X) == 1.0f);
+  CHECK(v.get(Axis::Y) == 2.0f);
+}
+
+TEST_CASE("[katzen] Set Vec2 value by axis") {
+  SUBCASE("Set value by x-axis") {
+    Vec2 v{1.0f, 2.0f};
+    v.set(Axis::X, 3.0f);
+
+    CHECK(v.x == 3.0f);
+    CHECK(v.y == 2.0f);
+  }
+
+  SUBCASE("Set value by y-axis") {
+    Vec2 v{1.0f, 2.0f};
+    v.set(Axis::Y, 3.0f);
+
+    CHECK(v.x == 1.0f);
+    CHECK(v.y == 3.0f);
+  }
+}
+#endif
 } // namespace katzen

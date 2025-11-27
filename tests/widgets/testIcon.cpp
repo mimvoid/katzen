@@ -1,12 +1,9 @@
-#include <catch2/catch_test_macros.hpp>
-#include "../../include/icons/katz_icons.hpp"
-#include "../../include/widgets/Icon.hpp"
+#include <doctest/doctest.h>
+#include "icons/katz_icons.hpp"
+#include "widgets/Icon.hpp"
 
-using katzen::Gctx;
-using katzen::KatzIcon;
-using katzen::Icon;
-
-TEST_CASE("Initial fields", "[icon]") {
+namespace katzen {
+TEST_CASE("[katzen] Icon initial fields") {
   const Icon withName(KatzIcon::ALARM_CLOCK);
   REQUIRE(withName.icon == static_cast<uint8_t>(KatzIcon::ALARM_CLOCK));
   REQUIRE(withName.scale() == 1);
@@ -16,24 +13,25 @@ TEST_CASE("Initial fields", "[icon]") {
   REQUIRE(withSize.scale() == 2);
 }
 
-TEST_CASE("Set icon size, within bounds", "[icon]") {
+TEST_CASE("[katzen] Set Icon size, within bounds") {
   Icon icon(KatzIcon::ALARM_CLOCK);
   icon.setScale(2);
-  REQUIRE(icon.scale() == 2);
+  CHECK(icon.scale() == 2);
 }
 
-TEST_CASE("Try setting icon size of 0", "[icon]") {
+TEST_CASE("[katzen] Try setting Icon size of 0") {
   Icon icon(KatzIcon::ALARM_CLOCK);
   icon.setScale(0);
-  REQUIRE(icon.scale() == 1);
+  CHECK(icon.scale() == 1);
 }
 
-TEST_CASE("Measure icon size", "[icon]") {
+TEST_CASE("[katzen] Measure Icon size") {
   Icon icon(KatzIcon::WAVE);
   icon.padding.set(0);
   icon.repaint(Gctx());
 
   const int iconSize = icon.scale() * RAYGUI_ICON_SIZE;
-  REQUIRE(icon.width() == iconSize);
-  REQUIRE(icon.height() == iconSize);
+  CHECK(icon.width() == iconSize);
+  CHECK(icon.height() == iconSize);
 }
+} // namespace katzen

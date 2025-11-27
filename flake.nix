@@ -48,7 +48,7 @@
 
             # Libraries
             (pkgs.raylib.override { platform = "SDL"; })
-            pkgs.catch2_3
+            doctest
           ];
         };
       });
