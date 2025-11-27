@@ -1,20 +1,7 @@
-add_library(katzen)
-
-set(KATZEN_SOURCES
-  parts/icons.cpp
-  parts/Text.cpp
-  parts/textHelpers.cpp
-  theme/fonts.cpp
-  widgets/Box.cpp
-  widgets/Checkbox.cpp
-  widgets/IconLabel.cpp
-  widgets/Label.cpp
-  widgets/Slider.cpp
-  widgets/Widget.cpp
-)
-list(TRANSFORM KATZEN_SOURCES PREPEND ${CMAKE_SOURCE_DIR}/src/)
-
-set(KATZEN_HEADERS
+target_sources(katzen PUBLIC
+FILE_SET HEADERS
+TYPE HEADERS
+FILES
   katzen.hpp
   core.hpp
   widgets.hpp
@@ -52,46 +39,3 @@ set(KATZEN_HEADERS
   widgets/Widget.hpp
   widgets/WidgetBuilder.hpp
 )
-
-target_sources(katzen PRIVATE ${KATZEN_SOURCES})
-target_sources(katzen PUBLIC
-  FILE_SET HEADERS
-  TYPE HEADERS
-  FILES ${KATZEN_HEADERS}
-)
-
-set_target_properties(katzen PROPERTIES
-  VERSION ${PROJECT_VERSION}
-  SOVERSION ${PROJECT_VERSION_MAJOR}
-)
-
-# Dependencies
-find_package(raylib REQUIRED)
-target_link_libraries(katzen PRIVATE raylib)
-
-# Installation
-if (KATZEN_BUILD_INSTALL)
-  include(GNUInstallDirs)
-
-  install(TARGETS katzen
-    DESTINATION "${CMAKE_INSTALL_LIBDIR}"
-    EXPORT katzenTargets
-    FILE_SET HEADERS DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/katzen"
-  )
-  install(EXPORT katzenTargets
-    NAMESPACE katzen::
-    DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/katzen"
-  )
-
-  include(CMakePackageConfigHelpers)
-
-  write_basic_package_version_file(
-    "${CMAKE_CURRENT_BINARY_DIR}/katzenConfigVersion.cmake"
-    COMPATIBILITY AnyNewerVersion
-  )
-  install(FILES
-    "${CMAKE_SOURCE_DIR}/cmake/katzenConfig.cmake"
-    "${CMAKE_CURRENT_BINARY_DIR}/katzenConfigVersion.cmake"
-    DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/katzen"
-  )
-endif()

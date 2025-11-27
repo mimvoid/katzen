@@ -1,0 +1,13 @@
+target_sources(katzen
+  PRIVATE
+  parts/icons.cpp
+  parts/Text.cpp
+  parts/textHelpers.cpp
+  theme/fonts.cpp
+  widgets/Box.cpp
+  widgets/Checkbox.cpp
+  widgets/IconLabel.cpp
+  widgets/Label.cpp
+  widgets/Slider.cpp
+  widgets/Widget.cpp
+)
