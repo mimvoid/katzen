@@ -22,6 +22,8 @@ namespace katzen {
 template <class WidgetT>
 struct Root : Bin<WidgetT> {
   std::optional<Color> customBgColor{};
+  bool clearBg = true;
+
   Edges padding{0, 0, 0, 0};
   Align halign{Align::CENTER};
   Align valign{Align::CENTER};
@@ -59,7 +61,9 @@ struct Root : Bin<WidgetT> {
 
   // A shortcut to draw the child widget.
   void draw() {
-    ClearBackground(customBgColor.value_or(theme::theme.backgroundColor));
+    if (clearBg) {
+      ClearBackground(customBgColor.value_or(theme::theme.backgroundColor));
+    }
 
     Dctx d{theme::theme.borderWidth,
            theme::theme.borderRadius,
