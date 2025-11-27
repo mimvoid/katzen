@@ -60,18 +60,10 @@ struct Icon : Widget {
     m_scale = std::max((uint8_t)1, value);
   }
 
-  void draw(Dctx &d) override {
-    drawIcon(icon,
-             x() + padding.left,
-             y() + padding.top,
-             m_scale * d.iconSize,
-             d.colors.text);
-  }
+  void draw(Dctx &d) override;
 
 protected:
-  float measure(Axis axis) const override {
-    return padding.getSum(axis) + measureIcon();
-  }
+  float measure(Axis axis) const override;
 
   constexpr int measureIcon() const { return m_scale * RAYGUI_ICON_SIZE; }
 
