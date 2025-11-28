@@ -1,6 +1,6 @@
 #pragma once
 #include <functional>
-#include "../parts/Reactive.hpp"
+#include "parts/Reactive.hpp"
 #include "Widget.hpp"
 #include "WidgetBuilder.hpp"
 

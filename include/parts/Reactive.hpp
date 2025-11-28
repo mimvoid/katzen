@@ -1,5 +1,5 @@
 #pragma once
-#include "../core/Dctx.hpp"
+#include "core/Dctx.hpp"
 
 namespace katzen {
 /**

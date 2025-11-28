@@ -1,8 +1,8 @@
 #pragma once
 #include <raylib.h>
-#include "../core/Axis.hpp"
-#include "../core/vectors.hpp"
-#include "../theme/FontStyle.hpp"
+#include "core/Axis.hpp"
+#include "core/vectors.hpp"
+#include "theme/FontStyle.hpp"
 
 namespace katzen {
 struct Text {

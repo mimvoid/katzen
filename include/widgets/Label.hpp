@@ -1,6 +1,6 @@
 #pragma once
-#include "../parts/Text.hpp"
-#include "../theme/fonts.hpp"
+#include "parts/Text.hpp"
+#include "theme/fonts.hpp"
 #include "Widget.hpp"
 #include "WidgetBuilder.hpp"
 

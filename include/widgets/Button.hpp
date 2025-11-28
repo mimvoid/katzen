@@ -1,8 +1,8 @@
 #pragma once
 #include <cassert>
 #include <functional>
-#include "../parts/Bin.hpp"
-#include "../parts/Reactive.hpp"
+#include "parts/Bin.hpp"
+#include "parts/Reactive.hpp"
 #include "Widget.hpp"
 #include "WidgetBuilder.hpp"
 

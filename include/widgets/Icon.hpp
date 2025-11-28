@@ -2,8 +2,8 @@
 #include <cstdint>
 #include <optional>
 #include <type_traits>
-#include "../parts/icons.hpp"
-#include "../theme.hpp"
+#include "parts/icons.hpp"
+#include "theme.hpp"
 #include "Widget.hpp"
 #include "WidgetBuilder.hpp"
 

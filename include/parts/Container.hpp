@@ -2,7 +2,7 @@
 #include <memory>
 #include <type_traits>
 #include <vector>
-#include "../core/DynamicCastPtr.hpp"
+#include "core/DynamicCastPtr.hpp"
 
 namespace katzen {
 struct Widget;
@@ -62,8 +62,8 @@ protected:
 };
 
 struct Container : OpaqueContainer {
-  using OpaqueContainer::value_type;
   using OpaqueContainer::size_type;
+  using OpaqueContainer::value_type;
 
   template <class T>
   WidgetPtr<T> pushGet(T &&child) {

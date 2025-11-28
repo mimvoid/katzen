@@ -2,10 +2,10 @@
 #include <raylib.h>
 #include <algorithm>
 #include <climits>
-#include "../core/Dctx.hpp"
-#include "../core/Edges.hpp"
-#include "../core/Gctx.hpp"
-#include "../core/vectors.hpp"
+#include "core/Dctx.hpp"
+#include "core/Edges.hpp"
+#include "core/Gctx.hpp"
+#include "core/vectors.hpp"
 
 namespace katzen {
 /**
@@ -87,10 +87,7 @@ protected:
     m_rect.y = g.y;
   }
 
-  inline void setBounds(Gctx g) {
-    m_bounds.x = g.w;
-    m_bounds.y = g.h;
-  }
+  inline void setBounds(Gctx g) { m_bounds = {g.w, g.h}; }
 
   constexpr float clampSize(float size, Axis axis) const {
     switch (axis) {

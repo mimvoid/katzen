@@ -1,8 +1,8 @@
 #pragma once
 #include <utility>
 #include <vector>
-#include "../core/Align.hpp"
-#include "../parts/Container.hpp"
+#include "core/Align.hpp"
+#include "parts/Container.hpp"
 #include "Widget.hpp"
 #include "WidgetBuilder.hpp"
 
