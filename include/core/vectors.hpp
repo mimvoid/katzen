@@ -62,7 +62,6 @@ struct vec2_t {
 typedef vec2_t<float> Vec2;
 typedef vec2_t<int> IVec2;
 typedef vec2_t<unsigned int> UVec2;
-typedef vec2_t<bool> BVec2;
 
 #ifdef DOCTEST_LIBRARY_INCLUDED
 TEST_CASE("[katzen] Get Vec2 value by axis") {

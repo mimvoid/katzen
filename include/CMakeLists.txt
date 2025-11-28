@@ -9,6 +9,7 @@ FILES
   Root.hpp
   core/Align.hpp
   core/Axis.hpp
+  core/BVec2.hpp
   core/Dctx.hpp
   core/DynamicCastPtr.hpp
   core/Edges.hpp

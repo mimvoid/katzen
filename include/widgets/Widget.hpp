@@ -2,6 +2,7 @@
 #include <raylib.h>
 #include <algorithm>
 #include <climits>
+#include "core/BVec2.hpp"
 #include "core/Dctx.hpp"
 #include "core/Edges.hpp"
 #include "core/Gctx.hpp"
