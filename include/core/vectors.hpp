@@ -44,7 +44,7 @@ struct vec2_t {
 
   // Methods
 
-  constexpr float get(Axis axis) const {
+  constexpr T get(Axis axis) const {
     switch (axis) {
     case Axis::X: return x;
     case Axis::Y: return y;
