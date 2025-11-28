@@ -3,15 +3,15 @@
 
 namespace katzen::theme {
 struct Theme {
-  uint8_t borderWidth;
-  uint8_t borderRadius;
-  uint8_t iconSize;
-  Color backgroundColor;
+  uint8_t borderWidth{2};
+  uint8_t borderRadius{0};
+  uint8_t iconSize{1};
+  Color backgroundColor{240, 240, 240, 255};
 
-  StateColors normal;
-  StateColors disabled;
-  StateColors focus;
-  StateColors active;
+  StateColors normal{};
+  StateColors disabled{};
+  StateColors focus{};
+  StateColors active{};
 };
 
 static Theme theme{

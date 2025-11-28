@@ -33,6 +33,8 @@ struct Slider : Widget, Reactive {
   Axis direction{Axis::X};
   OnValueChange onValueChange{};
 
+  Slider() = default;
+
   Slider(float initialValue, OnValueChange onValueChange = OnValueChange())
       : onValueChange(onValueChange) {
     setValue(initialValue);
