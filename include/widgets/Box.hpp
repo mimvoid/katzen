@@ -32,9 +32,11 @@ struct Box : Widget, Container {
   void draw(Dctx &d) override;
 
 protected:
-  Vec2 remeasureChildren();
+  Vec2 remeasureChildren(Gctx g);
   float measureChildren(Axis axis) const;
   float measure(Axis a) const override;
+
+  void positionChildren(Vec2 childrenSize);
 
   constexpr Align align(Axis axis) const {
     switch (axis) {
