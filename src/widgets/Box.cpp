@@ -14,7 +14,7 @@ Vec2 Box::remeasureChildren(Gctx g) {
   }
 
   // Save information for use later
-  const float dirBound = (direction == Axis::X) ? g.w : g.h;
+  const float dirBound = g.size(direction);
   const Axis flipDir = flip(direction);
 
   // Size of the children in the Box's direction
@@ -30,16 +30,16 @@ Vec2 Box::remeasureChildren(Gctx g) {
 
   // Measure children
   for (value_type &w : m_children) {
+    if (w->expand.get(direction)) {
+      expandedChildren.push_back(w.get());
+      continue;
+    }
+
     Gctx gCopy = g;
     gCopy.clip(direction, dirSize);
     w->repaint(gCopy);
 
-    if (w->expand.get(direction)) {
-      expandedChildren.push_back(w.get());
-    } else {
-      dirSize += w->size(direction);
-    }
-
+    dirSize += w->size(direction);
     flipDirSize = std::max(w->size(flipDir), flipDirSize);
   }
 
@@ -49,9 +49,12 @@ Vec2 Box::remeasureChildren(Gctx g) {
         std::max(0.0f, dirBound - dirSize) / expCount;
 
     for (Widget *w : expandedChildren) {
-      w->m_bounds.set(direction, expandedSize);
-      w->resize(direction);
+      Gctx gCopy = g;
+      g.clip(direction, expandedSize);
+      w->repaint(gCopy);
+
       dirSize += w->size(direction);
+      flipDirSize = std::max(w->size(flipDir), flipDirSize);
     }
   }
 
