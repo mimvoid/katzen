@@ -28,6 +28,7 @@ struct Box : Widget, Container {
         valign(valign) {}
 
   void repaint(Gctx &g) override;
+  void translate(float dx, float dy) override;
   void draw(Dctx &d) override;
 
 protected:

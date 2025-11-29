@@ -31,6 +31,11 @@ struct Button : Widget, Reactive, Bin<ChildT> {
     resize();
   }
 
+  void translate(float dx, float dy) override {
+    Widget::translate(dx, dy);
+    this->child.translate(dx, dy);
+  }
+
   void draw(Dctx &d) override {
     const Rectangle box = (Rectangle)m_rect;
 

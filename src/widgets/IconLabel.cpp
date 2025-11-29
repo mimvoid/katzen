@@ -51,6 +51,12 @@ void IconLabel::repaint(Gctx &g) {
   }
 }
 
+void IconLabel::translate(float dx, float dy) {
+  Widget::translate(dx, dy);
+  icon.translate(dx, dy);
+  label.translate(dx, dy);
+}
+
 void IconLabel::draw(Dctx &d) {
   icon.draw(d);
   label.draw(d);

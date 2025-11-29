@@ -2,6 +2,11 @@
 #include "core/vectors.hpp"
 
 namespace katzen {
+void Box::translate(float dx, float dy) {
+  Widget::translate(dx, dy);
+  translateChildren(dx, dy);
+}
+
 Vec2 Box::remeasureChildren() {
   if (m_children.empty()) return Vec2{0.0f, 0.0f};
 

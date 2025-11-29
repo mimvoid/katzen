@@ -28,6 +28,7 @@ struct IconLabel : Widget {
 
   float measure(Axis axis) const override;
   void repaint(Gctx &g) override;
+  void translate(float dx, float dy) override;
   void draw(Dctx &d) override;
 
   struct Builder : WidgetBuilder<Builder> {
