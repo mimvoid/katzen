@@ -84,7 +84,7 @@ float Box::measure(Axis axis) const {
   return clampSize(size, axis);
 }
 
-void Box::repaint(Gctx g) {
+void Box::repaint(Gctx &g) {
   setBounds(g);
   reposition(g);
 
@@ -129,22 +129,23 @@ void Box::repaint(Gctx g) {
 
   for (value_type &child : m_children) {
     if (isFirst) {
-      g.translateClip(direction, spacing);
       isFirst = false;
+    } else {
+      g.translateClip(direction, spacing);
     }
 
     Widget &w = *child;
+    Gctx gCopy = g;
 
     if (flipAlign == Align::START || w.expand.get(flipDir)) {
-      repaintChild(w, g);
+      repaintChild(w, gCopy);
     } else {
       const float sizeDiff =
           size(flipDir) - padding.getSum(flipDir) - w.size(flipDir);
 
       if (sizeDiff <= 0.0f) {
-        repaintChild(w, g);
+        repaintChild(w, gCopy);
       } else {
-        Gctx gCopy = g;
         gCopy.translateClip(
             flipDir,
             (flipAlign == Align::CENTER) ? (sizeDiff / 2.0f) : sizeDiff);
@@ -159,14 +160,10 @@ void Box::repaint(Gctx g) {
 
 void Box::draw(Dctx &d) {
   const State savedState = d.state;
-  const StateColors savedColors = d.colors;
 
   for (value_type &w : m_children) {
     w->draw(d);
-
-    // Reset
-    d.state = savedState;
-    d.colors = savedColors;
+    d.state = savedState; // reset
   }
 }
 } // namespace katzen

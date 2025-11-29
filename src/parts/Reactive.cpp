@@ -1,5 +1,4 @@
 #include "parts/Reactive.hpp"
-#include "theme.hpp"
 
 namespace katzen {
 bool Reactive::updateState(Dctx &d, Rectangle widgetArea) {
@@ -20,7 +19,6 @@ bool Reactive::updateState(Dctx &d, Rectangle widgetArea) {
   if (m_state != d.state) {
     // The state changed, update colors
     d.state = m_state;
-    d.colors = theme::getStateColors(m_state);
   }
 
   return pressed;

@@ -5,8 +5,8 @@ void Icon::draw(Dctx &d) {
   drawIcon(icon,
            x() + padding.left,
            y() + padding.top,
-           m_scale * d.iconSize,
-           d.colors.text);
+           m_scale * d.theme.iconSize,
+           d.colors().text);
 }
 
 float Icon::measure(Axis axis) const {

@@ -1,7 +1,8 @@
 #include "widgets/Widget.hpp"
+#include <algorithm>
 
 namespace katzen {
-void Widget::repaint(Gctx g) {
+void Widget::repaint(Gctx &g) {
   setBounds(g);
   reposition(g);
   resize();

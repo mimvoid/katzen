@@ -7,9 +7,10 @@ struct Stock : katzen::Widget {
   void draw([[maybe_unused]] katzen::Dctx &d) override {}
 };
 
-Gctx debugGctx() {
+Gctx g{};
+
+Gctx &resetGctx() {
   // The tests run without a window open, so fake the window size
-  Gctx g{};
   g.x = 0;
   g.y = 0;
   g.w = 960;
@@ -19,13 +20,13 @@ Gctx debugGctx() {
 
 Stock initStock() {
   Stock w = Stock();
-  w.repaint(debugGctx());
+  w.repaint(resetGctx());
   return w;
 }
 
 TEST_CASE("[katzen] Widget Stock position") {
   Stock w = Stock();
-  const Gctx g = debugGctx();
+  Gctx g = resetGctx();
   w.repaint(g);
 
   const Vec2 pos{w.x(), w.y()};
@@ -46,7 +47,7 @@ TEST_CASE("[katzen] Widget Stock position") {
 
 TEST_CASE("[katzen] Widget Stock max size") {
   Stock w = Stock();
-  const Gctx g = debugGctx();
+  Gctx g = resetGctx();
   w.repaint(g);
 
   SUBCASE("Maximum size is consistent with Gctx bounds") {
@@ -57,7 +58,7 @@ TEST_CASE("[katzen] Widget Stock max size") {
 
 TEST_CASE("[katzen] Widget Stock min size") {
   Stock w = Stock();
-  const Gctx g = debugGctx();
+  Gctx g = resetGctx();
   w.repaint(g);
 
   SUBCASE("Set minimum size to greater than Gctx bounds") {

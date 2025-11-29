@@ -1,6 +1,6 @@
 #pragma once
-#include "../core/Edges.hpp"
-#include "../core/vectors.hpp"
+#include "core/Edges.hpp"
+#include "core/vectors.hpp"
 #include "Widget.hpp"
 
 namespace katzen {
@@ -49,9 +49,9 @@ struct WidgetBuilder {
   }
 
 protected:
-  BVec2 m_expand{false, false};
-  UVec2 m_minSize{0, 0};
-  Edges m_padding{0, 0, 0, 0};
+  BVec2 m_expand{};
+  UVec2 m_minSize{};
+  Edges m_padding{};
 
   constexpr void setWidgetProps(Widget &widget) const {
     widget.expand = m_expand;

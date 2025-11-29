@@ -7,6 +7,20 @@ namespace katzen {
  * A basic widget with no content. May be useful for specific layouts.
  */
 struct Spacer : Widget {
+  struct Builder;
+
+  constexpr Spacer() = default;
+
+  constexpr Spacer(unsigned int width,
+                   unsigned int height,
+                   bool hexpand = false,
+                   bool vexpand = false) {
+    minSize = UVec2{width, height};
+    expand = {hexpand, vexpand};
+  }
+
+  void draw([[maybe_unused]] Dctx &d) override {}
+
   struct Builder : WidgetBuilder<Builder> {
     // Create a spacer widget.
     Spacer build() const {
@@ -15,19 +29,5 @@ struct Spacer : Widget {
       return spacer;
     }
   };
-
-  constexpr Spacer() = default;
-
-  constexpr Spacer(unsigned int width,
-                   unsigned int height,
-                   bool hexpand = false,
-                   bool vexpand = false) {
-    minSize.x = width;
-    minSize.y = height;
-    expand.x = hexpand;
-    expand.y = vexpand;
-  }
-
-  void draw([[maybe_unused]] Dctx &d) override {}
 };
 } // namespace katzen

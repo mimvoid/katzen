@@ -2,13 +2,45 @@
 #include <cstdint>
 #include <optional>
 #include <type_traits>
-#include "../parts/icons.hpp"
-#include "../theme.hpp"
 #include "Widget.hpp"
 #include "WidgetBuilder.hpp"
+#include "parts/icons.hpp"
 
 namespace katzen {
 struct Icon : Widget {
+  struct Builder;
+
+  uint8_t icon;
+
+  constexpr Icon(uint8_t icon, uint8_t scale = 1)
+      : icon(icon), m_scale(scale < 1 ? 1 : scale) {}
+
+  template <typename E>
+  constexpr Icon(E icon, uint8_t scale = 1) {
+    setIcon(icon);
+    setScale(scale);
+  }
+
+  template <typename E>
+  constexpr void setIcon(E iconId) {
+    static_assert(std::is_enum_v<E>, "Given icon id type is an enum");
+    icon = static_cast<std::underlying_type_t<E>>(iconId);
+  }
+
+  constexpr uint8_t scale() const { return m_scale; }
+  constexpr void setScale(uint8_t value) { m_scale = value < 1 ? 1 : value; }
+
+  void draw(Dctx &d) override;
+
+protected:
+  float measure(Axis axis) const override;
+
+  constexpr int measureIcon() const { return m_scale * RAYGUI_ICON_SIZE; }
+
+private:
+  uint8_t m_scale{1};
+
+public:
   struct Builder : WidgetBuilder<Builder> {
     constexpr Builder &icon(uint8_t value) {
       m_icon = value;
@@ -23,7 +55,7 @@ struct Icon : Widget {
     }
 
     constexpr Builder &scale(uint8_t value) {
-      m_scale = std::max((uint8_t)1, value);
+      m_scale = value < 1 ? 1 : value;
       return *this;
     }
 
@@ -37,37 +69,5 @@ struct Icon : Widget {
     uint8_t m_icon{0};
     std::optional<uint8_t> m_scale{};
   };
-
-  uint8_t icon;
-
-  constexpr Icon(uint8_t icon, uint8_t scale = theme::theme.iconSize)
-      : icon(icon), m_scale(std::max((uint8_t)1, scale)) {}
-
-  template <typename E>
-  constexpr Icon(E icon, uint8_t scale = theme::theme.iconSize) {
-    setIcon(icon);
-    setScale(scale);
-  }
-
-  template <typename E>
-  constexpr void setIcon(E iconId) {
-    static_assert(std::is_enum_v<E>, "Given icon id type is an enum");
-    icon = static_cast<std::underlying_type_t<E>>(iconId);
-  }
-
-  constexpr uint8_t scale() const { return m_scale; }
-  constexpr void setScale(uint8_t value) {
-    m_scale = std::max((uint8_t)1, value);
-  }
-
-  void draw(Dctx &d) override;
-
-protected:
-  float measure(Axis axis) const override;
-
-  constexpr int measureIcon() const { return m_scale * RAYGUI_ICON_SIZE; }
-
-private:
-  uint8_t m_scale{1};
 };
 } // namespace katzen

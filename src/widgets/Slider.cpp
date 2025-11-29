@@ -1,14 +1,18 @@
 #include "widgets/Slider.hpp"
-#include "parts/scales.hpp"
-#include "theme/fonts.hpp"
-#include "theme.hpp"
 #include <raylib.h>
+#include <algorithm>
+#include "parts/scales.hpp"
 
 namespace katzen {
+void Slider::repaint(Gctx &g) {
+  m_fontSize = g.font.size();
+  Widget::repaint(g);
+}
+
 void Slider::draw(Dctx &d) {
   const Rectangle box = (Rectangle)m_rect;
 
-  const float gap = d.borderWidth * 2;
+  const float gap = d.theme.borderWidth * 2;
   const Rectangle trough{
       box.x + gap, box.y + gap, box.width - (2 * gap), box.height - (2 * gap)};
 
@@ -20,6 +24,8 @@ void Slider::draw(Dctx &d) {
     if (m_state == State::ACTIVE) m_dragging = true;
   }
 
+  StateColors colors = d.colors();
+
   if (m_dragging) {
     if (IsMouseButtonReleased(MOUSE_LEFT_BUTTON)) {
       m_dragging = false;
@@ -29,7 +35,7 @@ void Slider::draw(Dctx &d) {
 
     if (d.state != State::ACTIVE) {
       // Even if the state isn't active, use the active colors anyway
-      d.colors = theme::getStateColors(State::ACTIVE);
+      colors = d.theme.active;
     }
 
     // Update the slider value
@@ -54,16 +60,16 @@ void Slider::draw(Dctx &d) {
   }
 
   // Drawing the slider
-  DrawRectangleRec(box, d.colors.base); // base
-  if (d.borderWidth != 0) {
-    DrawRectangleLinesEx(box, d.borderWidth, d.colors.border); // border
+  DrawRectangleRec(box, colors.base); // base
+  if (d.theme.borderWidth != 0) {
+    DrawRectangleLinesEx(box, d.theme.borderWidth, colors.border); // border
   }
 
   if (m_value == 0.0f) {
     return; // no trough to draw
   }
   if (m_value == 1.0f) {
-    DrawRectangleRec(trough, d.colors.border);
+    DrawRectangleRec(trough, colors.border);
     return;
   }
 
@@ -76,13 +82,13 @@ void Slider::draw(Dctx &d) {
     filledTrough.y += trough.height - filledTrough.height;
   }
 
-  DrawRectangleRec(filledTrough, d.colors.border);
+  DrawRectangleRec(filledTrough, colors.border);
 }
 
 float Slider::measure(Axis axis) const {
   const float size =
       padding.getSum(axis)
-      + (m_sizeScale * theme::fontSize() * ((axis == direction) ? 4 : 1));
+      + (m_sizeScale * m_fontSize * ((axis == direction) ? 4 : 1));
 
   return clampSize(size, axis);
 }

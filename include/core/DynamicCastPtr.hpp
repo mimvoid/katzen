@@ -8,7 +8,11 @@ namespace katzen {
  */
 template <typename From, typename To>
 struct DynamicCastPtr {
-  std::weak_ptr<From> ptr;
+  std::weak_ptr<From> ptr{};
+
+  constexpr operator bool() const noexcept { return expired(); }
+
+  constexpr bool expired() const noexcept { return ptr.expired(); }
 
   constexpr std::shared_ptr<To> lock() const {
     return std::dynamic_pointer_cast<To>(ptr.lock());

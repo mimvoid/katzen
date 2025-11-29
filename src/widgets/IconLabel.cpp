@@ -24,7 +24,7 @@ float IconLabel::measure(Axis axis) const {
 
   if (axis == Axis::X) {
     size += icon.width();
-    if (!label.text.empty()) {
+    if (!label.empty()) {
       size += spacing + label.width();
     }
   } else {
@@ -34,7 +34,7 @@ float IconLabel::measure(Axis axis) const {
   return clampSize(size, axis);
 }
 
-void IconLabel::repaint(Gctx g) {
+void IconLabel::repaint(Gctx &g) {
   Widget::repaint(g);
   g.pad(padding);
 
@@ -44,7 +44,7 @@ void IconLabel::repaint(Gctx g) {
   g.translateClip(0.0f, iconOffset);
   icon.repaint(g);
 
-  if (!label.text.empty()) {
+  if (!label.empty()) {
     g.translateClip(icon.width() + spacing,
                     offset(paddedHeight, label.height(), valign) - iconOffset);
     label.repaint(g);

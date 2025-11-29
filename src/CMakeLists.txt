@@ -2,14 +2,13 @@ target_sources(katzen
   PRIVATE
   parts/icons.cpp
   parts/Reactive.cpp
-  parts/Text.cpp
   parts/textHelpers.cpp
-  theme/fonts.cpp
   widgets/Box.cpp
   widgets/Checkbox.cpp
   widgets/Icon.cpp
   widgets/IconLabel.cpp
   widgets/Label.cpp
+  widgets/LabelEx.cpp
   widgets/Slider.cpp
   widgets/Widget.cpp
 )

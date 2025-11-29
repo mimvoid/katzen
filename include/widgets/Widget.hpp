@@ -1,11 +1,9 @@
 #pragma once
-#include <raylib.h>
-#include <algorithm>
-#include <climits>
-#include "../core/Dctx.hpp"
-#include "../core/Edges.hpp"
-#include "../core/Gctx.hpp"
-#include "../core/vectors.hpp"
+#include "core/BVec2.hpp"
+#include "core/Edges.hpp"
+#include "core/vectors.hpp"
+#include "root/Dctx.hpp"
+#include "root/Gctx.hpp"
 
 namespace katzen {
 /**
@@ -17,9 +15,9 @@ struct Widget {
 
   virtual ~Widget() = default;
 
-  UVec2 minSize{0, 0};
-  Edges padding{0, 0, 0, 0};
-  BVec2 expand{false, false};
+  UVec2 minSize{};
+  Edges padding{};
+  BVec2 expand{};
 
   /*******************/
   /* Position & Size */
@@ -55,15 +53,13 @@ struct Widget {
   /**********/
 
   // Resize and reposition the widget and its children, if any.
-  virtual void repaint(Gctx g);
+  virtual void repaint(Gctx &g);
 
   // Render the widget on the screen at its retained position.
   virtual void draw(Dctx &d) = 0;
 
 protected:
-  constexpr Widget() = default;
-
-  Rect m_rect{0, 0, 0, 0};
+  Rect m_rect{};
   // Maximum sizes that may be overridden by repaints.
   UVec2 m_bounds{GetRenderWidth(), GetRenderHeight()};
 
@@ -82,21 +78,30 @@ protected:
     m_rect.y = p.y;
   }
 
-  inline void reposition(Gctx g) {
+  inline void reposition(Gctx &g) {
     m_rect.x = g.x;
     m_rect.y = g.y;
   }
 
-  inline void setBounds(Gctx g) {
-    m_bounds.x = g.w;
-    m_bounds.y = g.h;
-  }
+  inline void setBounds(Gctx &g) { m_bounds = {g.w, g.h}; }
 
   constexpr float clampSize(float size, Axis axis) const {
+    float min = 0.0f;
+    float max = 0.0f;
+
     switch (axis) {
-    case Axis::X: return std::clamp(size, (float)minSize.x, (float)m_bounds.x);
-    case Axis::Y: return std::clamp(size, (float)minSize.y, (float)m_bounds.y);
+    case Axis::X:
+      min = minSize.x;
+      max = m_bounds.x;
+      break;
+    case Axis::Y:
+      min = minSize.y;
+      max = m_bounds.y;
+      break;
     }
+
+    if (size < min) return min;
+    return size <= max ? size : max;
   }
 
   // Remeasure and save the width.

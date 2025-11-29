@@ -5,28 +5,29 @@
 namespace katzen {
 enum class Edge : uint8_t { TOP, RIGHT, BOTTOM, LEFT };
 
-struct Edges {
-  int top{0};
-  int right{0};
-  int bottom{0};
-  int left{0};
+template <typename T>
+struct edges_t {
+  T top{0};
+  T right{0};
+  T bottom{0};
+  T left{0};
 
-  constexpr Edges(int top, int right, int bottom, int left) noexcept
+  constexpr edges_t(T top, T right, T bottom, T left) noexcept
       : top(top), right(right), bottom(bottom), left(left) {}
 
-  constexpr Edges(int y, int x) noexcept : Edges(y, x, y, x) {}
-  constexpr Edges(int val) noexcept : Edges(val, val) {}
-  constexpr Edges() noexcept {}
+  constexpr edges_t(T y, T x) noexcept : edges_t(y, x, y, x) {}
+  constexpr edges_t(T val) noexcept : edges_t(val, val) {}
+  constexpr edges_t() noexcept {}
 
-  constexpr bool operator==(const Edges &other) const {
+  constexpr bool operator==(const edges_t &other) const {
     return (top == other.top) && (right == other.right)
            && (bottom == other.bottom) && (left == other.left);
   }
-  constexpr bool operator!=(const Edges &other) const {
+  constexpr bool operator!=(const edges_t &other) const {
     return !(*this == other);
   }
 
-  constexpr int get(Edge edge) const {
+  constexpr T get(Edge edge) const {
     switch (edge) {
     case Edge::TOP:    return top;
     case Edge::RIGHT:  return right;
@@ -38,14 +39,14 @@ struct Edges {
   /**
    * Gets the sum of the values by axis.
    */
-  constexpr int getSum(Axis axis) const {
+  constexpr T getSum(Axis axis) const {
     switch (axis) {
     case Axis::X: return left + right;
     case Axis::Y: return top + bottom;
     }
   }
 
-  constexpr void set(Edge edge, int value) {
+  constexpr void set(Edge edge, T value) {
     switch (edge) {
     case Edge::TOP:    top = value; break;
     case Edge::RIGHT:  right = value; break;
@@ -59,7 +60,7 @@ struct Edges {
    *
    * @param value The value to assign
    */
-  constexpr void set(int value) {
+  constexpr void set(T value) {
     top = value;
     right = value;
     bottom = value;
@@ -72,13 +73,15 @@ struct Edges {
    * @param y The value for the top and bottom
    * @param x The value for left and right
    */
-  constexpr void set(int y, int x) {
+  constexpr void set(T y, T x) {
     top = y;
     right = x;
     bottom = y;
     left = x;
   }
 };
+
+typedef edges_t<int> Edges;
 
 #ifdef DOCTEST_LIBRARY_INCLUDED
 TEST_CASE("[katzen] Test Edges") {
