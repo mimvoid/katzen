@@ -48,9 +48,17 @@ Vec2 Box::remeasureChildren(Gctx g) {
     const unsigned int expandedSize =
         std::max(0.0f, dirBound - dirSize) / expCount;
 
+    g.size(direction, expandedSize);
+
     for (Widget *w : expandedChildren) {
+      // Repaint to properly measure the child
+      Gctx gCopy = g;
+      w->repaint(gCopy);
+
+      // Reexpand child widget
       w->m_bounds.set(direction, expandedSize);
       w->resize(direction);
+
       dirSize += w->size(direction);
     }
   }
