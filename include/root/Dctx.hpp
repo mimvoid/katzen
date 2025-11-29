@@ -1,6 +1,7 @@
 #pragma once
 #include "core/State.hpp"
 #include "theme/FontStyle.hpp"
+#include "theme/Theme.hpp"
 
 namespace katzen {
 /**
@@ -8,14 +9,13 @@ namespace katzen {
  * lookups, and stores a widget state that can be passed to children.
  */
 struct Dctx {
+  const Theme &theme;
   FontStyle font{};
-  StateColors colors{};
-
-  const uint8_t borderWidth{2};
-  const uint8_t borderRadius{0};
-  const uint8_t iconSize{1};
-
   State state{State::NORMAL};
   uint8_t cursor{MOUSE_CURSOR_DEFAULT};
+
+  constexpr const StateColors &colors() const {
+    return theme.stateColors(state);
+  }
 };
 } // namespace katzen

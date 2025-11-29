@@ -14,18 +14,20 @@ void Checkbox::draw(Dctx &d) {
     if (onCheck) onCheck(checked);
   }
 
-  DrawRectangleRec(box, d.colors.base);
-  if (d.borderWidth != 0) {
-    DrawRectangleLinesEx(box, d.borderWidth, d.colors.border);
+  const StateColors &colors = d.colors();
+
+  DrawRectangleRec(box, colors.base);
+  if (d.theme.borderWidth != 0) {
+    DrawRectangleLinesEx(box, d.theme.borderWidth, colors.border);
   }
 
   if (checked) {
-    const float gap = d.borderWidth * 2;
+    const float gap = d.theme.borderWidth * 2;
     DrawRectangleRec({box.x + gap,
                       box.y + gap,
                       box.width - (2 * gap),
                       box.height - (2 * gap)},
-                     d.colors.border);
+                     colors.border);
   }
 }
 

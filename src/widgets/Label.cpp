@@ -28,7 +28,7 @@ void Label::repaint(Gctx &g) {
   resize();
 }
 
-void Label::draw(Dctx &d) { drawStyled(d.font, d.colors.text); }
+void Label::draw(Dctx &d) { drawStyled(d.font, d.colors().text); }
 
 void Label::drawStyled(FontStyle &style, Color textColor) {
   if (empty()) return;

@@ -1,14 +1,12 @@
 #pragma once
-#include <raylib.h>
-#include <optional>
 #include <utility>
 #include "Dctx.hpp"
 #include "Gctx.hpp"
 #include "core/Align.hpp"
 #include "core/Edges.hpp"
 #include "parts/Bin.hpp"
-#include "theme.hpp"
 #include "theme/FontStyle.hpp"
+#include "theme/Theme.hpp"
 
 namespace katzen {
 /**
@@ -22,14 +20,14 @@ namespace katzen {
  */
 template <class WidgetT>
 struct Root : Bin<WidgetT> {
-  FontStyle themeFont{};
-
-  std::optional<Color> customBgColor{};
-  bool clearBg = true;
+  Theme theme{};
+  FontStyle font{};
 
   Edges padding{0, 0, 0, 0};
   Align halign{Align::CENTER};
   Align valign{Align::CENTER};
+
+  bool clearBg = true;
 
   // Construct the Root object's child widget in-place.
   template <typename... Args>
@@ -65,16 +63,10 @@ struct Root : Bin<WidgetT> {
   // A shortcut to draw the child widget.
   void draw() {
     if (clearBg) {
-      ClearBackground(customBgColor.value_or(theme::theme.backgroundColor));
+      ClearBackground(theme.backgroundColor);
     }
 
-    Dctx d{
-        themeFont,
-        theme::theme.normal,
-        theme::theme.borderWidth,
-        theme::theme.borderRadius,
-        theme::theme.iconSize,
-    };
+    Dctx d{theme, font};
     this->child.draw(d);
 
     SetMouseCursor(d.cursor);
@@ -89,7 +81,7 @@ private:
    * and padding.
    */
   Gctx &resetGctx() {
-    m_g.font = themeFont;
+    m_g.font = font;
     m_g.reset(padding);
 
     m_g.x += offset(m_g.w, this->child.width(), halign);

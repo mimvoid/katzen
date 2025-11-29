@@ -5,7 +5,6 @@ FILES
   katzen.hpp
   core.hpp
   widgets.hpp
-  theme.hpp
   core/Align.hpp
   core/Axis.hpp
   core/BVec2.hpp
@@ -27,6 +26,7 @@ FILES
   root/Gctx.hpp
   root/Root.hpp
   theme/FontStyle.hpp
+  theme/Theme.hpp
   widgets/Box.hpp
   widgets/Button.hpp
   widgets/Checkbox.hpp

@@ -19,7 +19,7 @@ int main(void) {
 
   // Root and widget creation
   k::Root<k::Box> root(8, k::Axis::Y, k::Align::CENTER, k::Align::CENTER);
-  root.themeFont = bodyStyle;
+  root.font = bodyStyle;
   root.child.reserve(4);
 
   /**

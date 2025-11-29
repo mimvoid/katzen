@@ -160,14 +160,10 @@ void Box::repaint(Gctx &g) {
 
 void Box::draw(Dctx &d) {
   const State savedState = d.state;
-  const StateColors savedColors = d.colors;
 
   for (value_type &w : m_children) {
     w->draw(d);
-
-    // Reset
-    d.state = savedState;
-    d.colors = savedColors;
+    d.state = savedState; // reset
   }
 }
 } // namespace katzen

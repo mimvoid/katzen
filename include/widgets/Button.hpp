@@ -38,9 +38,9 @@ struct Button : Widget, Reactive, Bin<ChildT> {
       onPress();
     }
 
-    DrawRectangleRec(box, d.colors.base);
-    if (d.borderWidth != 0) {
-      DrawRectangleLinesEx(box, d.borderWidth, d.colors.border);
+    DrawRectangleRec(box, d.colors().base);
+    if (d.theme.borderWidth != 0) {
+      DrawRectangleLinesEx(box, d.theme.borderWidth, d.colors().border);
     }
 
     this->child.draw(d);

@@ -5,7 +5,6 @@
 #include "Widget.hpp"
 #include "WidgetBuilder.hpp"
 #include "parts/icons.hpp"
-#include "theme.hpp"
 
 namespace katzen {
 struct Icon : Widget {
@@ -13,11 +12,11 @@ struct Icon : Widget {
 
   uint8_t icon;
 
-  constexpr Icon(uint8_t icon, uint8_t scale = theme::theme.iconSize)
+  constexpr Icon(uint8_t icon, uint8_t scale = 1)
       : icon(icon), m_scale(scale < 1 ? 1 : scale) {}
 
   template <typename E>
-  constexpr Icon(E icon, uint8_t scale = theme::theme.iconSize) {
+  constexpr Icon(E icon, uint8_t scale = 1) {
     setIcon(icon);
     setScale(scale);
   }
