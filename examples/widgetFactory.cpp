@@ -24,7 +24,7 @@ int main(void) {
 
   /**
    * Widgets can be emplaced or pushed into container widgets.
-   * It's recommended to emplace them to avoid multiple allocations.
+   * Emplacing makes fewer allocations, while pushing can be more flexible.
    */
 
   // Title

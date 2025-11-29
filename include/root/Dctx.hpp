@@ -5,8 +5,8 @@
 
 namespace katzen {
 /**
- * A drawing context, which keeps track of simple theme variables for fewer
- * lookups, and stores a widget state that can be passed to children.
+ * A drawing context that provides theme settings and stores a widget state
+ * that can be passed to children.
  */
 struct Dctx {
   const Theme &theme;

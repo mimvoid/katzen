@@ -10,10 +10,10 @@
 
 namespace katzen {
 /**
- * An entry-point for creating a widget tree.
+ * An entry-point for a widget tree.
  *
- * Its job is to detect window resizes, handle Gctx initialization, and repaint
- * the child widgets.
+ * Its job is to detect manage global states like the theme and font style,
+ * window resizes, Gctx initialization, and repainting the child widgets.
  *
  * Since Root only holds one widget, it is recommended to use a container widget
  * like Box to hold multiple widgets and handle the layout.
@@ -37,15 +37,15 @@ struct Root : Bin<WidgetT> {
 
   Root(WidgetT &&child) : Bin<WidgetT>(std::move(child)) { repaint(); }
 
-  // Call this when it is needed to manually repaint or update the state.
+  // Call this to manually repaint the children.
   void repaint() {
     this->child.repaint(resetGctx());
     m_repaintedLastFrame = true;
   }
 
   /**
-   * Checks if the window has been resized and calls repaint automatically.
-   * This should usually be invoked every frame.
+   * Checks if the window has been resized and calls repaint if needed.
+   * For most use cases, this should be invoked every frame.
    *
    * HACK: raylib's window size measurements are a little off the frame after
    * window resizing (which is especially bad when switching to fullscreen).
@@ -60,7 +60,10 @@ struct Root : Bin<WidgetT> {
     }
   }
 
-  // A shortcut to draw the child widget.
+  /**
+   * Clears the background if clearBg is set to true, sets up widget drawing,
+   * and updates the mouse cursor.
+   */
   void draw() {
     if (clearBg) {
       ClearBackground(theme.backgroundColor);
@@ -77,8 +80,8 @@ private:
   bool m_repaintedLastFrame{false};
 
   /**
-   * Sizes and positions the Gctx according to the window size, alignment,
-   * and padding.
+   * Sets the Gctx according to the window size, alignment, and padding, and
+   * updates the default font style.
    */
   Gctx &resetGctx() {
     m_g.font = font;

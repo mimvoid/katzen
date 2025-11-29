@@ -4,6 +4,9 @@
 #include "theme/FontStyle.hpp"
 
 namespace katzen {
+/**
+ * A graphics context that provides necessary information for resizing widgets.
+ */
 struct Gctx : Rect {
   FontStyle font{};
 

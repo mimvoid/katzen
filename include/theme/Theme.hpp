@@ -2,6 +2,11 @@
 #include "core/State.hpp"
 
 namespace katzen {
+/**
+ * Settings to theme katzen widgets.
+ *
+ * NOTE: borderRadius is currently unimplemented
+ */
 struct Theme {
   StateColors normal{
       {242, 160, 164, 255}, {250, 223, 200, 255}, {39, 39, 42, 255}};
