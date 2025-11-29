@@ -1,6 +1,6 @@
 #pragma once
-#include "core/Edges.hpp"
-#include "core/vectors.hpp"
+#include "../core/Edges.hpp"
+#include "../core/vectors.hpp"
 #include "Widget.hpp"
 
 namespace katzen {

@@ -1,9 +1,9 @@
 #pragma once
 #include <utility>
+#include "../core/Align.hpp"
+#include "../parts/Container.hpp"
 #include "Widget.hpp"
 #include "WidgetBuilder.hpp"
-#include "core/Align.hpp"
-#include "parts/Container.hpp"
 
 namespace katzen {
 /**

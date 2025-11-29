@@ -1,7 +1,7 @@
 #pragma once
+#include "../core/vectors.hpp"
 #include "Widget.hpp"
 #include "WidgetBuilder.hpp"
-#include "core/vectors.hpp"
 
 namespace katzen {
 /**

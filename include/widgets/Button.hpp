@@ -2,8 +2,8 @@
 #include <functional>
 #include "Widget.hpp"
 #include "WidgetBuilder.hpp"
-#include "parts/Bin.hpp"
-#include "parts/Reactive.hpp"
+#include "../parts/Bin.hpp"
+#include "../parts/Reactive.hpp"
 
 namespace katzen {
 /**

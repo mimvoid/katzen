@@ -1,7 +1,7 @@
 #pragma once
 #include <raylib.h>
-#include "core/Rect.hpp"
-#include "theme/FontStyle.hpp"
+#include "../core/Rect.hpp"
+#include "../theme/FontStyle.hpp"
 
 namespace katzen {
 /**

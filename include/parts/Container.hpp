@@ -2,7 +2,7 @@
 #include <memory>
 #include <type_traits>
 #include <vector>
-#include "core/DynamicCastPtr.hpp"
+#include "../core/DynamicCastPtr.hpp"
 
 namespace katzen {
 struct Widget;

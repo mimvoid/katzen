@@ -1,5 +1,5 @@
 #pragma once
-#include "core/State.hpp"
+#include "../core/State.hpp"
 
 namespace katzen {
 /**

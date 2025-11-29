@@ -1,9 +1,9 @@
 #pragma once
-#include "core/BVec2.hpp"
-#include "core/Edges.hpp"
-#include "core/vectors.hpp"
-#include "root/Dctx.hpp"
-#include "root/Gctx.hpp"
+#include "../core/BVec2.hpp"
+#include "../core/Edges.hpp"
+#include "../core/vectors.hpp"
+#include "../root/Dctx.hpp"
+#include "../root/Gctx.hpp"
 
 namespace katzen {
 /**

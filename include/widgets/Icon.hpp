@@ -2,9 +2,9 @@
 #include <cstdint>
 #include <optional>
 #include <type_traits>
+#include "../parts/icons.hpp"
 #include "Widget.hpp"
 #include "WidgetBuilder.hpp"
-#include "parts/icons.hpp"
 
 namespace katzen {
 struct Icon : Widget {

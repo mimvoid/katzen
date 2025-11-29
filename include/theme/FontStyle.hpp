@@ -1,6 +1,6 @@
 #pragma once
 #include <raylib.h>
-#include "core/vectors.hpp"
+#include "../core/vectors.hpp"
 
 namespace katzen {
 /**

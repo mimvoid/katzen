@@ -1,7 +1,7 @@
 #pragma once
-#include "core/State.hpp"
-#include "theme/FontStyle.hpp"
-#include "theme/Theme.hpp"
+#include "../core/State.hpp"
+#include "../theme/FontStyle.hpp"
+#include "../theme/Theme.hpp"
 
 namespace katzen {
 /**

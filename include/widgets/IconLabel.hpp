@@ -1,9 +1,9 @@
 #pragma once
 #include <memory>
 #include <utility>
+#include "../core/Align.hpp"
 #include "Icon.hpp"
 #include "Label.hpp"
-#include "core/Align.hpp"
 
 namespace katzen {
 struct IconLabel : Widget {

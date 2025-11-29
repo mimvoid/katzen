@@ -1,12 +1,12 @@
 #pragma once
 #include <utility>
+#include "../core/Align.hpp"
+#include "../core/Edges.hpp"
+#include "../parts/Bin.hpp"
+#include "../theme/FontStyle.hpp"
+#include "../theme/Theme.hpp"
 #include "Dctx.hpp"
 #include "Gctx.hpp"
-#include "core/Align.hpp"
-#include "core/Edges.hpp"
-#include "parts/Bin.hpp"
-#include "theme/FontStyle.hpp"
-#include "theme/Theme.hpp"
 
 namespace katzen {
 /**
