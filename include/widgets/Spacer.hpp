@@ -15,7 +15,8 @@ struct Spacer : Widget {
                    unsigned int height,
                    bool hexpand = false,
                    bool vexpand = false) {
-    minSize = UVec2{width, height};
+    padding.left = width;
+    padding.top = height;
     expand = {hexpand, vexpand};
   }
 
@@ -24,8 +25,9 @@ struct Spacer : Widget {
   struct Builder : WidgetBuilder<Builder> {
     // Create a spacer widget.
     Spacer build() const {
-      Spacer spacer(m_minSize.x, m_minSize.y, m_expand.x, m_expand.y);
-      spacer.padding = m_padding;
+      Spacer spacer(m_padding.left, m_padding.top, m_expand.x, m_expand.y);
+      spacer.padding.bottom = m_padding.bottom;
+      spacer.padding.right = m_padding.right;
       return spacer;
     }
   };

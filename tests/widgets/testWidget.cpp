@@ -55,22 +55,4 @@ TEST_CASE("[katzen] Widget Stock max size") {
     CHECK(w.maxHeight() == g.h);
   }
 }
-
-TEST_CASE("[katzen] Widget Stock min size") {
-  Stock w = Stock();
-  Gctx g = resetGctx();
-  w.repaint(g);
-
-  SUBCASE("Set minimum size to greater than Gctx bounds") {
-    const unsigned int minWidth = g.w + 15.0f;
-    const unsigned int minHeight = g.h + 20.0f;
-
-    w.minSize.x = minWidth;
-    w.minSize.y = minHeight;
-    w.repaint(g);
-
-    CHECK(w.maxWidth() == g.w);
-    CHECK(w.maxHeight() == g.h);
-  }
-}
 } // namespace katzen

@@ -15,7 +15,6 @@ struct Widget {
 
   virtual ~Widget() = default;
 
-  UVec2 minSize{};
   Edges padding{};
   BVec2 expand{};
 
@@ -89,21 +88,8 @@ protected:
   inline void setBounds(Gctx &g) { m_bounds = {g.w, g.h}; }
 
   constexpr float clampSize(float size, Axis axis) const {
-    float min = 0.0f;
-    float max = 0.0f;
-
-    switch (axis) {
-    case Axis::X:
-      min = minSize.x;
-      max = m_bounds.x;
-      break;
-    case Axis::Y:
-      min = minSize.y;
-      max = m_bounds.y;
-      break;
-    }
-
-    if (size < min) return min;
+    if (size < 0) return 0;
+    float max = m_bounds.get(axis);
     return size <= max ? size : max;
   }
 
