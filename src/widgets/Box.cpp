@@ -129,8 +129,9 @@ void Box::repaint(Gctx &g) {
 
   for (value_type &child : m_children) {
     if (isFirst) {
-      g.translateClip(direction, spacing);
       isFirst = false;
+    } else {
+      g.translateClip(direction, spacing);
     }
 
     Widget &w = *child;
