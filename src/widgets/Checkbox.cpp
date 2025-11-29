@@ -16,9 +16,9 @@ void Checkbox::draw(Dctx &d) {
 
   const StateColors &colors = d.colors();
 
-  DrawRectangleRec(box, colors.base);
+  DrawRectangleRec(box, (Color)colors.base);
   if (d.theme.borderWidth != 0) {
-    DrawRectangleLinesEx(box, d.theme.borderWidth, colors.border);
+    DrawRectangleLinesEx(box, d.theme.borderWidth, (Color)colors.border);
   }
 
   if (checked) {
@@ -27,7 +27,7 @@ void Checkbox::draw(Dctx &d) {
                       box.y + gap,
                       box.width - (2 * gap),
                       box.height - (2 * gap)},
-                     colors.border);
+                     (Color)colors.border);
   }
 }
 

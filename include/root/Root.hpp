@@ -62,7 +62,7 @@ struct Root : Bin<WidgetT> {
    */
   void draw() {
     if (clearBg) {
-      ClearBackground(theme.backgroundColor);
+      ClearBackground((Color)theme.backgroundColor);
     }
 
     Dctx d{theme, font};

@@ -9,5 +9,5 @@ void LabelEx::repaint(Gctx &g) {
   resize();
 }
 
-void LabelEx::draw(Dctx &d) { drawStyled(style, d.colors().text); }
+void LabelEx::draw(Dctx &d) { drawStyled(style, (Color)d.colors().text); }
 } // namespace katzen

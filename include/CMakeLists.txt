@@ -11,6 +11,7 @@ FILES
   core/DynamicCastPtr.hpp
   core/Edges.hpp
   core/Rect.hpp
+  core/Rgba.hpp
   core/State.hpp
   core/vectors.hpp
   icons/katz_fill.h

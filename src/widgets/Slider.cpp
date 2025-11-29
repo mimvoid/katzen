@@ -60,16 +60,16 @@ void Slider::draw(Dctx &d) {
   }
 
   // Drawing the slider
-  DrawRectangleRec(box, colors.base); // base
+  DrawRectangleRec(box, (Color)colors.base); // base
   if (d.theme.borderWidth != 0) {
-    DrawRectangleLinesEx(box, d.theme.borderWidth, colors.border); // border
+    DrawRectangleLinesEx(box, d.theme.borderWidth, (Color)colors.border); // border
   }
 
   if (m_value == 0.0f) {
     return; // no trough to draw
   }
   if (m_value == 1.0f) {
-    DrawRectangleRec(trough, colors.border);
+    DrawRectangleRec(trough, (Color)colors.border);
     return;
   }
 
@@ -82,7 +82,7 @@ void Slider::draw(Dctx &d) {
     filledTrough.y += trough.height - filledTrough.height;
   }
 
-  DrawRectangleRec(filledTrough, colors.border);
+  DrawRectangleRec(filledTrough, (Color)colors.border);
 }
 
 float Slider::measure(Axis axis) const {

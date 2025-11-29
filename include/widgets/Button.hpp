@@ -1,9 +1,9 @@
 #pragma once
 #include <functional>
-#include "Widget.hpp"
-#include "WidgetBuilder.hpp"
 #include "../parts/Bin.hpp"
 #include "../parts/Reactive.hpp"
+#include "Widget.hpp"
+#include "WidgetBuilder.hpp"
 
 namespace katzen {
 /**
@@ -43,9 +43,9 @@ struct Button : Widget, Reactive, Bin<ChildT> {
       onPress();
     }
 
-    DrawRectangleRec(box, d.colors().base);
+    DrawRectangleRec(box, (Color)d.colors().base);
     if (d.theme.borderWidth != 0) {
-      DrawRectangleLinesEx(box, d.theme.borderWidth, d.colors().border);
+      DrawRectangleLinesEx(box, d.theme.borderWidth, (Color)d.colors().border);
     }
 
     this->child.draw(d);
