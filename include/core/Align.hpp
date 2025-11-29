@@ -1,8 +1,30 @@
 #pragma once
 #include <cstdint>
+#include "Axis.hpp"
 
 namespace katzen {
 enum class Align : uint8_t { START, CENTER, END };
+
+struct AlignVec2 {
+  Align x : 2;
+  Align y : 2;
+
+  constexpr AlignVec2() noexcept : x(Align::START), y(Align::START) {}
+  constexpr AlignVec2(Align x, Align y) noexcept : x(x), y(y) {}
+
+  constexpr Align get(Axis axis) const {
+    switch (axis) {
+    case Axis::X: return x;
+    case Axis::Y: return y;
+    }
+  }
+  constexpr void set(Axis axis, Align align) {
+    switch (axis) {
+    case Axis::X: x = align; break;
+    case Axis::Y: y = align; break;
+    }
+  }
+};
 
 /**
  * Calculate how much to offset a child according to how it is aligned with the

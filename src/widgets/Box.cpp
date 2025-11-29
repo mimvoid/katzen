@@ -90,8 +90,8 @@ float Box::measure(Axis axis) const {
 
 void Box::positionChildren(Vec2 childrenSize) {
   const Axis flipDir = flip(direction);
-  const Align dirAlign = align(direction);
-  const Align flipAlign = align(flipDir);
+  const Align dirAlign = align.get(direction);
+  const Align flipAlign = align.get(flipDir);
 
   const float parentFlip = size(flipDir) - padding.getSum(flipDir);
 

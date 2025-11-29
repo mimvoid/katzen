@@ -24,8 +24,7 @@ struct Root : Bin<WidgetT> {
   FontStyle font{};
 
   Edges padding{0, 0, 0, 0};
-  Align halign{Align::CENTER};
-  Align valign{Align::CENTER};
+  AlignVec2 align{Align::CENTER, Align::CENTER};
 
   bool clearBg = true;
 
@@ -45,8 +44,8 @@ struct Root : Bin<WidgetT> {
     // sizes would be based on an outdated screen size. Therefore, we translate
     // the children after we have measured their sizes.
     resetGctx();
-    this->child.translate(offset(m_g.w, this->child.width(), halign),
-                          offset(m_g.h, this->child.height(), valign));
+    this->child.translate(offset(m_g.w, this->child.width(), align.x),
+                          offset(m_g.h, this->child.height(), align.y));
   }
 
   /**
