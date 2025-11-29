@@ -40,24 +40,21 @@ struct Root : Bin<WidgetT> {
   // Call this to manually repaint the children.
   void repaint() {
     this->child.repaint(resetGctx());
-    m_repaintedLastFrame = true;
+
+    // When repainting, we didn't consider the Root's alignment, because the
+    // sizes would be based on an outdated screen size. Therefore, we translate
+    // the children after we have measured their sizes.
+    resetGctx();
+    this->child.translate(offset(m_g.w, this->child.width(), halign),
+                          offset(m_g.h, this->child.height(), valign));
   }
 
   /**
    * Checks if the window has been resized and calls repaint if needed.
    * For most use cases, this should be invoked every frame.
-   *
-   * HACK: raylib's window size measurements are a little off the frame after
-   * window resizing (which is especially bad when switching to fullscreen).
-   * To solve this, repaint twice.
    */
   void update() {
-    if (IsWindowResized()) {
-      repaint();
-    } else if (m_repaintedLastFrame) {
-      this->child.repaint(resetGctx());
-      m_repaintedLastFrame = false;
-    }
+    if (IsWindowResized()) repaint();
   }
 
   /**
@@ -77,7 +74,6 @@ struct Root : Bin<WidgetT> {
 
 private:
   Gctx m_g{};
-  bool m_repaintedLastFrame{false};
 
   /**
    * Sets the Gctx according to the window size, alignment, and padding, and
@@ -86,10 +82,6 @@ private:
   Gctx &resetGctx() {
     m_g.font = font;
     m_g.reset(padding);
-
-    m_g.x += offset(m_g.w, this->child.width(), halign);
-    m_g.y += offset(m_g.h, this->child.height(), valign);
-
     return m_g;
   }
 };
