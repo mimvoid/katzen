@@ -28,12 +28,15 @@ struct Box : Widget, Container {
         valign(valign) {}
 
   void repaint(Gctx &g) override;
+  void translate(float dx, float dy) override;
   void draw(Dctx &d) override;
 
 protected:
-  Vec2 remeasureChildren();
+  Vec2 remeasureChildren(Gctx g);
   float measureChildren(Axis axis) const;
   float measure(Axis a) const override;
+
+  void positionChildren(Vec2 childrenSize);
 
   constexpr Align align(Axis axis) const {
     switch (axis) {

@@ -55,6 +55,9 @@ struct Widget {
   // Resize and reposition the widget and its children, if any.
   virtual void repaint(Gctx &g);
 
+  // Translate the widget and its children, if any, without resizing.
+  virtual void translate(float dx, float dy);
+
   // Render the widget on the screen at its retained position.
   virtual void draw(Dctx &d) = 0;
 

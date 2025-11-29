@@ -2,47 +2,51 @@
 #include "core/vectors.hpp"
 
 namespace katzen {
-Vec2 Box::remeasureChildren() {
-  if (m_children.empty()) return Vec2{0.0f, 0.0f};
+void Box::translate(float dx, float dy) {
+  Widget::translate(dx, dy);
+  translateChildren(dx, dy);
+}
 
-  float dirSize = 0.0f;
+Vec2 Box::remeasureChildren(Gctx g) {
+  const size_type childrenSize = m_children.size();
+  if (childrenSize == 0) {
+    return Vec2{0.0f, 0.0f};
+  }
+
+  // Save information for use later
+  const float dirBound = (direction == Axis::X) ? g.w : g.h;
+  const Axis flipDir = flip(direction);
+
+  // Size of the children in the Box's direction
+  float dirSize = spacing * (childrenSize - 1);
+
+  // Size of the children in the opposite of the Box's direction
   float flipDirSize = 0.0f;
 
-  const size_type childrenSize = m_children.size();
-  dirSize += spacing * (childrenSize - 1);
-
-  std::vector<Widget *> expandedChildren;
+  // Expanded widgets are variable in size, so we'll remeasure them after other
+  // children have been measured
+  std::vector<Widget *> expandedChildren{};
   expandedChildren.reserve(childrenSize);
 
-  const Axis flipDir = flip(direction);
-  float maxChildSize = 0.0f;
-
-  const unsigned int maxDir =
-      m_bounds.get(direction) - padding.getSum(direction);
-  const unsigned int maxFlipDir =
-      m_bounds.get(flipDir) - padding.getSum(flipDir);
-
+  // Measure children
   for (value_type &w : m_children) {
-    // Box direction
+    Gctx gCopy = g;
+    gCopy.clip(direction, dirSize);
+    w->repaint(gCopy);
+
     if (w->expand.get(direction)) {
       expandedChildren.push_back(w.get());
     } else {
-      w->m_bounds.set(direction, static_cast<unsigned int>(maxDir - dirSize));
-      w->resize(direction);
       dirSize += w->size(direction);
     }
 
-    // Flipped direction
-    w->m_bounds.set(flipDir, maxFlipDir);
-    w->resize(flipDir);
-    maxChildSize = std::max(w->size(flipDir), maxChildSize);
+    flipDirSize = std::max(w->size(flipDir), flipDirSize);
   }
 
-  flipDirSize += maxChildSize;
-
-  if (!expandedChildren.empty()) {
+  // Remeasure expanded children
+  if (const size_t expCount = expandedChildren.size(); expCount != 0) {
     const unsigned int expandedSize =
-        std::max(0.0f, maxDir - dirSize) / expandedChildren.size();
+        std::max(0.0f, dirBound - dirSize) / expCount;
 
     for (Widget *w : expandedChildren) {
       w->m_bounds.set(direction, expandedSize);
@@ -84,78 +88,66 @@ float Box::measure(Axis axis) const {
   return clampSize(size, axis);
 }
 
+void Box::positionChildren(Vec2 childrenSize) {
+  const Axis flipDir = flip(direction);
+  const Align dirAlign = align(direction);
+  const Align flipAlign = align(flipDir);
+
+  const float parentFlip = size(flipDir) - padding.getSum(flipDir);
+
+  float dirOffset = offset(size(direction) - padding.getSum(direction),
+                           childrenSize.get(direction),
+                           dirAlign);
+
+  bool isFirst = true; // the first widget won't start with spacing
+
+  // Position each child
+  for (value_type &w : m_children) {
+    if (isFirst) {
+      isFirst = false;
+    } else {
+      dirOffset += spacing;
+    }
+
+    const float flipOffset = offset(parentFlip, w->size(flipDir), flipAlign);
+
+    float innerOffset = 0.0f;
+    if (dirAlign != Align::START && w->expand.get(direction)) {
+      innerOffset = offset(w->size(direction), w->measure(direction), dirAlign);
+    }
+
+    if (direction == Axis::X) {
+      w->translate(dirOffset + innerOffset, flipOffset);
+    } else {
+      w->translate(flipOffset, dirOffset + innerOffset);
+    }
+
+    dirOffset += w->size(direction);
+  }
+}
+
 void Box::repaint(Gctx &g) {
   setBounds(g);
   reposition(g);
 
-  Vec2 cSize = remeasureChildren();
-  m_rect.w = clampSize(cSize.x + padding.getSum(Axis::X), Axis::X);
-  m_rect.h = clampSize(cSize.y + padding.getSum(Axis::Y), Axis::Y);
-
-  if (m_children.empty()) {
+  const float childCount = m_children.size();
+  if (childCount == 0) {
+    // No children to measure, just resize based on padding
+    m_rect.w = clampSize(padding.getSum(Axis::X), Axis::X);
+    m_rect.h = clampSize(padding.getSum(Axis::Y), Axis::Y);
     return;
   }
 
+  // Measure children sizes
   g.pad(padding);
+  const Vec2 cSize = remeasureChildren(g);
 
-  if (expand.get(direction)) {
-    const Align dirAlign = align(direction);
+  // Update box size
+  m_rect.w = clampSize(cSize.x + padding.getSum(Axis::X), Axis::X);
+  m_rect.h = clampSize(cSize.y + padding.getSum(Axis::Y), Axis::Y);
 
-    if (dirAlign != Align::START) {
-      const float sizeDiff = offset(size(direction) - padding.getSum(direction),
-                                    cSize.get(direction),
-                                    dirAlign);
-
-      g.translateClip(direction, sizeDiff);
-    }
-  }
-
-  const Axis flipDir = flip(direction);
-  const Align flipAlign = align(flipDir);
-
-  const Axis dirCopy = direction;
-  const auto repaintChild = [dirCopy](Widget &w, Gctx &gctx) {
-    if (w.expand.get(dirCopy)) {
-      const unsigned int prevSize = std::max(0.0f, w.size(dirCopy));
-      w.repaint(gctx);
-      w.m_bounds.set(dirCopy, prevSize);
-      w.resize(dirCopy);
-    } else {
-      w.repaint(gctx);
-    }
-  };
-
-  bool isFirst = true;
-
-  for (value_type &child : m_children) {
-    if (isFirst) {
-      isFirst = false;
-    } else {
-      g.translateClip(direction, spacing);
-    }
-
-    Widget &w = *child;
-    Gctx gCopy = g;
-
-    if (flipAlign == Align::START || w.expand.get(flipDir)) {
-      repaintChild(w, gCopy);
-    } else {
-      const float sizeDiff =
-          size(flipDir) - padding.getSum(flipDir) - w.size(flipDir);
-
-      if (sizeDiff <= 0.0f) {
-        repaintChild(w, gCopy);
-      } else {
-        gCopy.translateClip(
-            flipDir,
-            (flipAlign == Align::CENTER) ? (sizeDiff / 2.0f) : sizeDiff);
-
-        repaintChild(w, gCopy);
-      }
-    }
-
-    g.translateClip(direction, w.size(direction));
-  }
+  // Position children after their sizes are known
+  positionChildren(cSize);
 }
 
 void Box::draw(Dctx &d) {
