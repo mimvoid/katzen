@@ -1,12 +1,35 @@
 #pragma once
 #include <memory>
 #include <utility>
-#include "core/Align.hpp"
 #include "Icon.hpp"
 #include "Label.hpp"
+#include "core/Align.hpp"
 
 namespace katzen {
 struct IconLabel : Widget {
+  struct Builder;
+
+  int spacing{0};
+  Align valign{Align::CENTER};
+  Icon icon;
+  Label label;
+
+  IconLabel(Icon &&icon,
+            Label &&label,
+            int spacing = 0,
+            Align valign = Align::CENTER);
+
+  template <typename E>
+  IconLabel(E icon,
+            const char *text,
+            int spacing = 0,
+            Align valign = Align::CENTER)
+      : spacing(spacing), valign(valign), icon(icon), label(text) {}
+
+  float measure(Axis axis) const override;
+  void repaint(Gctx g) override;
+  void draw(Dctx &d) override;
+
   struct Builder : WidgetBuilder<Builder> {
     template <typename... Args>
     constexpr Builder &icon(Args &&...args) {
@@ -38,26 +61,5 @@ struct IconLabel : Widget {
     std::unique_ptr<Label> m_label{};
     std::unique_ptr<Icon> m_icon{};
   };
-
-  int spacing{0};
-  Align valign{Align::CENTER};
-  Icon icon;
-  Label label;
-
-  IconLabel(Icon &&icon,
-            Label &&label,
-            int spacing = 0,
-            Align valign = Align::CENTER);
-
-  template <typename E>
-  IconLabel(E icon,
-            const char *text,
-            int spacing = 0,
-            Align valign = Align::CENTER)
-      : spacing(spacing), valign(valign), icon(icon), label(text) {}
-
-  float measure(Axis axis) const override;
-  void repaint(Gctx g) override;
-  void draw(Dctx &d) override;
 };
 } // namespace katzen

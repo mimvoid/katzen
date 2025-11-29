@@ -1,7 +1,4 @@
 #pragma once
-#include <raylib.h>
-#include <algorithm>
-#include <climits>
 #include "core/BVec2.hpp"
 #include "core/Dctx.hpp"
 #include "core/Edges.hpp"
@@ -18,9 +15,9 @@ struct Widget {
 
   virtual ~Widget() = default;
 
-  UVec2 minSize{0, 0};
-  Edges padding{0, 0, 0, 0};
-  BVec2 expand{false, false};
+  UVec2 minSize{};
+  Edges padding{};
+  BVec2 expand{};
 
   /*******************/
   /* Position & Size */
@@ -62,9 +59,7 @@ struct Widget {
   virtual void draw(Dctx &d) = 0;
 
 protected:
-  constexpr Widget() = default;
-
-  Rect m_rect{0, 0, 0, 0};
+  Rect m_rect{};
   // Maximum sizes that may be overridden by repaints.
   UVec2 m_bounds{GetRenderWidth(), GetRenderHeight()};
 
@@ -91,10 +86,22 @@ protected:
   inline void setBounds(Gctx g) { m_bounds = {g.w, g.h}; }
 
   constexpr float clampSize(float size, Axis axis) const {
+    float min = 0.0f;
+    float max = 0.0f;
+
     switch (axis) {
-    case Axis::X: return std::clamp(size, (float)minSize.x, (float)m_bounds.x);
-    case Axis::Y: return std::clamp(size, (float)minSize.y, (float)m_bounds.y);
+    case Axis::X:
+      min = minSize.x;
+      max = m_bounds.x;
+      break;
+    case Axis::Y:
+      min = minSize.y;
+      max = m_bounds.y;
+      break;
     }
+
+    if (size < min) return min;
+    return size <= max ? size : max;
   }
 
   // Remeasure and save the width.

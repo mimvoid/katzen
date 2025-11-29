@@ -1,14 +1,37 @@
 #pragma once
-#include "parts/Text.hpp"
-#include "theme/fonts.hpp"
 #include "Widget.hpp"
 #include "WidgetBuilder.hpp"
+#include "parts/Text.hpp"
+#include "theme/fonts.hpp"
 
 namespace katzen {
 /**
  * A widget that displays text.
  */
 struct Label : Widget {
+  struct Builder;
+
+  Text text;
+  bool wrapWords{true};
+
+  Label(const char *content,
+        bool wrapWords = true,
+        FontStyle &style = theme::fontStyle())
+      : text(content, style), wrapWords(wrapWords) {}
+
+  Label(Text text, bool wrapWords = true) : text(text), wrapWords(wrapWords) {}
+
+  void repaint(Gctx g) override;
+  void draw(Dctx &d) override;
+
+protected:
+  float measure(Axis axis) const override;
+
+  constexpr bool willWrap() const {
+    return wrapWords && (text.width() + padding.getSum(Axis::X) > maxWidth());
+  }
+
+public:
   struct Builder : WidgetBuilder<Builder> {
     Builder(FontStyle &style = theme::fontStyle()) : m_text("", style) {}
 
@@ -37,25 +60,5 @@ struct Label : Widget {
     Text m_text;
     bool m_wrapWords{true};
   };
-
-  Text text;
-  bool wrapWords{true};
-
-  Label(const char *content,
-        bool wrapWords = true,
-        FontStyle &style = theme::fontStyle())
-      : text(content, style), wrapWords(wrapWords) {}
-
-  Label(Text text, bool wrapWords = true) : text(text), wrapWords(wrapWords) {}
-
-  void repaint(Gctx g) override;
-  void draw(Dctx &d) override;
-
-protected:
-  float measure(Axis axis) const override;
-
-  constexpr bool willWrap() const {
-    return wrapWords && (text.width() + padding.getSum(Axis::X) > maxWidth());
-  }
 };
 } // namespace katzen

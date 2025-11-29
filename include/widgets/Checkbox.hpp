@@ -1,13 +1,33 @@
 #pragma once
 #include <functional>
-#include "parts/Reactive.hpp"
 #include "Widget.hpp"
 #include "WidgetBuilder.hpp"
+#include "parts/Reactive.hpp"
 
 namespace katzen {
 struct Checkbox : Widget, Reactive {
   using OnCheck = std::function<void(bool)>;
+  struct Builder;
 
+  bool checked{false};
+  OnCheck onCheck{};
+
+  Checkbox() = default;
+  Checkbox(bool checked, OnCheck callback)
+      : checked(checked), onCheck(callback) {}
+
+  constexpr float scale() const { return m_scale; }
+  constexpr void setScale(float scale) { m_scale = std::max(0.1f, scale); }
+
+  void draw(Dctx &d) override;
+
+protected:
+  float measure(Axis axis) const override;
+
+private:
+  float m_scale{1.0f};
+
+public:
   struct Builder : WidgetBuilder<Builder> {
     constexpr Builder &checked(bool value) {
       m_checked = value;
@@ -36,23 +56,5 @@ struct Checkbox : Widget, Reactive {
     float m_scale{1.0f};
     OnCheck m_onCheck{};
   };
-
-  bool checked{false};
-  OnCheck onCheck{};
-
-  Checkbox() = default;
-  Checkbox(bool checked, OnCheck callback)
-      : checked(checked), onCheck(callback) {}
-
-  constexpr float scale() const { return m_scale; }
-  constexpr void setScale(float scale) { m_scale = std::max(0.1f, scale); }
-
-  void draw(Dctx &d) override;
-
-protected:
-  float measure(Axis axis) const override;
-
-private:
-  float m_scale{1.0f};
 };
 } // namespace katzen

@@ -1,8 +1,9 @@
 #include "widgets/Slider.hpp"
-#include "parts/scales.hpp"
-#include "theme/fonts.hpp"
-#include "theme.hpp"
 #include <raylib.h>
+#include <algorithm>
+#include "parts/scales.hpp"
+#include "theme.hpp"
+#include "theme/fonts.hpp"
 
 namespace katzen {
 void Slider::draw(Dctx &d) {

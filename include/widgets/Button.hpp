@@ -1,10 +1,9 @@
 #pragma once
-#include <cassert>
 #include <functional>
-#include "parts/Bin.hpp"
-#include "parts/Reactive.hpp"
 #include "Widget.hpp"
 #include "WidgetBuilder.hpp"
+#include "parts/Bin.hpp"
+#include "parts/Reactive.hpp"
 
 namespace katzen {
 /**
@@ -13,7 +12,47 @@ namespace katzen {
 template <class ChildT>
 struct Button : Widget, Reactive, Bin<ChildT> {
   using OnPress = std::function<void()>;
+  struct Builder;
 
+  OnPress onPress;
+
+  Button(ChildT &&child, OnPress onPress = OnPress())
+      : Bin<ChildT>(std::move(child)), onPress(onPress) {
+    padding.set(8);
+  }
+
+  void repaint(Gctx g) override {
+    setBounds(g);
+    reposition(g);
+
+    g.pad(padding);
+    this->child.repaint(g);
+
+    resize();
+  }
+
+  void draw(Dctx &d) override {
+    const Rectangle box = (Rectangle)m_rect;
+
+    if (updateState(d, box) && onPress) {
+      onPress();
+    }
+
+    DrawRectangleRec(box, d.colors.base);
+    if (d.borderWidth != 0) {
+      DrawRectangleLinesEx(box, d.borderWidth, d.colors.border);
+    }
+
+    this->child.draw(d);
+  }
+
+protected:
+  float measure(Axis axis) const override {
+    const float size = this->child.size(axis) + padding.getSum(axis);
+    return clampSize(size, axis);
+  }
+
+public:
   struct Builder : WidgetBuilder<Builder>, BinBuilder<ChildT> {
     constexpr Builder() { this->m_padding.set(8); }
 
@@ -55,43 +94,5 @@ struct Button : Widget, Reactive, Bin<ChildT> {
     OnPress m_onPress{};
     bool m_enabled{true};
   };
-
-  OnPress onPress;
-
-  Button(ChildT &&child, OnPress onPress = OnPress())
-      : Bin<ChildT>(std::move(child)), onPress(onPress) {
-    padding.set(8);
-  }
-
-  void repaint(Gctx g) override {
-    setBounds(g);
-    reposition(g);
-
-    g.pad(padding);
-    this->child.repaint(g);
-
-    resize();
-  }
-
-  void draw(Dctx &d) override {
-    const Rectangle box = (Rectangle)m_rect;
-
-    if (updateState(d, box) && onPress) {
-      onPress();
-    }
-
-    DrawRectangleRec(box, d.colors.base);
-    if (d.borderWidth != 0) {
-      DrawRectangleLinesEx(box, d.borderWidth, d.colors.border);
-    }
-
-    this->child.draw(d);
-  }
-
-protected:
-  float measure(Axis axis) const override {
-    const float size = this->child.size(axis) + padding.getSum(axis);
-    return clampSize(size, axis);
-  }
 };
 } // namespace katzen

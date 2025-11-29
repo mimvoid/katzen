@@ -1,16 +1,49 @@
 #pragma once
 #include <functional>
-#include "parts/Reactive.hpp"
 #include "Widget.hpp"
 #include "WidgetBuilder.hpp"
+#include "parts/Reactive.hpp"
 
 namespace katzen {
 struct Slider : Widget, Reactive {
   using OnValueChange = std::function<void(float)>;
+  struct Builder;
 
+  Axis direction{Axis::X};
+  OnValueChange onValueChange{};
+
+  Slider() = default;
+
+  Slider(float initialValue, OnValueChange onValueChange = OnValueChange())
+      : onValueChange(onValueChange) {
+    setValue(initialValue);
+  }
+
+  constexpr float value() const { return m_value; }
+  constexpr void setValue(float value) {
+    if (value < 0.0f)
+      m_value = 0.0f;
+    else
+      m_value = value > 1.0f ? 1.0f : value;
+  }
+
+  void draw(Dctx &d) override;
+
+protected:
+  float measure(Axis axis) const override;
+
+private:
+  float m_value{0.0f};
+  float m_sizeScale{1.0f};
+  bool m_dragging{false};
+
+public:
   struct Builder : WidgetBuilder<Builder> {
     constexpr Builder &value(float value) {
-      m_initValue = std::clamp(value, 0.0f, 1.0f);
+      if (value < 0.0f)
+        m_initValue = 0.0f;
+      else
+        m_initValue = value > 1.0f ? 1.0f : value;
       return *this;
     }
 
@@ -29,30 +62,5 @@ struct Slider : Widget, Reactive {
     float m_initValue{0.0f};
     OnValueChange m_onValueChange{};
   };
-
-  Axis direction{Axis::X};
-  OnValueChange onValueChange{};
-
-  Slider() = default;
-
-  Slider(float initialValue, OnValueChange onValueChange = OnValueChange())
-      : onValueChange(onValueChange) {
-    setValue(initialValue);
-  }
-
-  constexpr float value() const { return m_value; }
-  constexpr void setValue(float value) {
-    m_value = std::clamp(value, 0.0f, 1.0f);
-  }
-
-  void draw(Dctx &d) override;
-
-protected:
-  float measure(Axis axis) const override;
-
-private:
-  float m_value{0.0f};
-  float m_sizeScale{1.0f};
-  bool m_dragging{false};
 };
 } // namespace katzen
