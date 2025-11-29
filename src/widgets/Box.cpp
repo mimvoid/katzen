@@ -111,10 +111,15 @@ void Box::positionChildren(Vec2 childrenSize) {
 
     const float flipOffset = offset(parentFlip, w->size(flipDir), flipAlign);
 
+    float innerOffset = 0.0f;
+    if (dirAlign != Align::START && w->expand.get(direction)) {
+      innerOffset = offset(w->size(direction), w->measure(direction), dirAlign);
+    }
+
     if (direction == Axis::X) {
-      w->translate(dirOffset, flipOffset);
+      w->translate(dirOffset + innerOffset, flipOffset);
     } else {
-      w->translate(flipOffset, dirOffset);
+      w->translate(flipOffset, dirOffset + innerOffset);
     }
 
     dirOffset += w->size(direction);
