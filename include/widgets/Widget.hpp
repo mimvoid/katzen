@@ -1,9 +1,9 @@
 #pragma once
 #include "core/BVec2.hpp"
-#include "core/Dctx.hpp"
 #include "core/Edges.hpp"
-#include "core/Gctx.hpp"
 #include "core/vectors.hpp"
+#include "root/Dctx.hpp"
+#include "root/Gctx.hpp"
 
 namespace katzen {
 /**
@@ -53,7 +53,7 @@ struct Widget {
   /**********/
 
   // Resize and reposition the widget and its children, if any.
-  virtual void repaint(Gctx g);
+  virtual void repaint(Gctx &g);
 
   // Render the widget on the screen at its retained position.
   virtual void draw(Dctx &d) = 0;
@@ -78,12 +78,12 @@ protected:
     m_rect.y = p.y;
   }
 
-  inline void reposition(Gctx g) {
+  inline void reposition(Gctx &g) {
     m_rect.x = g.x;
     m_rect.y = g.y;
   }
 
-  inline void setBounds(Gctx g) { m_bounds = {g.w, g.h}; }
+  inline void setBounds(Gctx &g) { m_bounds = {g.w, g.h}; }
 
   constexpr float clampSize(float size, Axis axis) const {
     float min = 0.0f;

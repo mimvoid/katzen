@@ -27,7 +27,7 @@ struct IconLabel : Widget {
       : spacing(spacing), valign(valign), icon(icon), label(text) {}
 
   float measure(Axis axis) const override;
-  void repaint(Gctx g) override;
+  void repaint(Gctx &g) override;
   void draw(Dctx &d) override;
 
   struct Builder : WidgetBuilder<Builder> {

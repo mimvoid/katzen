@@ -1,7 +1,11 @@
 #include "widgets/Checkbox.hpp"
-#include "theme/fonts.hpp"
 
 namespace katzen {
+void Checkbox::repaint(Gctx &g) {
+  m_fontSize = g.font.size();
+  Widget::repaint(g);
+}
+
 void Checkbox::draw(Dctx &d) {
   const Rectangle box = (Rectangle)m_rect;
 
@@ -26,7 +30,7 @@ void Checkbox::draw(Dctx &d) {
 }
 
 float Checkbox::measure(Axis axis) const {
-  const float size = (m_scale * theme::fontSize()) + padding.getSum(axis);
+  const float size = (m_scale * m_fontSize) + padding.getSum(axis);
   return clampSize(size, axis);
 }
 } // namespace katzen

@@ -6,14 +6,11 @@ FILES
   core.hpp
   widgets.hpp
   theme.hpp
-  Root.hpp
   core/Align.hpp
   core/Axis.hpp
   core/BVec2.hpp
-  core/Dctx.hpp
   core/DynamicCastPtr.hpp
   core/Edges.hpp
-  core/Gctx.hpp
   core/Rect.hpp
   core/State.hpp
   core/vectors.hpp
@@ -25,9 +22,10 @@ FILES
   parts/icons.hpp
   parts/Reactive.hpp
   parts/scales.hpp
-  parts/Text.hpp
   parts/textHelpers.hpp
-  theme/fonts.hpp
+  root/Dctx.hpp
+  root/Gctx.hpp
+  root/Root.hpp
   theme/FontStyle.hpp
   widgets/Box.hpp
   widgets/Button.hpp
@@ -35,6 +33,7 @@ FILES
   widgets/Icon.hpp
   widgets/IconLabel.hpp
   widgets/Label.hpp
+  widgets/LabelEx.hpp
   widgets/Slider.hpp
   widgets/Spacer.hpp
   widgets/Widget.hpp

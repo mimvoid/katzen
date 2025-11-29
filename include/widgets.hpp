@@ -8,5 +8,6 @@
 #include "widgets/Icon.hpp"
 #include "widgets/IconLabel.hpp"
 #include "widgets/Label.hpp"
+#include "widgets/LabelEx.hpp"
 #include "widgets/Slider.hpp"
 #include "widgets/Spacer.hpp"

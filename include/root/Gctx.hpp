@@ -1,9 +1,12 @@
 #pragma once
 #include <raylib.h>
-#include "Rect.hpp"
+#include "core/Rect.hpp"
+#include "theme/FontStyle.hpp"
 
 namespace katzen {
 struct Gctx : Rect {
+  FontStyle font{};
+
   Gctx() { reset(); }
   Gctx(Edges padding) { reset(padding); }
 

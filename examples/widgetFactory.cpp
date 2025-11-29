@@ -1,7 +1,7 @@
 #include <raylib.h>
-#include "../include/Root.hpp"
-#include "../include/icons/katz_icons.hpp"
-#include "../include/widgets.hpp"
+#include "icons/katz_icons.hpp"
+#include "root/Root.hpp"
+#include "widgets.hpp"
 
 int main(void) {
   namespace k = katzen;
@@ -16,10 +16,10 @@ int main(void) {
   Font font = GetFontDefault();
   k::FontStyle bodyStyle(font, 18.0f, 2.0f);
   k::FontStyle titleStyle(font, 36.0f, 2.0f);
-  k::theme::setFontStyle(bodyStyle);
 
   // Root and widget creation
   k::Root<k::Box> root(8, k::Axis::Y, k::Align::CENTER, k::Align::CENTER);
+  root.themeFont = bodyStyle;
   root.child.reserve(4);
 
   /**
@@ -28,10 +28,12 @@ int main(void) {
    */
 
   // Title
-  root.child.emplace<k::IconLabel>(
-      k::Icon(k::KatzIcon::CAT_HEAD, 2),
-      k::Label("katzen Widget Factory", true, titleStyle),
-      4);
+  root.child.push(
+      k::Box::Builder()
+          .spacing(4)
+          .emplace<k::Icon>(k::KatzIcon::CAT_HEAD, 2)
+          .emplace<k::LabelEx>("katzen Widget Factory", titleStyle, true)
+          .build());
 
   root.child.emplace<k::Label>(
       "Introducing katzen, a dynamic retained mode GUI library written with raylib and C++17!");
@@ -62,9 +64,9 @@ int main(void) {
       auto buttonPtr = stockButton.lock();
       if (!buttonPtr) return;
 
-      buttonPtr->child.text.content = "I got clicked!";
+      buttonPtr->child.text = "I got clicked!";
       root.repaint();
-      TraceLog(LOG_INFO, buttonPtr->child.text.content);
+      TraceLog(LOG_INFO, buttonPtr->child.text);
     };
 
     // Toggler
@@ -75,10 +77,10 @@ int main(void) {
 
           if (checked) {
             buttonPtr->enable();
-            buttonPtr->child.text.content = "Click me!";
+            buttonPtr->child.text = "Click me!";
           } else {
             buttonPtr->disable();
-            buttonPtr->child.text.content = "Disabled";
+            buttonPtr->child.text = "Disabled";
           }
           root.repaint();
         });

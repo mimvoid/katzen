@@ -2,12 +2,13 @@
 #include <raylib.h>
 #include <optional>
 #include <utility>
+#include "Dctx.hpp"
+#include "Gctx.hpp"
 #include "core/Align.hpp"
-#include "core/Dctx.hpp"
 #include "core/Edges.hpp"
-#include "core/Gctx.hpp"
 #include "parts/Bin.hpp"
 #include "theme.hpp"
+#include "theme/FontStyle.hpp"
 
 namespace katzen {
 /**
@@ -21,6 +22,8 @@ namespace katzen {
  */
 template <class WidgetT>
 struct Root : Bin<WidgetT> {
+  FontStyle themeFont{};
+
   std::optional<Color> customBgColor{};
   bool clearBg = true;
 
@@ -65,10 +68,13 @@ struct Root : Bin<WidgetT> {
       ClearBackground(customBgColor.value_or(theme::theme.backgroundColor));
     }
 
-    Dctx d{theme::theme.borderWidth,
-           theme::theme.borderRadius,
-           theme::theme.iconSize,
-           theme::theme.normal};
+    Dctx d{
+        themeFont,
+        theme::theme.normal,
+        theme::theme.borderWidth,
+        theme::theme.borderRadius,
+        theme::theme.iconSize,
+    };
     this->child.draw(d);
 
     SetMouseCursor(d.cursor);
@@ -83,6 +89,7 @@ private:
    * and padding.
    */
   Gctx &resetGctx() {
+    m_g.font = themeFont;
     m_g.reset(padding);
 
     m_g.x += offset(m_g.w, this->child.width(), halign);

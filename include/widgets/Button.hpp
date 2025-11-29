@@ -21,7 +21,7 @@ struct Button : Widget, Reactive, Bin<ChildT> {
     padding.set(8);
   }
 
-  void repaint(Gctx g) override {
+  void repaint(Gctx &g) override {
     setBounds(g);
     reposition(g);
 

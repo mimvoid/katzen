@@ -3,9 +3,13 @@
 #include <algorithm>
 #include "parts/scales.hpp"
 #include "theme.hpp"
-#include "theme/fonts.hpp"
 
 namespace katzen {
+void Slider::repaint(Gctx &g) {
+  m_fontSize = g.font.size();
+  Widget::repaint(g);
+}
+
 void Slider::draw(Dctx &d) {
   const Rectangle box = (Rectangle)m_rect;
 
@@ -83,7 +87,7 @@ void Slider::draw(Dctx &d) {
 float Slider::measure(Axis axis) const {
   const float size =
       padding.getSum(axis)
-      + (m_sizeScale * theme::fontSize() * ((axis == direction) ? 4 : 1));
+      + (m_sizeScale * m_fontSize * ((axis == direction) ? 4 : 1));
 
   return clampSize(size, axis);
 }
