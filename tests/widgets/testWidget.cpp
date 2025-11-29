@@ -7,7 +7,7 @@ struct Stock : katzen::Widget {
   void draw([[maybe_unused]] katzen::Dctx &d) override {}
 };
 
-Gctx g{};
+Gctx g{FontStyle{}};
 
 Gctx &resetGctx() {
   // The tests run without a window open, so fake the window size

@@ -8,10 +8,10 @@ namespace katzen {
  * A graphics context that provides necessary information for resizing widgets.
  */
 struct Gctx : Rect {
-  FontStyle font{};
+  const FontStyle &font{};
 
-  Gctx() { reset(); }
-  Gctx(Edges padding) { reset(padding); }
+  Gctx(const FontStyle &font) : font(font) { reset(); }
+  Gctx(const FontStyle &font, Edges padding) : font(font) { reset(padding); }
 
   void reset() {
     x = 0;

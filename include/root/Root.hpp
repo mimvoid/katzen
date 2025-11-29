@@ -38,14 +38,15 @@ struct Root : Bin<WidgetT> {
 
   // Call this to manually repaint the children.
   void repaint() {
-    this->child.repaint(resetGctx());
+    Gctx g{font, padding};
+    this->child.repaint(g);
 
     // When repainting, we didn't consider the Root's alignment, because the
     // sizes would be based on an outdated screen size. Therefore, we translate
     // the children after we have measured their sizes.
-    resetGctx();
-    this->child.translate(offset(m_g.w, this->child.width(), align.x),
-                          offset(m_g.h, this->child.height(), align.y));
+    g.reset(padding);
+    this->child.translate(offset(g.w, this->child.width(), align.x),
+                          offset(g.h, this->child.height(), align.y));
   }
 
   /**
@@ -69,19 +70,6 @@ struct Root : Bin<WidgetT> {
     this->child.draw(d);
 
     SetMouseCursor(d.cursor);
-  }
-
-private:
-  Gctx m_g{};
-
-  /**
-   * Sets the Gctx according to the window size, alignment, and padding, and
-   * updates the default font style.
-   */
-  Gctx &resetGctx() {
-    m_g.font = font;
-    m_g.reset(padding);
-    return m_g;
   }
 };
 } // namespace katzen
