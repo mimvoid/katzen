@@ -26,9 +26,8 @@ struct IconLabel : Widget {
             Align valign = Align::CENTER)
       : spacing(spacing), valign(valign), icon(icon), label(text) {}
 
-  float measure(Axis axis) const override;
-  void repaint(Gctx &g) override;
-  void translate(float dx, float dy) override;
+  void resize(Gctx g) override;
+  void reposition(Vec2 position) override;
   void draw(Dctx &d) override;
 
   struct Builder : WidgetBuilder<Builder> {

@@ -19,42 +19,36 @@ IconLabel::IconLabel(Icon &&icon, Label &&label, int spacing, Align valign)
       icon(std::move(icon)),
       label(std::move(label)) {}
 
-float IconLabel::measure(Axis axis) const {
-  float size = padding.getSum(axis);
-
-  if (axis == Axis::X) {
-    size += icon.width();
-    if (!label.empty()) {
-      size += spacing + label.width();
-    }
-  } else {
-    size = std::max(icon.height(), label.height());
-  }
-
-  return clampSize(size, axis);
-}
-
-void IconLabel::repaint(Gctx &g) {
-  Widget::repaint(g);
+void IconLabel::resize(Gctx g) {
   g.pad(padding);
+  icon.resize(g);
 
-  const float paddedHeight = m_rect.h - padding.getSum(Axis::Y);
-  const float iconOffset = offset(paddedHeight, icon.height(), valign);
+  if (label.empty()) {
+    m_rect.w = icon.width() + padding.getX();
+    m_rect.h = icon.height() + padding.getY();
+  } else {
+    g.w -= icon.width() + spacing;
+    label.resize(g);
 
-  g.translateClip(0.0f, iconOffset);
-  icon.repaint(g);
-
-  if (!label.empty()) {
-    g.translateClip(icon.width() + spacing,
-                    offset(paddedHeight, label.height(), valign) - iconOffset);
-    label.repaint(g);
+    m_rect.w = padding.getX() + icon.width() + spacing + label.width();
+    m_rect.h = padding.getY() + std::max(icon.height(), label.height());
   }
 }
 
-void IconLabel::translate(float dx, float dy) {
-  Widget::translate(dx, dy);
-  icon.translate(dx, dy);
-  label.translate(dx, dy);
+void IconLabel::reposition(Vec2 position) {
+  Widget::reposition(position);
+  position.x += padding.left;
+  position.y += padding.top;
+
+  const float yBound = m_rect.h - padding.getY();
+
+  const float iconYOffset = offset(yBound, icon.height(), Align::CENTER);
+  position.y += iconYOffset;
+  icon.reposition(position);
+
+  position.x += icon.width() + spacing;
+  position.y += offset(yBound, label.height(), Align::CENTER) - iconYOffset;
+  label.reposition(position);
 }
 
 void IconLabel::draw(Dctx &d) {

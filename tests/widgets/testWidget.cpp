@@ -11,8 +11,6 @@ Gctx g{FontStyle{}};
 
 Gctx &resetGctx() {
   // The tests run without a window open, so fake the window size
-  g.x = 0;
-  g.y = 0;
   g.w = 960;
   g.h = 640;
   return g;
@@ -20,14 +18,14 @@ Gctx &resetGctx() {
 
 Stock initStock() {
   Stock w = Stock();
-  w.repaint(resetGctx());
+  w.resize(resetGctx());
   return w;
 }
 
 TEST_CASE("[katzen] Widget Stock position") {
   Stock w = Stock();
   Gctx g = resetGctx();
-  w.repaint(g);
+  w.resize(g);
 
   const Vec2 pos{w.x(), w.y()};
   SUBCASE("Getting position is consistent") {
@@ -37,22 +35,6 @@ TEST_CASE("[katzen] Widget Stock position") {
     const Rect box = w.rect();
     CHECK(pos.x == box.x);
     CHECK(pos.y == box.y);
-  }
-
-  SUBCASE("Position is consistent with Gctx") {
-    CHECK(pos.x == g.x);
-    CHECK(pos.y == g.y);
-  }
-}
-
-TEST_CASE("[katzen] Widget Stock max size") {
-  Stock w = Stock();
-  Gctx g = resetGctx();
-  w.repaint(g);
-
-  SUBCASE("Maximum size is consistent with Gctx bounds") {
-    CHECK(w.maxWidth() == g.w);
-    CHECK(w.maxHeight() == g.h);
   }
 }
 } // namespace katzen

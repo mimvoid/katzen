@@ -1,19 +1,13 @@
 #include "widgets/Widget.hpp"
-#include <algorithm>
 
 namespace katzen {
-void Widget::repaint(Gctx &g) {
-  setBounds(g);
-  reposition(g);
-  resize();
+void Widget::resize(Gctx g) {
+  m_rect.w = g.clampWidth(padding.getX());
+  m_rect.h = g.clampHeight(padding.getY());
 }
 
-void Widget::translate(float dx, float dy) {
-  m_rect.x += dx;
-  m_rect.y += dy;
-}
-
-float Widget::measure(Axis axis) const {
-  return std::clamp(padding.getSum(axis), 0, (int)m_bounds.get(axis));
+void Widget::reposition(Vec2 position) {
+  m_rect.x = position.x;
+  m_rect.y = position.y;
 }
 } // namespace katzen

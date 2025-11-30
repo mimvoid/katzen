@@ -14,7 +14,7 @@ struct LabelEx : Label {
   LabelEx(const char *content, FontStyle style, bool wrapWords = true)
       : Label(content, wrapWords), style(style) {}
 
-  void repaint(Gctx &g) override;
+  void resize(Gctx g) override;
   void draw(Dctx &d) override;
 
 public:

@@ -27,16 +27,12 @@ struct Slider : Widget, Reactive {
       m_value = value > 1.0f ? 1.0f : value;
   }
 
-  void repaint(Gctx &g) override;
+  void resize(Gctx g) override;
   void draw(Dctx &d) override;
-
-protected:
-  float measure(Axis axis) const override;
 
 private:
   float m_value{0.0f};
   float m_sizeScale{1.0f};
-  float m_fontSize{1.0f};
   bool m_dragging{false};
 
 public:

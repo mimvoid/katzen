@@ -1,5 +1,4 @@
 #pragma once
-#include "../core/vectors.hpp"
 #include "Widget.hpp"
 #include "WidgetBuilder.hpp"
 
@@ -18,16 +17,12 @@ struct Label : Widget {
 
   constexpr bool empty() const { return !text || text[0] == '\0'; }
 
-  void repaint(Gctx &g) override;
+  void resize(Gctx g) override;
   void draw(Dctx &d) override;
 
 protected:
-  Vec2 textSize{};
-
-  float measure(Axis axis) const override;
-
-  constexpr bool willWrap() const {
-    return wrapWords && (textSize.x + padding.getSum(Axis::X) > maxWidth());
+  constexpr bool willWrap(float textWidth, float maxWidth) const {
+    return wrapWords && (textWidth + padding.getX() > maxWidth);
   }
 
   void drawStyled(FontStyle &style, Color textColor);

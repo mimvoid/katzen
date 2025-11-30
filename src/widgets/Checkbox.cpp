@@ -1,9 +1,10 @@
 #include "widgets/Checkbox.hpp"
 
 namespace katzen {
-void Checkbox::repaint(Gctx &g) {
-  m_fontSize = g.font.size();
-  Widget::repaint(g);
+void Checkbox::resize(Gctx g) {
+  const float checkSize = m_scale * g.font.size();
+  m_rect.w = g.clampWidth(checkSize + padding.getX());
+  m_rect.h = g.clampHeight(checkSize + padding.getY());
 }
 
 void Checkbox::draw(Dctx &d) {
@@ -29,10 +30,5 @@ void Checkbox::draw(Dctx &d) {
                       box.height - (2 * gap)},
                      (Color)colors.border);
   }
-}
-
-float Checkbox::measure(Axis axis) const {
-  const float size = (m_scale * m_fontSize) + padding.getSum(axis);
-  return clampSize(size, axis);
 }
 } // namespace katzen

@@ -59,6 +59,19 @@ struct rect_t {
     }
   }
 
+  constexpr void size(Axis axis, T axisValue, T antiAxisValue) {
+    switch (axis) {
+    case Axis::X:
+      w = axisValue;
+      h = antiAxisValue;
+      break;
+    case Axis::Y:
+      w = antiAxisValue;
+      h = axisValue;
+      break;
+    }
+  }
+
   constexpr void translateX(T dx) { x += dx; }
   constexpr void translateY(T dy) { y += dy; }
 

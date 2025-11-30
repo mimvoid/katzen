@@ -1,6 +1,7 @@
 #pragma once
 #include "../core/BVec2.hpp"
 #include "../core/Edges.hpp"
+#include "../core/Rect.hpp"
 #include "../core/vectors.hpp"
 #include "../root/Dctx.hpp"
 #include "../root/Gctx.hpp"
@@ -41,80 +42,21 @@ struct Widget {
   constexpr float size(Axis axis) const { return m_rect.size(axis); }
 
   /**********/
-  /* Bounds */
-  /**********/
-
-  constexpr unsigned int maxWidth() const { return m_bounds.x; }
-  constexpr unsigned int maxHeight() const { return m_bounds.y; }
-
-  /**********/
   /* Render */
   /**********/
 
-  // Resize and reposition the widget and its children, if any.
-  virtual void repaint(Gctx &g);
+  // Update the size of the widget and its children, if any.
+  virtual void resize(Gctx g);
 
-  // Translate the widget and its children, if any, without resizing.
-  virtual void translate(float dx, float dy);
+  // Position the widget and relatively position its children, if any.
+  virtual void reposition(Vec2 position);
 
   // Render the widget on the screen at its retained position.
   virtual void draw(Dctx &d) = 0;
 
 protected:
+  // The actual position and size of the widget, regardless of other factors
+  // like expansion. Note that this includes padding.
   Rect m_rect{};
-  // Maximum sizes that may be overridden by repaints.
-  UVec2 m_bounds{GetRenderWidth(), GetRenderHeight()};
-
-  // Recalculate and return the size on the x-axis (width) or y-axis (height).
-  virtual float measure(Axis axis) const;
-
-  // Recalculate and return the width.
-  inline float measureWidth() const { return measure(Axis::X); }
-
-  // Recalculate and return the height.
-  inline float measureHeight() const { return measure(Axis::Y); }
-
-  // Change the retained position.
-  constexpr void reposition(Vec2 p) {
-    m_rect.x = p.x;
-    m_rect.y = p.y;
-  }
-
-  inline void reposition(Gctx &g) {
-    m_rect.x = g.x;
-    m_rect.y = g.y;
-  }
-
-  inline void setBounds(Gctx &g) { m_bounds = {g.w, g.h}; }
-
-  constexpr float clampSize(float size, Axis axis) const {
-    if (size < 0) return 0;
-    float max = m_bounds.get(axis);
-    return size <= max ? size : max;
-  }
-
-  // Remeasure and save the width.
-  inline void resizeWidth() {
-    m_rect.w = expand.x ? m_bounds.x : measureWidth();
-  }
-
-  // Remeasure and save the height.
-  inline void resizeHeight() {
-    m_rect.h = expand.y ? m_bounds.y : measureHeight();
-  }
-
-  // Remeasure and save the width and height.
-  inline void resize() {
-    resizeWidth();
-    resizeHeight();
-  }
-
-  // Remeasure and save the size for the x-axis (width) or y-axis (height).
-  inline void resize(Axis axis) {
-    switch (axis) {
-    case Axis::X: resizeWidth(); break;
-    case Axis::Y: resizeHeight(); break;
-    }
-  }
 };
 } // namespace katzen

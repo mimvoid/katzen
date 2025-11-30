@@ -29,7 +29,7 @@ TEST_CASE("[katzen] Measure Icon size") {
   Icon icon(KatzIcon::WAVE);
   icon.padding.set(0);
   Gctx g{FontStyle{}};
-  icon.repaint(g);
+  icon.resize(g);
 
   const int iconSize = icon.scale() * RAYGUI_ICON_SIZE;
   CHECK(icon.width() == iconSize);

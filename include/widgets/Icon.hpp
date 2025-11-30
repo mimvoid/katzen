@@ -30,11 +30,10 @@ struct Icon : Widget {
   constexpr uint8_t scale() const { return m_scale; }
   constexpr void setScale(uint8_t value) { m_scale = value < 1 ? 1 : value; }
 
+  void resize(Gctx g) override;
   void draw(Dctx &d) override;
 
 protected:
-  float measure(Axis axis) const override;
-
   constexpr int measureIcon() const { return m_scale * RAYGUI_ICON_SIZE; }
 
 private:

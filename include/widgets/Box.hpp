@@ -23,15 +23,14 @@ struct Box : Widget, Container {
       Align valign = Align::START)
       : spacing(spacing), direction(direction), align(halign, valign) {}
 
-  void repaint(Gctx &g) override;
-  void translate(float dx, float dy) override;
+  void resize(Gctx g) override;
+  void reposition(Vec2 position) override;
   void draw(Dctx &d) override;
 
 protected:
-  Vec2 remeasureChildren(Gctx g);
-  float measureChildren(Axis axis) const;
-  float measure(Axis a) const override;
+  float m_expandedSize{0.0f};
 
+  Vec2 resizeChildren(Gctx g);
   void positionChildren(Vec2 childrenSize);
 
 public:

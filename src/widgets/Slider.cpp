@@ -4,9 +4,16 @@
 #include "parts/scales.hpp"
 
 namespace katzen {
-void Slider::repaint(Gctx &g) {
-  m_fontSize = g.font.size();
-  Widget::repaint(g);
+void Slider::resize(Gctx g) {
+  const float troughThickness = m_sizeScale * g.font.size();
+
+  const float dirSize =
+      g.clampSize(padding.getSum(direction) + troughThickness * 4, direction);
+
+  const float flipSize = g.clampSize(
+      padding.getSum(flip(direction)) + troughThickness, flip(direction));
+
+  m_rect.size(direction, dirSize, flipSize);
 }
 
 void Slider::draw(Dctx &d) {
@@ -62,7 +69,8 @@ void Slider::draw(Dctx &d) {
   // Drawing the slider
   DrawRectangleRec(box, (Color)colors.base); // base
   if (d.theme.borderWidth != 0) {
-    DrawRectangleLinesEx(box, d.theme.borderWidth, (Color)colors.border); // border
+    DrawRectangleLinesEx(
+        box, d.theme.borderWidth, (Color)colors.border); // border
   }
 
   if (m_value == 0.0f) {
@@ -83,13 +91,5 @@ void Slider::draw(Dctx &d) {
   }
 
   DrawRectangleRec(filledTrough, (Color)colors.border);
-}
-
-float Slider::measure(Axis axis) const {
-  const float size =
-      padding.getSum(axis)
-      + (m_sizeScale * m_fontSize * ((axis == direction) ? 4 : 1));
-
-  return clampSize(size, axis);
 }
 } // namespace katzen

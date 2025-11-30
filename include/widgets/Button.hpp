@@ -21,19 +21,18 @@ struct Button : Widget, Reactive, Bin<ChildT> {
     padding.set(8);
   }
 
-  void repaint(Gctx &g) override {
-    setBounds(g);
-    reposition(g);
-
+  void resize(Gctx g) override {
     g.pad(padding);
-    this->child.repaint(g);
+    this->child.resize(g);
 
-    resize();
+    m_rect.w = this->child.width() + padding.getX();
+    m_rect.h = this->child.height() + padding.getY();
   }
 
-  void translate(float dx, float dy) override {
-    Widget::translate(dx, dy);
-    this->child.translate(dx, dy);
+  void reposition(Vec2 position) override {
+    Widget::reposition(position);
+    this->child.reposition(
+        Vec2{position.x + padding.left, position.y + padding.top});
   }
 
   void draw(Dctx &d) override {
@@ -49,12 +48,6 @@ struct Button : Widget, Reactive, Bin<ChildT> {
     }
 
     this->child.draw(d);
-  }
-
-protected:
-  float measure(Axis axis) const override {
-    const float size = this->child.size(axis) + padding.getSum(axis);
-    return clampSize(size, axis);
   }
 
 public:

@@ -19,15 +19,11 @@ struct Checkbox : Widget, Reactive {
   constexpr float scale() const { return m_scale; }
   constexpr void setScale(float scale) { m_scale = std::max(0.1f, scale); }
 
-  void repaint(Gctx &g) override;
+  void resize(Gctx g) override;
   void draw(Dctx &d) override;
-
-protected:
-  float measure(Axis axis) const override;
 
 private:
   float m_scale{1.0f};
-  float m_fontSize{1.0f};
 
 public:
   struct Builder : WidgetBuilder<Builder> {

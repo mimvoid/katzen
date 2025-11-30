@@ -3,9 +3,10 @@
 #include <type_traits>
 #include <vector>
 #include "../core/DynamicCastPtr.hpp"
-#include "../widgets/Widget.hpp"
 
 namespace katzen {
+struct Widget;
+
 /**
  * Container widgets in katzen store their children with shared_ptr, and return
  * stored children with weak_ptr.
@@ -77,13 +78,6 @@ struct Container : OpaqueContainer {
     const value_type &ref = m_children.emplace_back(
         std::make_shared<T>(std::forward<Args>(args)...));
     return {std::weak_ptr(ref)};
-  }
-
-protected:
-  void translateChildren(float dx, float dy) {
-    for (value_type &w : m_children) {
-      w->translate(dx, dy);
-    }
   }
 };
 

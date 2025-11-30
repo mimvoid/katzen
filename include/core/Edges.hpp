@@ -36,14 +36,15 @@ struct edges_t {
     }
   }
 
-  /**
-   * Gets the sum of the values by axis.
-   */
+  // Gets the sum of the horizontal values.
+  constexpr T getX() const { return left + right; }
+
+  // Gets the sum of the vertical values.
+  constexpr T getY() const { return top + bottom; }
+
+  // Gets the sum of the values by axis.
   constexpr T getSum(Axis axis) const {
-    switch (axis) {
-    case Axis::X: return left + right;
-    case Axis::Y: return top + bottom;
-    }
+    return (axis == Axis::X) ? getX() : getY();
   }
 
   constexpr void set(Edge edge, T value) {

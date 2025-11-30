@@ -39,14 +39,15 @@ struct Root : Bin<WidgetT> {
   // Call this to manually repaint the children.
   void repaint() {
     Gctx g{font, padding};
-    this->child.repaint(g);
+    this->child.resize(g);
 
     // When repainting, we didn't consider the Root's alignment, because the
     // sizes would be based on an outdated screen size. Therefore, we translate
     // the children after we have measured their sizes.
-    g.reset(padding);
-    this->child.translate(offset(g.w, this->child.width(), align.x),
-                          offset(g.h, this->child.height(), align.y));
+    const float offsetX = offset(g.w, this->child.width(), align.x);
+    const float offsetY = offset(g.h, this->child.height(), align.y);
+
+    this->child.reposition(Vec2{padding.left + offsetX, padding.top + offsetY});
   }
 
   /**
