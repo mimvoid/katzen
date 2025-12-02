@@ -3,21 +3,35 @@
 #include "Axis.hpp"
 
 namespace katzen {
-enum class Align : uint8_t { START, CENTER, END };
+enum class Align : uint8_t {
+  START,  // Left for horizontal, top for vertical
+  CENTER, // Centered alignment
+  END,    // Right for horizontal, bottom for vertical
+};
 
+/**
+ * Bitfield that packs alignments for the x and y axis into one byte.
+ *
+ * It has methods to get and set values by axis.
+ */
 struct AlignVec2 {
-  Align x : 2;
-  Align y : 2;
+  Align x : 2; // Alignment of the x-axis.
+  Align y : 2; // Alignment of the y-axis.
 
+  // Default constructor, where both values are set to Align::START.
   constexpr AlignVec2() noexcept : x(Align::START), y(Align::START) {}
+
   constexpr AlignVec2(Align x, Align y) noexcept : x(x), y(y) {}
 
+  // Get the alignment of an axis.
   constexpr Align get(Axis axis) const {
     switch (axis) {
     case Axis::X: return x;
     case Axis::Y: return y;
     }
   }
+
+  // Set the alignment of an axis.
   constexpr void set(Axis axis, Align align) {
     switch (axis) {
     case Axis::X: x = align; break;
@@ -27,15 +41,14 @@ struct AlignVec2 {
 };
 
 /**
- * Calculate how much to offset a child according to how it is aligned with the
- * parent.
+ * Compute how much to offset a child according to its alignment to its parent.
  *
- * Any given size that is negative is considered 0.
+ * Any negative sizes are changed to 0.
  *
  * @param parentSize The size of the parent
  * @param childSize The size of the child
- * @param The alignment of the child in respect to the parent
- * @return How much the offset the child
+ * @param align The alignment of the child in respect to the parent
+ * @return How much to offset the child
  */
 constexpr float offset(float parentSize, float childSize, Align align) {
   if (align == Align::START) {

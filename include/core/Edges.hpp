@@ -3,6 +3,7 @@
 #include "Axis.hpp"
 
 namespace katzen {
+// Edges of a rectangle.
 enum class Edge : uint8_t { TOP, RIGHT, BOTTOM, LEFT };
 
 template <typename T>
@@ -27,6 +28,7 @@ struct edges_t {
     return !(*this == other);
   }
 
+  // Get the value of an edge.
   constexpr T get(Edge edge) const {
     switch (edge) {
     case Edge::TOP:    return top;
@@ -36,17 +38,7 @@ struct edges_t {
     }
   }
 
-  // Gets the sum of the horizontal values.
-  constexpr T getX() const { return left + right; }
-
-  // Gets the sum of the vertical values.
-  constexpr T getY() const { return top + bottom; }
-
-  // Gets the sum of the values by axis.
-  constexpr T getSum(Axis axis) const {
-    return (axis == Axis::X) ? getX() : getY();
-  }
-
+  // Set an edge's value.
   constexpr void set(Edge edge, T value) {
     switch (edge) {
     case Edge::TOP:    top = value; break;
@@ -56,10 +48,20 @@ struct edges_t {
     }
   }
 
+  // Get the sum of the horizontal values.
+  constexpr T getX() const { return left + right; }
+
+  // Get the sum of the vertical values.
+  constexpr T getY() const { return top + bottom; }
+
+  // Get the sum of the values by axis.
+  constexpr T getSum(Axis axis) const {
+    return (axis == Axis::X) ? getX() : getY();
+  }
+
   /**
-   * Assigns all edges to one value.
-   *
-   * @param value The value to assign
+   * Assign all edges to one value.
+   * @param value Value to assign
    */
   constexpr void set(T value) {
     top = value;
@@ -69,10 +71,9 @@ struct edges_t {
   }
 
   /**
-   * Assigns all edge values by axis.
-   *
-   * @param y The value for the top and bottom
-   * @param x The value for left and right
+   * Assign edge values by axis.
+   * @param y Value for the top and bottom edges
+   * @param x Value for left and right edges
    */
   constexpr void set(T y, T x) {
     top = y;

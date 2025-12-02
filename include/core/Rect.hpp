@@ -13,8 +13,8 @@ struct rect_t {
 
   T x{0};
   T y{0};
-  T w{0};
-  T h{0};
+  T w{0}; // width
+  T h{0}; // height
 
   constexpr bool operator==(const rect_t &that) const {
     return (x == that.x) && (y == that.y) && (w == that.w) && (h == that.h);
@@ -23,7 +23,7 @@ struct rect_t {
     return !(*this == that);
   }
 
-  // Convert to raylib Rectangle
+  // Convert to raylib Rectangle.
   constexpr explicit operator Rectangle() const {
     return {static_cast<float>(x),
             static_cast<float>(y),
@@ -31,6 +31,7 @@ struct rect_t {
             static_cast<float>(h)};
   }
 
+  // Get the position coordinate of the given axis.
   constexpr T position(Axis axis) const {
     switch (axis) {
     case Axis::X: return x;
@@ -38,6 +39,7 @@ struct rect_t {
     }
   }
 
+  // Set the position coordinate of the given axis.
   constexpr void position(Axis axis, T value) {
     switch (axis) {
     case Axis::X: x = value; break;
@@ -45,6 +47,7 @@ struct rect_t {
     }
   }
 
+  // Get the size (width or height) according to the given axis.
   constexpr T size(Axis axis) const {
     switch (axis) {
     case Axis::X: return w;
@@ -52,6 +55,7 @@ struct rect_t {
     }
   }
 
+  // Set the size (width or height) according to the given axis.
   constexpr void size(Axis axis, T value) {
     switch (axis) {
     case Axis::X: w = value; break;
@@ -59,6 +63,13 @@ struct rect_t {
     }
   }
 
+  /**
+   * Set the sizes of both axes.
+   *
+   * @param axis The given axis.
+   * @param axisValue Value to set for the given axis.
+   * @param antiAxisValue Value to set for the opposite of the given axis.
+   */
   constexpr void size(Axis axis, T axisValue, T antiAxisValue) {
     switch (axis) {
     case Axis::X:
@@ -72,21 +83,30 @@ struct rect_t {
     }
   }
 
+  // Add to the x-axis.
   constexpr void translateX(T dx) { x += dx; }
+
+  // Add to the y-axis.
   constexpr void translateY(T dy) { y += dy; }
 
+  // Add to the position coordinates.
   constexpr void translate(T dx, T dy) {
     x += dx;
     y += dy;
   }
+
+  // Add to a position coordinate by axis.
   constexpr void translate(Axis axis, T value) {
     position(axis, position(axis) + value);
   }
 
+  // Shrink the width and height.
   constexpr void clip(T dw, T dh) {
     w -= dw;
     h -= dh;
   }
+
+  // Shrink a size by axis.
   constexpr void clip(Axis axis, T value) { size(axis, size(axis) - value); }
 
   constexpr void translateClip(T dx, T dy) {

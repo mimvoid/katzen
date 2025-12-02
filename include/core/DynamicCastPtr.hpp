@@ -8,12 +8,14 @@ namespace katzen {
  */
 template <typename From, typename To>
 struct DynamicCastPtr {
-  std::weak_ptr<From> ptr{};
+  std::weak_ptr<From> ptr{}; // Pointer to an object of the base class.
 
   constexpr operator bool() const noexcept { return expired(); }
 
+  // Check if the object that is pointed to no longer exists.
   constexpr bool expired() const noexcept { return ptr.expired(); }
 
+  // Get a shared pointer and cast it to the derived class.
   constexpr std::shared_ptr<To> lock() const {
     return std::dynamic_pointer_cast<To>(ptr.lock());
   }
