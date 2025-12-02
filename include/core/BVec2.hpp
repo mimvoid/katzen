@@ -28,7 +28,7 @@ struct BVec2 {
   constexpr operator uint8_t() const { return (x << 1) | y; }
 
   // Get the value for an axis.
-  constexpr float get(Axis axis) const {
+  constexpr bool get(Axis axis) const {
     switch (axis) {
     case Axis::X: return x;
     case Axis::Y: return y;
