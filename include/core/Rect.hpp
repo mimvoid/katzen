@@ -40,7 +40,7 @@ struct rect_t {
   }
 
   // Set the position coordinate of the given axis.
-  constexpr void position(Axis axis, T value) {
+  constexpr void setPosition(Axis axis, T value) {
     switch (axis) {
     case Axis::X: x = value; break;
     case Axis::Y: y = value; break;
@@ -56,7 +56,7 @@ struct rect_t {
   }
 
   // Set the size (width or height) according to the given axis.
-  constexpr void size(Axis axis, T value) {
+  constexpr void setSize(Axis axis, T value) {
     switch (axis) {
     case Axis::X: w = value; break;
     case Axis::Y: h = value; break;
@@ -70,7 +70,7 @@ struct rect_t {
    * @param axisValue Value to set for the given axis.
    * @param antiAxisValue Value to set for the opposite of the given axis.
    */
-  constexpr void size(Axis axis, T axisValue, T antiAxisValue) {
+  constexpr void setSizes(Axis axis, T axisValue, T antiAxisValue) {
     switch (axis) {
     case Axis::X:
       w = axisValue;
@@ -97,7 +97,7 @@ struct rect_t {
 
   // Add to a position coordinate by axis.
   constexpr void translate(Axis axis, T value) {
-    position(axis, position(axis) + value);
+    setPosition(axis, position(axis) + value);
   }
 
   // Shrink the width and height.
@@ -107,7 +107,7 @@ struct rect_t {
   }
 
   // Shrink a size by axis.
-  constexpr void clip(Axis axis, T value) { size(axis, size(axis) - value); }
+  constexpr void clip(Axis axis, T value) { setSize(axis, size(axis) - value); }
 
   constexpr void translateClip(T dx, T dy) {
     translate(dx, dy);
@@ -183,13 +183,13 @@ TEST_CASE("[katzen] Test Rect") {
   SUBCASE("Set Rect position by axis") {
     SUBCASE("Set position by x-axis") {
       Rect rect{1.0f, 2.0f, 40.0f, 90.0f};
-      rect.position(katzen::Axis::X, 10.0f);
+      rect.setPosition(katzen::Axis::X, 10.0f);
       CHECK(rect == Rect{10.0f, 2.0f, 40.0f, 90.0f});
     }
 
     SUBCASE("Set position by y-axis") {
       Rect rect{1.0f, 2.0f, 40.0f, 90.0f};
-      rect.position(katzen::Axis::Y, 10.0f);
+      rect.setPosition(katzen::Axis::Y, 10.0f);
       CHECK(rect == Rect{1.0f, 10.0f, 40.0f, 90.0f});
     }
   }
@@ -204,13 +204,13 @@ TEST_CASE("[katzen] Test Rect") {
   SUBCASE("Set Rect size by axis") {
     SUBCASE("Set size by x-axis") {
       Rect rect{1.0f, 2.0f, 40.0f, 90.0f};
-      rect.size(katzen::Axis::X, 10.0f);
+      rect.setSize(katzen::Axis::X, 10.0f);
       CHECK(rect == Rect{1.0f, 2.0f, 10.0f, 90.0f});
     }
 
     SUBCASE("Set size by y-axis") {
       Rect rect{1.0f, 2.0f, 40.0f, 90.0f};
-      rect.size(katzen::Axis::Y, 10.0f);
+      rect.setSize(katzen::Axis::Y, 10.0f);
       CHECK(rect == Rect{1.0f, 2.0f, 40.0f, 10.0f});
     }
   }

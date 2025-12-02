@@ -13,7 +13,7 @@ void Slider::resize(Gctx g) {
   const float flipSize = g.clampSize(
       padding.getSum(flip(direction)) + troughThickness, flip(direction));
 
-  m_rect.size(direction, dirSize, flipSize);
+  m_rect.setSizes(direction, dirSize, flipSize);
 }
 
 void Slider::draw(Dctx &d) {

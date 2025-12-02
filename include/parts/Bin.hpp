@@ -27,7 +27,7 @@ struct BinBuilder {
 protected:
   std::optional<ChildT> m_child;
 
-  void checkChild() const {
+  void hasChild() const {
     assert(m_child.has_value()
            && "Please provide a child for the katzen widget!");
   }

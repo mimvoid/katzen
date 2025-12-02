@@ -76,7 +76,7 @@ public:
     }
 
     Button build() {
-      this->checkChild();
+      this->hasChild();
       Button button(std::move(*this->m_child), m_onPress);
       this->m_child.reset();
 
