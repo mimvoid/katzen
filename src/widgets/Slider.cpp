@@ -10,8 +10,8 @@ void Slider::resize(Gctx g) {
   const float dirSize =
       g.clampSize(padding.getSum(direction) + troughThickness * 4, direction);
 
-  const float flipSize = g.clampSize(
-      padding.getSum(flip(direction)) + troughThickness, flip(direction));
+  const float flipSize =
+      g.clampSize(padding.getSum(!direction) + troughThickness, !direction);
 
   m_rect.setSizes(direction, dirSize, flipSize);
 }

@@ -11,4 +11,7 @@ constexpr Axis flip(Axis axis) {
   case Axis::Y: return Axis::X;
   }
 }
+
+// Flips between the x and y axes.
+constexpr Axis operator!(Axis axis) { return flip(axis); }
 } // namespace katzen
