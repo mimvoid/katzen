@@ -73,4 +73,7 @@ struct Root : Bin<WidgetT> {
     SetMouseCursor(d.cursor);
   }
 };
+
+template <class WidgetT>
+Root(WidgetT &&) -> Root<WidgetT>;
 } // namespace katzen

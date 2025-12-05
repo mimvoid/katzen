@@ -93,4 +93,7 @@ public:
     bool m_enabled{true};
   };
 };
+
+template <class ChildT>
+Button(ChildT &&, std::function<void()>) -> Button<ChildT>;
 } // namespace katzen

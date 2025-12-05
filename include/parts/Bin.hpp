@@ -20,6 +20,9 @@ struct Bin {
 };
 
 template <class ChildT>
+Bin(ChildT &&) -> Bin<ChildT>;
+
+template <class ChildT>
 struct BinBuilder {
   static_assert(std::is_base_of_v<Widget, ChildT>,
                 "A child must be derived from a katzen Widget");
