@@ -9,8 +9,21 @@ struct OpaqueContainer {
   using size_type = std::vector<value_type>::size_type;
 
   template <class T, typename = ifIsWidget<T>>
+  void push(std::shared_ptr<T> childPtr) {
+    m_children.push_back(childPtr);
+  }
+  template <class T, typename = ifIsWidget<T>>
   void push(T &&child) {
-    m_children.push_back(std::make_shared<T>(std::move(child)));
+    push(std::make_shared<T>(child));
+  }
+
+  template <class T, typename = ifIsWidget<T>>
+  void insert(size_type pos, std::shared_ptr<T> childPtr) {
+    m_children.insert(m_children.cbegin() + pos, childPtr);
+  }
+  template <class T, typename = ifIsWidget<T>>
+  void insert(size_type pos, T &&child) {
+    insert(pos, std::make_shared<T>(child));
   }
 
   template <class T, typename = ifIsWidget<T>, typename... Args>
@@ -26,13 +39,6 @@ struct OpaqueContainer {
     );
   }
 
-  template <class T, typename = ifIsWidget<T>>
-  void insert(size_type pos, T &&child) {
-    m_children.insert(
-      m_children.cbegin() + pos, std::make_shared<T>(std::move(child))
-    );
-  }
-
   // Wrapper around std::vector::reserve for the underlying children vector.
   void reserve(size_type newCap) { m_children.reserve(newCap); }
 
@@ -45,25 +51,43 @@ struct Container : OpaqueContainer {
   using OpaqueContainer::value_type;
 
   template <class T, typename = ifIsWidget<T>>
-  WidgetPtr<T> pushGet(T &&child) {
-    m_children.push_back(std::make_shared<T>(std::move(child)));
-    return {std::weak_ptr(m_children.back())};
+  std::weak_ptr<T> pushGet(std::shared_ptr<T> childPtr) {
+    m_children.push_back(childPtr);
+    return {childPtr};
+  }
+  template <class T, typename = ifIsWidget<T>>
+  std::weak_ptr<T> pushGet(T &&child) {
+    return pushGet(std::make_shared<T>(child));
   }
 
   template <class T, typename = ifIsWidget<T>, typename... Args>
-  WidgetPtr<T> emplaceGet(Args &&...args) {
+  std::weak_ptr<T> emplaceGet(Args &&...args) {
     const value_type &ref =
       m_children.emplace_back(std::make_shared<T>(std::forward<Args>(args)...));
-    return {std::weak_ptr(ref)};
+    return {std::static_pointer_cast<T>(ref)};
   }
 };
 
 template <typename DerivedT>
 struct ContainerBuilder : protected OpaqueContainer {
   template <class T>
-  DerivedT &push(T &&child) {
-    OpaqueContainer::push<T>(std::move(child));
+  DerivedT &push(std::shared_ptr<T> childPtr) {
+    OpaqueContainer::push(childPtr);
     return *static_cast<DerivedT *>(this);
+  }
+  template <class T>
+  DerivedT &push(T &&child) {
+    return push(std::make_shared<T>(child));
+  }
+
+  template <class T>
+  DerivedT &insert(size_type pos, std::shared_ptr<T> childPtr) {
+    OpaqueContainer::insert(pos, childPtr);
+    return *static_cast<DerivedT *>(this);
+  }
+  template <class T>
+  DerivedT &insert(size_type pos, T &&child) {
+    return insert(pos, std::shared_ptr<T>(child));
   }
 
   template <class T, typename... Args>
@@ -75,12 +99,6 @@ struct ContainerBuilder : protected OpaqueContainer {
   template <class T, typename... Args>
   DerivedT &emplaceAt(size_type pos, Args &&...args) {
     OpaqueContainer::emplaceAt<T>(pos, std::forward<Args>(args)...);
-    return *static_cast<DerivedT *>(this);
-  }
-
-  template <class T>
-  DerivedT &insert(size_type pos, T &&child) {
-    OpaqueContainer::insert(pos, std::move(child));
     return *static_cast<DerivedT *>(this);
   }
 

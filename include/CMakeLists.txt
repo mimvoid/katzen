@@ -8,7 +8,6 @@ FILES
   core/Align.hpp
   core/Axis.hpp
   core/BVec2.hpp
-  core/DynamicCastPtr.hpp
   core/Edges.hpp
   core/Rect.hpp
   core/Rgba.hpp

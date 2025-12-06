@@ -1,4 +1,5 @@
 #include <raylib.h>
+#include <memory>
 #include "icons/katz_icons.hpp"
 #include "root/Root.hpp"
 #include "widgets.hpp"
@@ -42,23 +43,12 @@ int main(void) {
   );
 
   {
-    /**
-     * You can access contained widgets through katzen's WidgetPtr, a wrapper
-     * around weak_ptr<Widget> that can lock and dynamically cast the
-     * shared_ptr.
-     */
-    k::WidgetPtr<k::Box> buttons = root.child.emplaceGet<k::Box>(
+    std::shared_ptr buttonsBox = std::make_shared<k::Box>(
       4, k::Axis::X, k::Align::CENTER, k::Align::CENTER
     );
-
-    std::shared_ptr<k::Box> buttonsBox = buttons.lock();
-    if (!buttonsBox) {
-      TraceLog(LOG_ERROR, "Failed to create a box for buttons!");
-      return 1;
-    }
     buttonsBox->reserve(2);
 
-    k::WidgetPtr<k::Button<k::Label>> stockButton = buttonsBox->pushGet(
+    std::weak_ptr stockButton = buttonsBox->pushGet(
       k::Button<k::Label>::Builder()
         .enabled(false)
         .emplaceChild("Disabled")
@@ -86,6 +76,8 @@ int main(void) {
         root.repaint();
       }
     );
+
+    root.child.push(buttonsBox);
   }
 
   root.child.emplace<k::Slider>(0.5f);
