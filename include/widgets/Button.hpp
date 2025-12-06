@@ -17,8 +17,14 @@ struct Button : Widget, Reactive, Bin<ChildT> {
   OnPress onPress{};
 
   Button() : Widget(Edges(8)) {}
+
   Button(ChildT &&child, OnPress onPress = {})
     : Widget(Edges(8)), Bin<ChildT>(std::move(child)), onPress(onPress) {}
+
+  Button(ChildT &&child, std::function<void()> onPress)
+    : Widget(Edges(8)),
+      Bin<ChildT>(std::move(child)),
+      onPress([onPress]([[maybe_unused]] auto &self) { onPress(); }) {}
 
   void resize(Gctx g) override {
     g.pad(padding);
@@ -61,6 +67,10 @@ public:
 
     Builder &onPress(OnPress callback) {
       m_onPress = callback;
+      return *this;
+    }
+    Builder &onPress(std::function<void()> callback) {
+      m_onPress = [callback]([[maybe_unused]] auto &self) { callback(); };
       return *this;
     }
 
