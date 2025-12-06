@@ -1,17 +1,11 @@
 #pragma once
 #include <cassert>
 #include <utility>
+#include "types.hpp"
 
 namespace katzen {
-struct Widget;
-
-template <class ChildT>
+template <class ChildT, typename = ifIsWidget<ChildT>>
 struct Bin {
-  static_assert(
-    std::is_base_of_v<Widget, ChildT>,
-    "A child must be derived from a katzen Widget"
-  );
-
   ChildT child{};
 
   Bin() = default;
@@ -21,15 +15,18 @@ struct Bin {
   Bin(Args &&...args) : child(std::forward<Args>(args)...) {}
 };
 
-template <class ChildT>
-Bin(ChildT &&) -> Bin<ChildT>;
-
-template <class ChildT>
+template <class ChildT, typename DerivedT, typename = ifIsWidget<ChildT>>
 struct BinBuilder {
-  static_assert(
-    std::is_base_of_v<Widget, ChildT>,
-    "A child must be derived from a katzen Widget"
-  );
+  DerivedT &child(ChildT &&child) {
+    m_child = std::move(child);
+    return *static_cast<DerivedT *>(this);
+  }
+
+  template <typename... Args>
+  DerivedT &emplaceChild(Args &&...args) {
+    m_child = ChildT{std::forward<Args>(args)...};
+    return *static_cast<DerivedT *>(this);
+  }
 
 protected:
   ChildT m_child{};

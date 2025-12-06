@@ -23,6 +23,7 @@ FILES
   parts/Reactive.hpp
   parts/scales.hpp
   parts/textHelpers.hpp
+  parts/types.hpp
   root/Dctx.hpp
   root/Gctx.hpp
   root/Root.hpp

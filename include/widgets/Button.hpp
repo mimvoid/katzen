@@ -57,7 +57,7 @@ struct Button : Widget, Reactive, Bin<ChildT> {
   }
 
 public:
-  struct Builder : WidgetBuilder<Builder>, BinBuilder<ChildT> {
+  struct Builder : WidgetBuilder<Builder>, BinBuilder<ChildT, Builder> {
     constexpr Builder() { this->m_padding.set(8); }
 
     constexpr Builder &enabled(bool value) {
@@ -74,17 +74,6 @@ public:
       return *this;
     }
 
-    Builder &child(ChildT &&child) {
-      this->m_child = std::move(child);
-      return *this;
-    }
-
-    template <typename... Args>
-    Builder &emplaceChild(Args &&...args) {
-      this->m_child = ChildT{std::forward<Args>(args)...};
-      return *this;
-    }
-
     Button build() {
       Button button(std::move(this->m_child), m_onPress);
       button.enabled = m_enabled;
@@ -97,6 +86,9 @@ public:
     bool m_enabled{true};
   };
 };
+
+template <class ChildT>
+Button(ChildT &&, std::function<void(Button<ChildT> &)>) -> Button<ChildT>;
 
 template <class ChildT>
 Button(ChildT &&, std::function<void()>) -> Button<ChildT>;
