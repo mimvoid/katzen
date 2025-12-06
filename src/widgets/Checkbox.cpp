@@ -8,26 +8,26 @@ void Checkbox::resize(Gctx g) {
 }
 
 void Checkbox::draw(Dctx &d) {
-  const Rectangle box = (Rectangle)m_rect;
+  const Rectangle rec(m_rect);
 
-  if (updateState(d, box)) {
+  if (updateState(d, rec)) {
     checked = !checked;
     if (onCheck) onCheck(checked);
   }
 
   const StateColors &colors = d.colors();
 
-  DrawRectangleRec(box, (Color)colors.base);
+  DrawRectangleRec(rec, (Color)colors.base);
   if (d.theme.borderWidth != 0) {
-    DrawRectangleLinesEx(box, d.theme.borderWidth, (Color)colors.border);
+    DrawRectangleLinesEx(rec, d.theme.borderWidth, (Color)colors.border);
   }
 
   if (checked) {
     const float gap = d.theme.borderWidth * 2;
-    DrawRectangleRec({box.x + gap,
-                      box.y + gap,
-                      box.width - (2 * gap),
-                      box.height - (2 * gap)},
+    DrawRectangleRec({rec.x + gap,
+                      rec.y + gap,
+                      rec.width - (2 * gap),
+                      rec.height - (2 * gap)},
                      (Color)colors.border);
   }
 }

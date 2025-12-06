@@ -9,11 +9,10 @@ struct Checkbox : Widget, Reactive {
   using OnCheck = std::function<void(bool)>;
   struct Builder;
 
-  bool checked{false};
-  OnCheck onCheck{};
+  bool checked;
+  OnCheck onCheck;
 
-  Checkbox() = default;
-  Checkbox(bool checked, OnCheck callback)
+  Checkbox(bool checked = false, OnCheck callback = {})
       : checked(checked), onCheck(callback) {}
 
   constexpr float scale() const { return m_scale; }

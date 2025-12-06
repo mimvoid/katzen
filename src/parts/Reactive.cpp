@@ -1,26 +1,39 @@
 #include "parts/Reactive.hpp"
+#include <raylib.h>
 
 namespace katzen {
-bool Reactive::updateState(Dctx &d, Rectangle widgetArea) {
-  bool pressed = false;
+bool Reactive::updateState(Dctx &d, Rectangle area) {
+  if (!enabled) {
+    d.state = State::DISABLED;
+    return false;
+  }
 
-  if (m_state != State::DISABLED) {
-    if (CheckCollisionPointRec(GetMousePosition(), widgetArea)) {
-      m_state =
-          IsMouseButtonDown(MOUSE_LEFT_BUTTON) ? State::ACTIVE : State::FOCUS;
-
-      d.cursor = MOUSE_CURSOR_POINTING_HAND;
-      pressed = IsMouseButtonReleased(MOUSE_LEFT_BUTTON);
-    } else {
-      m_state = State::NORMAL;
+  if (m_locked) {
+    if (IsMouseButtonReleased(MOUSE_LEFT_BUTTON)) {
+      m_locked = false;
+      d.state = State::NORMAL;
+      return m_sticky || CheckCollisionPointRec(GetMousePosition(), area);
     }
+
+    d.state = State::ACTIVE;
+    d.cursor = MOUSE_CURSOR_POINTING_HAND;
+    return false;
   }
 
-  if (m_state != d.state) {
-    // The state changed, update colors
-    d.state = m_state;
+  if (CheckCollisionPointRec(GetMousePosition(), area)) {
+    // Mouse pointer falls in widget area
+    d.cursor = MOUSE_CURSOR_POINTING_HAND;
+
+    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+      m_locked = true;
+      d.state = State::ACTIVE;
+    } else {
+      d.state = State::FOCUS;
+    }
+  } else {
+    d.state = State::NORMAL;
   }
 
-  return pressed;
+  return false;
 }
-}
+} // namespace katzen

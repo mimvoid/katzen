@@ -36,15 +36,15 @@ struct Button : Widget, Reactive, Bin<ChildT> {
   }
 
   void draw(Dctx &d) override {
-    const Rectangle box = (Rectangle)m_rect;
+    const Rectangle rec = (Rectangle)m_rect;
 
-    if (updateState(d, box) && onPress) {
+    if (updateState(d, rec) && onPress) {
       onPress();
     }
 
-    DrawRectangleRec(box, (Color)d.colors().base);
+    DrawRectangleRec(rec, (Color)d.colors().base);
     if (d.theme.borderWidth != 0) {
-      DrawRectangleLinesEx(box, d.theme.borderWidth, (Color)d.colors().border);
+      DrawRectangleLinesEx(rec, d.theme.borderWidth, (Color)d.colors().border);
     }
 
     this->child.draw(d);
@@ -80,10 +80,7 @@ public:
       Button button(std::move(*this->m_child), m_onPress);
       this->m_child.reset();
 
-      if (!m_enabled) {
-        button.disable();
-      }
-
+      button.enabled = m_enabled;
       this->setWidgetProps(button);
       return button;
     }

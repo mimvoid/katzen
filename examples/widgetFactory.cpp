@@ -76,10 +76,10 @@ int main(void) {
           if (!buttonPtr) return;
 
           if (checked) {
-            buttonPtr->enable();
+            buttonPtr->enabled = true;
             buttonPtr->child.text = "Click me!";
           } else {
-            buttonPtr->disable();
+            buttonPtr->enabled = false;
             buttonPtr->child.text = "Disabled";
           }
           root.repaint();

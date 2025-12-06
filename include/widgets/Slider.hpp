@@ -12,10 +12,10 @@ struct Slider : Widget, Reactive {
   Axis direction{Axis::X};
   OnValueChange onValueChange{};
 
-  Slider() = default;
+  Slider() : Reactive(true) {}
 
   Slider(float initialValue, OnValueChange onValueChange = OnValueChange())
-      : onValueChange(onValueChange) {
+      : Reactive(true), onValueChange(onValueChange) {
     setValue(initialValue);
   }
 
@@ -33,10 +33,14 @@ struct Slider : Widget, Reactive {
 private:
   float m_value{0.0f};
   float m_sizeScale{1.0f};
-  bool m_dragging{false};
 
 public:
   struct Builder : WidgetBuilder<Builder> {
+    constexpr Builder &enabled(bool value) {
+      m_enabled = value;
+      return *this;
+    }
+
     constexpr Builder &value(float value) {
       if (value < 0.0f)
         m_initValue = 0.0f;
@@ -52,11 +56,13 @@ public:
 
     Slider build() const {
       Slider slider(m_initValue, m_onValueChange);
+      slider.enabled = m_enabled;
       setWidgetProps(slider);
       return slider;
     }
 
   private:
+    bool m_enabled{true};
     float m_initValue{0.0f};
     OnValueChange m_onValueChange{};
   };
