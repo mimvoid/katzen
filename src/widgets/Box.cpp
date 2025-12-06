@@ -75,13 +75,14 @@ void Box::reposition(Vec2 position) {
   position.x += padding.left;
   position.y += padding.top;
   position.set(
-      direction,
-      position.get(direction) + offset(dirBound, childrenDirSize, dirAlign));
+    direction,
+    position.get(direction) + offset(dirBound, childrenDirSize, dirAlign)
+  );
 
   // Position each child
   for (value_type &w : m_children) {
     const float flipOffset =
-        offset(flipBound, w->size(flipDir), align.get(flipDir));
+      offset(flipBound, w->size(flipDir), align.get(flipDir));
 
     float childSize = w->size(direction);
     float dirOffset = 0.0f;

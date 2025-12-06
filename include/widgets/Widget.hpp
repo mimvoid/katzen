@@ -15,7 +15,7 @@ struct Widget {
   friend struct Box;
 
   constexpr Widget(Edges padding = {}, BVec2 expand = {})
-      : padding(padding), expand(expand) {}
+    : padding(padding), expand(expand) {}
 
   virtual ~Widget() = default;
 

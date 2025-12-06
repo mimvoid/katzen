@@ -17,11 +17,13 @@ struct Box : Widget, Container {
   Axis direction;
   AlignVec2 align;
 
-  Box(int spacing = 0,
-      Axis direction = Axis::X,
-      Align halign = Align::START,
-      Align valign = Align::START)
-      : spacing(spacing), direction(direction), align(halign, valign) {}
+  Box(
+    int spacing = 0,
+    Axis direction = Axis::X,
+    Align halign = Align::START,
+    Align valign = Align::START
+  )
+    : spacing(spacing), direction(direction), align(halign, valign) {}
 
   void resize(Gctx g) override;
   void reposition(Vec2 position) override;

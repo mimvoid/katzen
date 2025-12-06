@@ -13,7 +13,7 @@ struct Checkbox : Widget, Reactive {
   OnCheck onCheck;
 
   Checkbox(bool checked = false, OnCheck callback = {})
-      : checked(checked), onCheck(callback) {}
+    : checked(checked), onCheck(callback) {}
 
   constexpr float scale() const { return m_scale; }
   constexpr void setScale(float scale) { m_scale = std::max(0.1f, scale); }

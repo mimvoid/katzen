@@ -8,10 +8,12 @@ void Icon::resize(Gctx g) {
 }
 
 void Icon::draw(Dctx &d) {
-  drawIcon(icon,
-           x() + padding.left,
-           y() + padding.top,
-           m_scale * d.theme.iconSize,
-           (Color)d.colors().text);
+  drawIcon(
+    icon,
+    x() + padding.left,
+    y() + padding.top,
+    m_scale * d.theme.iconSize,
+    (Color)d.colors().text
+  );
 }
 } // namespace katzen

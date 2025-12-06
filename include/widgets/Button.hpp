@@ -18,7 +18,7 @@ struct Button : Widget, Reactive, Bin<ChildT> {
 
   Button() : Widget(Edges(8)) {}
   Button(ChildT &&child, OnPress onPress = {})
-      : Widget(Edges(8)), Bin<ChildT>(std::move(child)), onPress(onPress) {}
+    : Widget(Edges(8)), Bin<ChildT>(std::move(child)), onPress(onPress) {}
 
   void resize(Gctx g) override {
     g.pad(padding);
@@ -31,7 +31,8 @@ struct Button : Widget, Reactive, Bin<ChildT> {
   void reposition(Vec2 position) override {
     Widget::reposition(position);
     this->child.reposition(
-        Vec2{position.x + padding.left, position.y + padding.top});
+      Vec2{position.x + padding.left, position.y + padding.top}
+    );
   }
 
   void draw(Dctx &d) override {

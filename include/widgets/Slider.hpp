@@ -13,10 +13,10 @@ struct Slider : Widget, Reactive {
   OnValueUpdate onValueUpdate{};
 
   Slider(OnValueUpdate onValueUpdate = {})
-      : Reactive(true), onValueUpdate(onValueUpdate) {}
+    : Reactive(true), onValueUpdate(onValueUpdate) {}
 
   Slider(float initialValue, OnValueUpdate onValueUpdate = {})
-      : Slider(onValueUpdate) {
+    : Slider(onValueUpdate) {
     setValue(initialValue);
   }
 

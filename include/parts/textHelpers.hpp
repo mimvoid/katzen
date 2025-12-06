@@ -14,10 +14,12 @@ constexpr bool isWhitespaceCharacter(int codepoint) {
   }
 }
 
-void drawTextBoxed(const Font &font,
-                   const char *text,
-                   Rectangle rec,
-                   float fontSize,
-                   float spacing,
-                   Color tint);
+void drawTextBoxed(
+  const Font &font,
+  const char *text,
+  Rectangle rec,
+  float fontSize,
+  float spacing,
+  Color tint
+);
 } // namespace katzen

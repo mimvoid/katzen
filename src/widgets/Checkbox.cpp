@@ -24,11 +24,10 @@ void Checkbox::draw(Dctx &d) {
 
   if (checked) {
     const float gap = d.theme.borderWidth * 2;
-    DrawRectangleRec({rec.x + gap,
-                      rec.y + gap,
-                      rec.width - (2 * gap),
-                      rec.height - (2 * gap)},
-                     (Color)colors.border);
+    DrawRectangleRec(
+      {rec.x + gap, rec.y + gap, rec.width - (2 * gap), rec.height - (2 * gap)},
+      (Color)colors.border
+    );
   }
 }
 } // namespace katzen

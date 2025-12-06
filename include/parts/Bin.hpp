@@ -7,8 +7,10 @@ struct Widget;
 
 template <class ChildT>
 struct Bin {
-  static_assert(std::is_base_of_v<Widget, ChildT>,
-                "A child must be derived from a katzen Widget");
+  static_assert(
+    std::is_base_of_v<Widget, ChildT>,
+    "A child must be derived from a katzen Widget"
+  );
 
   ChildT child{};
 
@@ -24,8 +26,10 @@ Bin(ChildT &&) -> Bin<ChildT>;
 
 template <class ChildT>
 struct BinBuilder {
-  static_assert(std::is_base_of_v<Widget, ChildT>,
-                "A child must be derived from a katzen Widget");
+  static_assert(
+    std::is_base_of_v<Widget, ChildT>,
+    "A child must be derived from a katzen Widget"
+  );
 
 protected:
   ChildT m_child{};

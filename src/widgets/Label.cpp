@@ -28,12 +28,13 @@ void Label::drawStyled(FontStyle &style, Color textColor) {
 
   if (wrapWords && style.measure(text).x > m_rect.w - padding.getX()) {
     drawTextBoxed(
-        style.font,
-        text,
-        {p.x, p.y, m_rect.w - padding.getX(), m_rect.h - padding.getY()},
-        style.size(),
-        style.spacing,
-        textColor);
+      style.font,
+      text,
+      {p.x, p.y, m_rect.w - padding.getX(), m_rect.h - padding.getY()},
+      style.size(),
+      style.spacing,
+      textColor
+    );
   } else {
     DrawTextEx(style.font, text, p, style.size(), style.spacing, textColor);
   }

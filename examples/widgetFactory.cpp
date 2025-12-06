@@ -6,8 +6,9 @@
 int main(void) {
   namespace k = katzen;
 
-  SetConfigFlags(FLAG_WINDOW_HIGHDPI | FLAG_WINDOW_RESIZABLE
-                 | FLAG_WINDOW_MAXIMIZED);
+  SetConfigFlags(
+    FLAG_WINDOW_HIGHDPI | FLAG_WINDOW_RESIZABLE | FLAG_WINDOW_MAXIMIZED
+  );
   InitWindow(960, 720, "katzen Widget Factory");
   SetTargetFPS(60);
   SetWindowFocused();
@@ -29,14 +30,16 @@ int main(void) {
 
   // Title
   root.child.push(
-      k::Box::Builder()
-          .spacing(4)
-          .emplace<k::Icon>(k::KatzIcon::CAT_HEAD, 2)
-          .emplace<k::LabelEx>("katzen Widget Factory", titleStyle, true)
-          .build());
+    k::Box::Builder()
+      .spacing(4)
+      .emplace<k::Icon>(k::KatzIcon::CAT_HEAD, 2)
+      .emplace<k::LabelEx>("katzen Widget Factory", titleStyle, true)
+      .build()
+  );
 
   root.child.emplace<k::Label>(
-      "Introducing katzen, a dynamic retained mode GUI library written with raylib and C++17!");
+    "Introducing katzen, a dynamic retained mode GUI library written with raylib and C++17!"
+  );
 
   {
     /**
@@ -45,7 +48,8 @@ int main(void) {
      * shared_ptr.
      */
     k::WidgetPtr<k::Box> buttons = root.child.emplaceGet<k::Box>(
-        4, k::Axis::X, k::Align::CENTER, k::Align::CENTER);
+      4, k::Axis::X, k::Align::CENTER, k::Align::CENTER
+    );
 
     std::shared_ptr<k::Box> buttonsBox = buttons.lock();
     if (!buttonsBox) {
@@ -54,32 +58,34 @@ int main(void) {
     }
     buttonsBox->reserve(2);
 
-    k::WidgetPtr<k::Button<k::Label>> stockButton =
-        buttonsBox->pushGet(k::Button<k::Label>::Builder()
-                                .enabled(false)
-                                .emplaceChild("Disabled")
-                                .onPress([&root](k::Button<k::Label> &self) {
-                                  self.child.text = "I got clicked!";
-                                  root.repaint();
-                                  TraceLog(LOG_INFO, self.child.text);
-                                })
-                                .build());
+    k::WidgetPtr<k::Button<k::Label>> stockButton = buttonsBox->pushGet(
+      k::Button<k::Label>::Builder()
+        .enabled(false)
+        .emplaceChild("Disabled")
+        .onPress([&root](k::Button<k::Label> &self) {
+          self.child.text = "I got clicked!";
+          root.repaint();
+          TraceLog(LOG_INFO, self.child.text);
+        })
+        .build()
+    );
 
     // Toggler
     buttonsBox->emplaceAt<k::Checkbox>(
-        0, false, [stockButton, &root](k::Checkbox &self) {
-          auto buttonPtr = stockButton.lock();
-          if (!buttonPtr) return;
+      0, false, [stockButton, &root](k::Checkbox &self) {
+        auto buttonPtr = stockButton.lock();
+        if (!buttonPtr) return;
 
-          if (self.checked) {
-            buttonPtr->enabled = true;
-            buttonPtr->child.text = "Click me!";
-          } else {
-            buttonPtr->enabled = false;
-            buttonPtr->child.text = "Disabled";
-          }
-          root.repaint();
-        });
+        if (self.checked) {
+          buttonPtr->enabled = true;
+          buttonPtr->child.text = "Click me!";
+        } else {
+          buttonPtr->enabled = false;
+          buttonPtr->child.text = "Disabled";
+        }
+        root.repaint();
+      }
+    );
   }
 
   root.child.emplace<k::Slider>(0.5f);

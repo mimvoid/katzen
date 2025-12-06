@@ -30,9 +30,7 @@ struct Gctx {
     h -= padding.top + padding.bottom;
   }
 
-  constexpr float size(Axis axis) const {
-    return (axis == Axis::X) ? w : h;
-  }
+  constexpr float size(Axis axis) const { return (axis == Axis::X) ? w : h; }
 
   constexpr void setSize(Axis axis, float value) {
     switch (axis) {

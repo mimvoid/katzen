@@ -13,7 +13,7 @@ struct Label : Widget {
   bool wrapWords;
 
   Label(const char *text = "", bool wrapWords = true)
-      : text(text), wrapWords(wrapWords) {}
+    : text(text), wrapWords(wrapWords) {}
 
   constexpr bool empty() const { return !text || text[0] == '\0'; }
 

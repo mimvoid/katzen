@@ -261,4 +261,4 @@ enum class KatzIcon : uint8_t {
   LEAF,
   GEM,
 };
-}
+} // namespace katzen

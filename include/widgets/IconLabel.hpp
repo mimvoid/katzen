@@ -16,17 +16,15 @@ struct IconLabel : Widget {
 
   IconLabel() = default;
 
-  IconLabel(Icon &&icon,
-            Label &&label,
-            int spacing = 0,
-            Align valign = Align::CENTER);
+  IconLabel(
+    Icon &&icon, Label &&label, int spacing = 0, Align valign = Align::CENTER
+  );
 
   template <typename E>
-  IconLabel(E icon,
-            const char *text = "",
-            int spacing = 0,
-            Align valign = Align::CENTER)
-      : label(text), icon(icon), spacing(spacing), valign(valign) {}
+  IconLabel(
+    E icon, const char *text = "", int spacing = 0, Align valign = Align::CENTER
+  )
+    : label(text), icon(icon), spacing(spacing), valign(valign) {}
 
   void resize(Gctx g) override;
   void reposition(Vec2 position) override;

@@ -14,7 +14,7 @@ struct edges_t {
   T left{0};
 
   constexpr edges_t(T top, T right, T bottom, T left) noexcept
-      : top(top), right(right), bottom(bottom), left(left) {}
+    : top(top), right(right), bottom(bottom), left(left) {}
 
   constexpr edges_t(T y, T x) noexcept : edges_t(y, x, y, x) {}
   constexpr edges_t(T val) noexcept : edges_t(val, val) {}

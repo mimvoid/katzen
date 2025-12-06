@@ -5,7 +5,8 @@ namespace katzen {
 const static unsigned int *guiIconsPtr = katzFillIcons;
 
 void drawIcon(
-    uint8_t iconId, float posX, float posY, float pixelSize, Color color) {
+  uint8_t iconId, float posX, float posY, float pixelSize, Color color
+) {
   const int startIndex = iconId * RAYGUI_ICON_DATA_ELEMENTS;
   const int endIndex = startIndex + (RAYGUI_ICON_SIZE * RAYGUI_ICON_SIZE / 32);
 

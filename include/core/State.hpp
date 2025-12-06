@@ -1,6 +1,6 @@
 #pragma once
-#include "Rgba.hpp"
 #include <cstdint>
+#include "Rgba.hpp"
 
 namespace katzen {
 enum class State : uint8_t { NORMAL, DISABLED, FOCUS, ACTIVE };

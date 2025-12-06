@@ -26,5 +26,6 @@
 
 namespace katzen {
 void drawIcon(
-    uint8_t iconId, float posX, float posY, float pixelSize, Color color);
+  uint8_t iconId, float posX, float posY, float pixelSize, Color color
+);
 } // namespace katzen

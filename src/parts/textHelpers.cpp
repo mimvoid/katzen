@@ -7,12 +7,14 @@ namespace katzen {
  */
 
 // Draw text using font inside rectangle limits
-void drawTextBoxed(const Font &font,
-                   const char *text,
-                   Rectangle rec,
-                   float fontSize,
-                   float spacing,
-                   Color tint) {
+void drawTextBoxed(
+  const Font &font,
+  const char *text,
+  Rectangle rec,
+  float fontSize,
+  float spacing,
+  Color tint
+) {
   // Total length in bytes of the text, scanned by codepoints in loop
   const int length = TextLength(text);
 
@@ -48,8 +50,8 @@ void drawTextBoxed(const Font &font,
     if (codepoint != '\n') {
       int glyphAdvanceX = font.glyphs[index].advanceX;
       glyphWidth =
-          scaleFactor
-          * (glyphAdvanceX == 0 ? font.recs[index].width : glyphAdvanceX);
+        scaleFactor
+        * (glyphAdvanceX == 0 ? font.recs[index].width : glyphAdvanceX);
 
       if (i + 1 < length) glyphWidth += spacing;
     }
@@ -101,11 +103,13 @@ void drawTextBoxed(const Font &font,
       // 2. It is not a whitespace character
       if (!(textOffsetY + lineHeight > rec.height)
           && !isWhitespaceCharacter(codepoint)) {
-        DrawTextCodepoint(font,
-                          codepoint,
-                          {rec.x + textOffsetX, rec.y + textOffsetY},
-                          fontSize,
-                          tint);
+        DrawTextCodepoint(
+          font,
+          codepoint,
+          {rec.x + textOffsetX, rec.y + textOffsetY},
+          fontSize,
+          tint
+        );
       }
 
       if (i == endLine) {

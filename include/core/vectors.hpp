@@ -20,14 +20,14 @@ struct vec2_t {
 
   template <typename A, typename B>
   constexpr vec2_t(A x, B y) noexcept
-      : x(static_cast<T>(x)), y(static_cast<T>(y)) {}
+    : x(static_cast<T>(x)), y(static_cast<T>(y)) {}
 
   template <typename A>
   constexpr vec2_t(const vec2_t<A> &that) noexcept
-      : x(static_cast<T>(that.x)), y(static_cast<T>(that.y)) {}
+    : x(static_cast<T>(that.x)), y(static_cast<T>(that.y)) {}
 
   constexpr explicit vec2_t(const Vector2 &that) noexcept
-      : x(static_cast<T>(that.x)), y(static_cast<T>(that.y)) {}
+    : x(static_cast<T>(that.x)), y(static_cast<T>(that.y)) {}
 
   // Operators
 

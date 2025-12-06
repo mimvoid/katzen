@@ -20,8 +20,10 @@ using WidgetPtr = DynamicCastPtr<Widget, To>;
 
 template <class T>
 constexpr void isWidget() {
-  static_assert(std::is_base_of_v<Widget, T>,
-                "A katzen Container can only have derivatives of Widget.");
+  static_assert(
+    std::is_base_of_v<Widget, T>,
+    "A katzen Container can only have derivatives of Widget."
+  );
 }
 
 struct OpaqueContainer {
@@ -43,15 +45,18 @@ struct OpaqueContainer {
   template <class T, typename... Args>
   void emplaceAt(size_type pos, Args &&...args) {
     isWidget<T>();
-    m_children.emplace(m_children.cbegin() + pos,
-                       std::make_shared<T>(std::forward<Args>(args)...));
+    m_children.emplace(
+      m_children.cbegin() + pos,
+      std::make_shared<T>(std::forward<Args>(args)...)
+    );
   }
 
   template <class T>
   void insert(size_type pos, T &&child) {
     isWidget<T>();
-    m_children.insert(m_children.cbegin() + pos,
-                      std::make_shared<T>(std::move(child)));
+    m_children.insert(
+      m_children.cbegin() + pos, std::make_shared<T>(std::move(child))
+    );
   }
 
   // Wrapper around std::vector::reserve for the underlying children vector.
@@ -75,8 +80,8 @@ struct Container : OpaqueContainer {
   template <class T, typename... Args>
   WidgetPtr<T> emplaceGet(Args &&...args) {
     isWidget<T>();
-    const value_type &ref = m_children.emplace_back(
-        std::make_shared<T>(std::forward<Args>(args)...));
+    const value_type &ref =
+      m_children.emplace_back(std::make_shared<T>(std::forward<Args>(args)...));
     return {std::weak_ptr(ref)};
   }
 };

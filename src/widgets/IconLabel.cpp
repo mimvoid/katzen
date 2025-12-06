@@ -5,8 +5,9 @@
 
 namespace katzen {
 IconLabel IconLabel::Builder::build() const {
-  assert(m_label && m_icon
-         && "Please provide children for the katzen IconLabel!");
+  assert(
+    m_label && m_icon && "Please provide children for the katzen IconLabel!"
+  );
 
   IconLabel il{std::move(*m_icon), std::move(*m_label), m_spacing};
   il.valign = m_valign;
@@ -14,10 +15,10 @@ IconLabel IconLabel::Builder::build() const {
 }
 
 IconLabel::IconLabel(Icon &&icon, Label &&label, int spacing, Align valign)
-    : label(std::move(label)),
-      icon(std::move(icon)),
-      spacing(spacing),
-      valign(valign) {}
+  : label(std::move(label)),
+    icon(std::move(icon)),
+    spacing(spacing),
+    valign(valign) {}
 
 void IconLabel::resize(Gctx g) {
   g.pad(padding);

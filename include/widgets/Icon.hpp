@@ -13,7 +13,7 @@ struct Icon : Widget {
   uint8_t icon;
 
   constexpr Icon(uint8_t icon = 0, uint8_t scale = 1)
-      : icon(icon), m_scale(scale < 1 ? 1 : scale) {}
+    : icon(icon), m_scale(scale < 1 ? 1 : scale) {}
 
   template <typename E>
   constexpr Icon(E icon, uint8_t scale = 1) {

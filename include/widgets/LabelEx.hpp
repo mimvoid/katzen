@@ -12,7 +12,7 @@ struct LabelEx : Label {
   FontStyle style{};
 
   LabelEx(const char *content = "", FontStyle style = {}, bool wrapWords = true)
-      : Label(content, wrapWords), style(style) {}
+    : Label(content, wrapWords), style(style) {}
 
   void resize(Gctx g) override;
   void draw(Dctx &d) override;

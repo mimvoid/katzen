@@ -7,10 +7,10 @@ void Slider::resize(Gctx g) {
   const float troughThickness = m_sizeScale * g.font.size();
 
   const float dirSize =
-      g.clampSize(padding.getSum(direction) + troughThickness * 4, direction);
+    g.clampSize(padding.getSum(direction) + troughThickness * 4, direction);
 
   const float flipSize =
-      g.clampSize(padding.getSum(!direction) + troughThickness, !direction);
+    g.clampSize(padding.getSum(!direction) + troughThickness, !direction);
 
   m_rect.setSizes(direction, dirSize, flipSize);
 }
@@ -20,7 +20,8 @@ void Slider::draw(Dctx &d) {
 
   const float gap = d.theme.borderWidth * 2;
   const Rectangle trough{
-      rec.x + gap, rec.y + gap, rec.width - (2 * gap), rec.height - (2 * gap)};
+    rec.x + gap, rec.y + gap, rec.width - (2 * gap), rec.height - (2 * gap)
+  };
 
   const bool pressReleased = updateState(d, rec);
 

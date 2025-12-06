@@ -7,8 +7,10 @@
 namespace katzen {
 template <typename T>
 struct rect_t {
-  static_assert(std::is_arithmetic_v<T>,
-                "A katzen rect_t must contain an arithmetic type.");
+  static_assert(
+    std::is_arithmetic_v<T>, "A katzen rect_t must contain an arithmetic type."
+  );
+
   using value_type = T;
 
   T x{0};
@@ -25,10 +27,12 @@ struct rect_t {
 
   // Convert to raylib Rectangle.
   constexpr explicit operator Rectangle() const {
-    return {static_cast<float>(x),
-            static_cast<float>(y),
-            static_cast<float>(w),
-            static_cast<float>(h)};
+    return {
+      static_cast<float>(x),
+      static_cast<float>(y),
+      static_cast<float>(w),
+      static_cast<float>(h)
+    };
   }
 
   // Get the position coordinate of the given axis.
