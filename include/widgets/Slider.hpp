@@ -12,10 +12,11 @@ struct Slider : Widget, Reactive {
   Axis direction{Axis::X};
   OnValueChange onValueChange{};
 
-  Slider() : Reactive(true) {}
+  Slider(OnValueChange onValueChange = {})
+      : Reactive(true), onValueChange(onValueChange) {}
 
-  Slider(float initialValue, OnValueChange onValueChange = OnValueChange())
-      : Reactive(true), onValueChange(onValueChange) {
+  Slider(float initialValue, OnValueChange onValueChange = {})
+      : Slider(onValueChange) {
     setValue(initialValue);
   }
 

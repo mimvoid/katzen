@@ -9,10 +9,12 @@ namespace katzen {
 struct IconLabel : Widget {
   struct Builder;
 
+  Label label{};
+  Icon icon{};
   int spacing{0};
   Align valign{Align::CENTER};
-  Icon icon;
-  Label label;
+
+  IconLabel() = default;
 
   IconLabel(Icon &&icon,
             Label &&label,
@@ -21,10 +23,10 @@ struct IconLabel : Widget {
 
   template <typename E>
   IconLabel(E icon,
-            const char *text,
+            const char *text = "",
             int spacing = 0,
             Align valign = Align::CENTER)
-      : spacing(spacing), valign(valign), icon(icon), label(text) {}
+      : label(text), icon(icon), spacing(spacing), valign(valign) {}
 
   void resize(Gctx g) override;
   void reposition(Vec2 position) override;

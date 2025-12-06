@@ -28,13 +28,12 @@ struct Root : Bin<WidgetT> {
 
   bool clearBg = true;
 
+  Root() = default;
+  Root(WidgetT &&child) : Bin<WidgetT>(std::move(child)) {}
+
   // Construct the Root object's child widget in-place.
   template <typename... Args>
-  Root(Args &&...args) : Bin<WidgetT>(std::forward<Args>(args)...) {
-    repaint();
-  }
-
-  Root(WidgetT &&child) : Bin<WidgetT>(std::move(child)) { repaint(); }
+  Root(Args &&...args) : Bin<WidgetT>(std::forward<Args>(args)...) {}
 
   // Call this to manually repaint the children.
   void repaint() {

@@ -14,10 +14,10 @@ IconLabel IconLabel::Builder::build() const {
 }
 
 IconLabel::IconLabel(Icon &&icon, Label &&label, int spacing, Align valign)
-    : spacing(spacing),
-      valign(valign),
+    : label(std::move(label)),
       icon(std::move(icon)),
-      label(std::move(label)) {}
+      spacing(spacing),
+      valign(valign) {}
 
 void IconLabel::resize(Gctx g) {
   g.pad(padding);

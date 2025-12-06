@@ -13,9 +13,9 @@ namespace katzen {
 struct Box : Widget, Container {
   struct Builder;
 
-  int spacing{0};
-  Axis direction{Axis::X};
-  AlignVec2 align{};
+  int spacing;
+  Axis direction;
+  AlignVec2 align;
 
   Box(int spacing = 0,
       Axis direction = Axis::X,

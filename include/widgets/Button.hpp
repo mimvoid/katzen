@@ -14,12 +14,11 @@ struct Button : Widget, Reactive, Bin<ChildT> {
   using OnPress = std::function<void()>;
   struct Builder;
 
-  OnPress onPress;
+  OnPress onPress{};
 
-  Button(ChildT &&child, OnPress onPress = OnPress())
-      : Bin<ChildT>(std::move(child)), onPress(onPress) {
-    padding.set(8);
-  }
+  Button() : Widget(Edges(8)) {}
+  Button(ChildT &&child, OnPress onPress = {})
+      : Widget(Edges(8)), Bin<ChildT>(std::move(child)), onPress(onPress) {}
 
   void resize(Gctx g) override {
     g.pad(padding);
@@ -71,15 +70,12 @@ public:
 
     template <typename... Args>
     Builder &emplaceChild(Args &&...args) {
-      this->m_child.emplace(std::forward<Args>(args)...);
+      this->m_child = ChildT{std::forward<Args>(args)...};
       return *this;
     }
 
     Button build() {
-      this->hasChild();
-      Button button(std::move(*this->m_child), m_onPress);
-      this->m_child.reset();
-
+      Button button(std::move(this->m_child), m_onPress);
       button.enabled = m_enabled;
       this->setWidgetProps(button);
       return button;

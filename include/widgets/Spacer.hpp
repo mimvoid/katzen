@@ -11,14 +11,11 @@ struct Spacer : Widget {
 
   constexpr Spacer() = default;
 
-  constexpr Spacer(unsigned int width,
-                   unsigned int height,
+  constexpr Spacer(int leftPad,
+                   int topPad,
                    bool hexpand = false,
-                   bool vexpand = false) {
-    padding.left = width;
-    padding.top = height;
-    expand = {hexpand, vexpand};
-  }
+                   bool vexpand = false)
+      : Widget({topPad, 0, 0, leftPad}, {hexpand, vexpand}) {}
 
   void draw([[maybe_unused]] Dctx &d) override {}
 

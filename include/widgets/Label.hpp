@@ -10,9 +10,9 @@ struct Label : Widget {
   struct Builder;
 
   const char *text;
-  bool wrapWords{true};
+  bool wrapWords;
 
-  Label(const char *text, bool wrapWords = true)
+  Label(const char *text = "", bool wrapWords = true)
       : text(text), wrapWords(wrapWords) {}
 
   constexpr bool empty() const { return !text || text[0] == '\0'; }

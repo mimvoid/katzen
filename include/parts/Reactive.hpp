@@ -9,7 +9,7 @@ namespace katzen {
 struct Reactive {
   bool enabled : 1;
 
-  Reactive() : enabled(true), m_locked(false), m_sticky(false) {}
+  Reactive() : Reactive(false) {}
   Reactive(bool sticky) : enabled(true), m_locked(false), m_sticky(sticky) {}
 
   // Whether the widget has been pressed on and not yet released.

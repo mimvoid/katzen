@@ -1,6 +1,5 @@
 #pragma once
 #include <cassert>
-#include <optional>
 #include <utility>
 
 namespace katzen {
@@ -11,8 +10,9 @@ struct Bin {
   static_assert(std::is_base_of_v<Widget, ChildT>,
                 "A child must be derived from a katzen Widget");
 
-  ChildT child;
+  ChildT child{};
 
+  Bin() = default;
   Bin(ChildT &&child) : child(std::move(child)) {}
 
   template <typename... Args>
@@ -28,11 +28,6 @@ struct BinBuilder {
                 "A child must be derived from a katzen Widget");
 
 protected:
-  std::optional<ChildT> m_child;
-
-  void hasChild() const {
-    assert(m_child.has_value()
-           && "Please provide a child for the katzen widget!");
-  }
+  ChildT m_child{};
 };
 } // namespace katzen

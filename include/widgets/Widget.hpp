@@ -14,6 +14,9 @@ struct Widget {
   // Containers may access internals to manage children with less overhead.
   friend struct Box;
 
+  constexpr Widget(Edges padding = {}, BVec2 expand = {})
+      : padding(padding), expand(expand) {}
+
   virtual ~Widget() = default;
 
   Edges padding{};
