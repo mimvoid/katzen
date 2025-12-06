@@ -58,24 +58,20 @@ int main(void) {
         buttonsBox->pushGet(k::Button<k::Label>::Builder()
                                 .enabled(false)
                                 .emplaceChild("Disabled")
+                                .onPress([&root](k::Button<k::Label> &self) {
+                                  self.child.text = "I got clicked!";
+                                  root.repaint();
+                                  TraceLog(LOG_INFO, self.child.text);
+                                })
                                 .build());
-
-    stockButton.lock()->onPress = [stockButton, &root]() {
-      auto buttonPtr = stockButton.lock();
-      if (!buttonPtr) return;
-
-      buttonPtr->child.text = "I got clicked!";
-      root.repaint();
-      TraceLog(LOG_INFO, buttonPtr->child.text);
-    };
 
     // Toggler
     buttonsBox->emplaceAt<k::Checkbox>(
-        0, false, [stockButton, &root](bool checked) {
+        0, false, [stockButton, &root](k::Checkbox &self) {
           auto buttonPtr = stockButton.lock();
           if (!buttonPtr) return;
 
-          if (checked) {
+          if (self.checked) {
             buttonPtr->enabled = true;
             buttonPtr->child.text = "Click me!";
           } else {

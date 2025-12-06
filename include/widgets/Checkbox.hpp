@@ -6,7 +6,7 @@
 
 namespace katzen {
 struct Checkbox : Widget, Reactive {
-  using OnCheck = std::function<void(bool)>;
+  using OnCheck = std::function<void(Checkbox &self)>;
   struct Builder;
 
   bool checked;

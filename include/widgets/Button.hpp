@@ -11,7 +11,7 @@ namespace katzen {
  */
 template <class ChildT>
 struct Button : Widget, Reactive, Bin<ChildT> {
-  using OnPress = std::function<void()>;
+  using OnPress = std::function<void(Button &self)>;
   struct Builder;
 
   OnPress onPress{};
@@ -38,7 +38,7 @@ struct Button : Widget, Reactive, Bin<ChildT> {
     const Rectangle rec = (Rectangle)m_rect;
 
     if (updateState(d, rec) && onPress) {
-      onPress();
+      onPress(*this);
     }
 
     DrawRectangleRec(rec, (Color)d.colors().base);

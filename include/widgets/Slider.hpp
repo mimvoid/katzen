@@ -6,17 +6,17 @@
 
 namespace katzen {
 struct Slider : Widget, Reactive {
-  using OnValueChange = std::function<void(float)>;
+  using OnValueUpdate = std::function<void(Slider &self, float prevValue)>;
   struct Builder;
 
   Axis direction{Axis::X};
-  OnValueChange onValueChange{};
+  OnValueUpdate onValueUpdate{};
 
-  Slider(OnValueChange onValueChange = {})
-      : Reactive(true), onValueChange(onValueChange) {}
+  Slider(OnValueUpdate onValueUpdate = {})
+      : Reactive(true), onValueUpdate(onValueUpdate) {}
 
-  Slider(float initialValue, OnValueChange onValueChange = {})
-      : Slider(onValueChange) {
+  Slider(float initialValue, OnValueUpdate onValueUpdate = {})
+      : Slider(onValueUpdate) {
     setValue(initialValue);
   }
 
@@ -50,7 +50,7 @@ public:
       return *this;
     }
 
-    Builder &onValueChange(OnValueChange callback) {
+    Builder &onValueChange(OnValueUpdate callback) {
       m_onValueChange = callback;
       return *this;
     }
@@ -65,7 +65,7 @@ public:
   private:
     bool m_enabled{true};
     float m_initValue{0.0f};
-    OnValueChange m_onValueChange{};
+    OnValueUpdate m_onValueChange{};
   };
 };
 } // namespace katzen

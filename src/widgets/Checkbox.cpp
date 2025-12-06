@@ -12,7 +12,7 @@ void Checkbox::draw(Dctx &d) {
 
   if (updateState(d, rec)) {
     checked = !checked;
-    if (onCheck) onCheck(checked);
+    if (onCheck) onCheck(*this);
   }
 
   const StateColors &colors = d.colors();

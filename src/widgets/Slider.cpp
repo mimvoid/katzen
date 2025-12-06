@@ -26,6 +26,7 @@ void Slider::draw(Dctx &d) {
 
   // Update the slider value
   if (enabled && (m_locked || pressReleased)) {
+    const float prevValue = m_value;
     const Vector2 mousePos = GetMousePosition();
 
     if (direction == Axis::X)
@@ -33,8 +34,8 @@ void Slider::draw(Dctx &d) {
     else
       setValue(toScaledValue(mousePos.y, trough.y, trough.y + trough.height));
 
-    if (pressReleased && onValueChange) {
-      onValueChange(m_value);
+    if (pressReleased && onValueUpdate) {
+      onValueUpdate(*this, prevValue);
     }
   }
 
