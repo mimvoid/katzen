@@ -3,7 +3,8 @@
 
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
 
-  outputs = { self, nixpkgs }:
+  outputs =
+    { self, nixpkgs }:
     let
       allSystems = nixpkgs.lib.genAttrs nixpkgs.lib.platforms.all;
       toSystems = passPkgs: allSystems (system: passPkgs (import nixpkgs { inherit system; }));
@@ -20,7 +21,7 @@
           };
 
           nativeBuildInputs = [
-            pkgs.cmake
+            pkgs.cmakeMinimal
             pkgs.ninja
           ];
 
@@ -32,9 +33,7 @@
         default = pkgs.mkShellNoCC {
           name = "katzen";
 
-          nativeBuildInputs = [
-            pkgs.clang
-          ];
+          nativeBuildInputs = [ pkgs.clang ];
 
           packages = with pkgs; [
             # C++
