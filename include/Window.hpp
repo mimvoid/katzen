@@ -6,6 +6,8 @@
 #include "core/Vec2.hpp"
 #include "Renderer.hpp"
 
+struct SDL_Window;
+
 namespace katze {
 enum WindowFlags : uint16_t {
   WINDOW_MAXIMIZED = 1,
@@ -22,13 +24,18 @@ enum WindowFlags : uint16_t {
 };
 
 struct Window {
-  Renderer renderer{*this};
+  Renderer renderer{};
+  SDL_Window *data{nullptr};
 
   Window(const char *title, int width, int height, uint8_t windowFlags = 0);
 
-  constexpr uint32_t id() const { return m_id; }
+  uint32_t id() const;
 
   bool valid() const;
+
+  /**
+   * Destroy the window and its renderer.
+   */
   void destroy();
 
   bool show();
@@ -53,9 +60,6 @@ struct Window {
 
   const char *title() const;
   bool setTitle(const char *newTitle);
-
-private:
-  uint32_t m_id{0};
 };
 } // namespace katze
 

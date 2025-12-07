@@ -31,90 +31,83 @@ std::optional<IVec2> fromSizeResult(int *x, int *y, bool success) {
 }
 
 Window::Window(const char *title, int width, int height, uint8_t windowFlags) {
-  SDL_Window *window = nullptr;
-  SDL_Renderer *renderer = nullptr;
-
-  if (SDL_CreateWindowAndRenderer(
-        title, width, height, toSDLFlags(windowFlags), &window, &renderer
-      )) {
-    m_id = SDL_GetWindowID(window);
-  }
+  SDL_CreateWindowAndRenderer(
+    title, width, height, toSDLFlags(windowFlags), &data, &renderer.data
+  );
 }
 
-bool Window::valid() const { return SDL_GetWindowFromID(m_id) != nullptr; }
+uint32_t Window::id() const { return SDL_GetWindowID(data); }
+
+bool Window::valid() const {
+  return data && renderer.data && SDL_GetWindowID(data) != 0;
+}
 
 void Window::destroy() {
-  SDL_Window *window = SDL_GetWindowFromID(m_id);
-
-  // Keeping the window visible will look as if the app is lagging.
-  SDL_HideWindow(window);
-
-  SDL_DestroyRenderer(SDL_GetRenderer(window));
-  SDL_DestroyWindow(window);
+  SDL_HideWindow(data); // Without hiding, the app will look as if it's lagging
+  renderer.destroy();
+  SDL_DestroyWindow(data);
 }
 
-bool Window::show() { return SDL_ShowWindow(SDL_GetWindowFromID(m_id)); }
-bool Window::hide() { return SDL_HideWindow(SDL_GetWindowFromID(m_id)); }
-bool Window::maximize() {
-  return SDL_MaximizeWindow(SDL_GetWindowFromID(m_id));
-}
-bool Window::minimize() {
-  return SDL_MinimizeWindow(SDL_GetWindowFromID(m_id));
-}
-bool Window::restore() { return SDL_RestoreWindow(SDL_GetWindowFromID(m_id)); }
+bool Window::show() { return SDL_ShowWindow(data); }
+bool Window::hide() { return SDL_HideWindow(data); }
+bool Window::maximize() { return SDL_MaximizeWindow(data); }
+bool Window::minimize() { return SDL_MinimizeWindow(data); }
+bool Window::restore() { return SDL_RestoreWindow(data); }
 
 std::optional<IVec2> Window::minSize() const {
   int *w = nullptr;
   int *h = nullptr;
-  bool success = SDL_GetWindowMinimumSize(SDL_GetWindowFromID(m_id), w, h);
+  bool success = SDL_GetWindowMinimumSize(data, w, h);
+
   return fromSizeResult(w, h, success);
 }
 
 bool Window::setMinSize(IVec2 size) {
-  return SDL_SetWindowMinimumSize(SDL_GetWindowFromID(m_id), size.x, size.y);
+  return SDL_SetWindowMinimumSize(data, size.x, size.y);
 }
 
 std::optional<IVec2> Window::maxSize() const {
   int *w = nullptr;
   int *h = nullptr;
-  bool success = SDL_GetWindowMaximumSize(SDL_GetWindowFromID(m_id), w, h);
+  bool success = SDL_GetWindowMaximumSize(data, w, h);
+
   return fromSizeResult(w, h, success);
 }
 
 bool Window::setMaxSize(IVec2 size) {
-  return SDL_SetWindowMaximumSize(SDL_GetWindowFromID(m_id), size.x, size.y);
+  return SDL_SetWindowMaximumSize(data, size.x, size.y);
 }
 
 bool Window::setResizable(bool resizable) {
-  return SDL_SetWindowResizable(SDL_GetWindowFromID(m_id), resizable);
+  return SDL_SetWindowResizable(data, resizable);
 }
 bool Window::setFullScreen(bool fullscreen) {
-  return SDL_SetWindowFullscreen(SDL_GetWindowFromID(m_id), fullscreen);
+  return SDL_SetWindowFullscreen(data, fullscreen);
 }
 
 std::optional<IVec2> Window::size() const {
   int *w = nullptr;
   int *h = nullptr;
-  bool success = SDL_GetWindowSize(SDL_GetWindowFromID(m_id), w, h);
+  bool success = SDL_GetWindowSize(data, w, h);
+
   return fromSizeResult(w, h, success);
 }
 
 std::optional<IVec2> Window::sizeInPixels() const {
   int *w = nullptr;
   int *h = nullptr;
-  bool success = SDL_GetWindowSizeInPixels(SDL_GetWindowFromID(m_id), w, h);
+  bool success = SDL_GetWindowSizeInPixels(data, w, h);
+
   return fromSizeResult(w, h, success);
 }
 
 bool Window::setSize(IVec2 size) {
-  return SDL_SetWindowSize(SDL_GetWindowFromID(m_id), size.x, size.y);
+  return SDL_SetWindowSize(data, size.x, size.y);
 }
 
-const char *Window::title() const {
-  return SDL_GetWindowTitle(SDL_GetWindowFromID(m_id));
-}
+const char *Window::title() const { return SDL_GetWindowTitle(data); }
 
 bool Window::setTitle(const char *newTitle) {
-  return SDL_SetWindowTitle(SDL_GetWindowFromID(m_id), newTitle);
+  return SDL_SetWindowTitle(data, newTitle);
 }
 } // namespace katze

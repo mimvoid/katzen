@@ -3,21 +3,19 @@
 
 #include "core/Rgba.hpp"
 
+struct SDL_Renderer;
+
 namespace katze {
 struct Window;
 
 struct Renderer {
+  SDL_Renderer *data{nullptr};
   Rgb backgroundColor{};
 
-  Renderer(Window &parentWindow) : m_window(parentWindow) {}
-
-  const Window &window() const { return m_window; }
+  void destroy();
 
   bool clear();
   bool present();
-
-private:
-  Window &m_window;
 };
 } // namespace katze
 
