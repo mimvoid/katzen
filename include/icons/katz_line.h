@@ -1,3 +1,6 @@
+#ifndef KATZE_ICONS_KATZ_LINE_HPP
+#define KATZE_ICONS_KATZ_LINE_HPP
+
 //////////////////////////////////////////////////////////////////////////////////
 //                                                                              //
 // raygui Icons exporter v1.1 - Icons data exported as a values array           //
@@ -8,8 +11,6 @@
 // Copyright (c) 2019-2023 raylib technologies (@raylibtech)                    //
 //                                                                              //
 //////////////////////////////////////////////////////////////////////////////////
-
-#pragma once
 
 #ifndef RAYGUI_ICON_SIZE
 #define RAYGUI_ICON_SIZE 16 // Size of icons (squared)
@@ -549,3 +550,5 @@ const static unsigned int
         0x00000000, 0x081007e0, 0x20041008, 0x2db42004, 0x20042db4,
         0x10082004, 0x07e00810, 0x00000000, // ICON_WAITING
 };
+
+#endif // !KATZE_ICONS_KATZ_LINE_HPP

@@ -1,16 +1,13 @@
-#pragma once
-#include <raylib.h>
+#ifndef KATZE_CORE_RECT_HPP
+#define KATZE_CORE_RECT_HPP
+
 #include <type_traits>
 #include "Axis.hpp"
 #include "Edges.hpp"
 
-namespace katzen {
-template <typename T>
-struct rect_t {
-  static_assert(
-    std::is_arithmetic_v<T>, "A katzen rect_t must contain an arithmetic type."
-  );
-
+namespace katze {
+template <typename T, typename = std::enable_if_t<std::is_arithmetic_v<T>>>
+struct Rect {
   using value_type = T;
 
   T x{0};
@@ -18,30 +15,13 @@ struct rect_t {
   T w{0}; // width
   T h{0}; // height
 
-  constexpr bool operator==(const rect_t &that) const {
+  constexpr bool operator==(const Rect &that) const {
     return (x == that.x) && (y == that.y) && (w == that.w) && (h == that.h);
   }
-  constexpr bool operator!=(const rect_t &that) const {
-    return !(*this == that);
-  }
-
-  // Convert to raylib Rectangle.
-  constexpr explicit operator Rectangle() const {
-    return {
-      static_cast<float>(x),
-      static_cast<float>(y),
-      static_cast<float>(w),
-      static_cast<float>(h)
-    };
-  }
+  constexpr bool operator!=(const Rect &that) const { return !(*this == that); }
 
   // Get the position coordinate of the given axis.
-  constexpr T position(Axis axis) const {
-    switch (axis) {
-    case Axis::X: return x;
-    case Axis::Y: return y;
-    }
-  }
+  constexpr T position(Axis axis) const { return (axis == Axis::X) ? x : y; }
 
   // Set the position coordinate of the given axis.
   constexpr void setPosition(Axis axis, T value) {
@@ -52,12 +32,7 @@ struct rect_t {
   }
 
   // Get the size (width or height) according to the given axis.
-  constexpr T size(Axis axis) const {
-    switch (axis) {
-    case Axis::X: return w;
-    case Axis::Y: return h;
-    }
-  }
+  constexpr T size(Axis axis) const { return (axis == Axis::X) ? w : h; }
 
   // Set the size (width or height) according to the given axis.
   constexpr void setSize(Axis axis, T value) {
@@ -101,7 +76,10 @@ struct rect_t {
 
   // Add to a position coordinate by axis.
   constexpr void translate(Axis axis, T value) {
-    setPosition(axis, position(axis) + value);
+    switch (axis) {
+    case Axis::X: x += value; break;
+    case Axis::Y: y += value; break;
+    }
   }
 
   // Shrink the width and height.
@@ -111,63 +89,70 @@ struct rect_t {
   }
 
   // Shrink a size by axis.
-  constexpr void clip(Axis axis, T value) { setSize(axis, size(axis) - value); }
+  constexpr void clip(Axis axis, T value) {
+    switch (axis) {
+    case Axis::X: w -= value; break;
+    case Axis::Y: h -= value; break;
+    }
+  }
 
   constexpr void translateClip(T dx, T dy) {
     translate(dx, dy);
     clip(dx, dy);
   }
   constexpr void translateClip(Axis axis, T value) {
-    translate(axis, value);
-    clip(axis, value);
+    switch (axis) {
+    case Axis::X:
+      x += value;
+      w -= value;
+      break;
+    case Axis::Y:
+      y += value;
+      h -= value;
+      break;
+    }
   }
 
-  constexpr void pad(Edges padding) {
+  constexpr void shrink(Edges<T> padding) {
     x += padding.left;
     y += padding.top;
-
-    w -= padding.getSum(Axis::X);
-    h -= padding.getSum(Axis::Y);
+    w -= padding.getX();
+    h -= padding.getY();
   }
 
-  constexpr void expand(Edges margin) {
+  constexpr void expand(Edges<T> margin) {
     x -= margin.left;
     y -= margin.top;
-
-    w += margin.getSum(Axis::X);
-    h += margin.getSum(Axis::Y);
+    w += margin.getX();
+    h += margin.getY();
   }
 };
 
-template <>
-constexpr rect_t<float>::operator Rectangle() const {
-  return {x, y, w, h};
-}
-
-typedef rect_t<float> Rect;
+typedef Rect<int> IRect;
+typedef Rect<float> FRect;
 
 #ifdef DOCTEST_LIBRARY_INCLUDED
-TEST_CASE("[katzen] Test Rect") {
+TEST_CASE("[katze] Test FRect") {
   SUBCASE("Equality operators") {
-    SUBCASE("Rects are equal") {
-      const Rect r1{1.0f, 2.0f, 40.0f, 90.0f};
-      const Rect r2{1.0f, 2.0f, 40.0f, 90.0f};
+    SUBCASE("FRects are equal") {
+      const FRect r1{1.0f, 2.0f, 40.0f, 90.0f};
+      const FRect r2{1.0f, 2.0f, 40.0f, 90.0f};
 
       REQUIRE(r1 == r2);
       REQUIRE(!(r1 != r2));
     }
 
-    SUBCASE("Rects are not equal") {
-      const Rect r1{1.0f, 2.0f, 40.0f, 90.0f};
-      const Rect r2{2.0f, 2.0f, 40.0f, 80.0f};
+    SUBCASE("FRects are not equal") {
+      const FRect r1{1.0f, 2.0f, 40.0f, 90.0f};
+      const FRect r2{2.0f, 2.0f, 40.0f, 80.0f};
 
       REQUIRE(r1 != r2);
       REQUIRE(!(r1 == r2));
     }
 
-    SUBCASE("Rects are aliases") {
-      const Rect r1{1.0f, 2.0f, 40.0f, 90.0f};
-      const Rect &r2 = r1;
+    SUBCASE("FRects are aliases") {
+      const FRect r1{1.0f, 2.0f, 40.0f, 90.0f};
+      const FRect &r2 = r1;
 
       REQUIRE(r1 == r1);
       REQUIRE(!(r1 != r1));
@@ -177,121 +162,123 @@ TEST_CASE("[katzen] Test Rect") {
     }
   }
 
-  SUBCASE("Get Rect position by axis") {
-    const Rect rect{1.0f, 2.0f, 40.0f, 90.0f};
+  SUBCASE("Get FRect position by axis") {
+    const FRect rect{1.0f, 2.0f, 40.0f, 90.0f};
 
-    CHECK(rect.position(katzen::Axis::X) == 1.0f);
-    CHECK(rect.position(katzen::Axis::Y) == 2.0f);
+    CHECK(rect.position(katze::Axis::X) == 1.0f);
+    CHECK(rect.position(katze::Axis::Y) == 2.0f);
   }
 
-  SUBCASE("Set Rect position by axis") {
+  SUBCASE("Set FRect position by axis") {
     SUBCASE("Set position by x-axis") {
-      Rect rect{1.0f, 2.0f, 40.0f, 90.0f};
-      rect.setPosition(katzen::Axis::X, 10.0f);
-      CHECK(rect == Rect{10.0f, 2.0f, 40.0f, 90.0f});
+      FRect rect{1.0f, 2.0f, 40.0f, 90.0f};
+      rect.setPosition(katze::Axis::X, 10.0f);
+      CHECK(rect == FRect{10.0f, 2.0f, 40.0f, 90.0f});
     }
 
     SUBCASE("Set position by y-axis") {
-      Rect rect{1.0f, 2.0f, 40.0f, 90.0f};
-      rect.setPosition(katzen::Axis::Y, 10.0f);
-      CHECK(rect == Rect{1.0f, 10.0f, 40.0f, 90.0f});
+      FRect rect{1.0f, 2.0f, 40.0f, 90.0f};
+      rect.setPosition(katze::Axis::Y, 10.0f);
+      CHECK(rect == FRect{1.0f, 10.0f, 40.0f, 90.0f});
     }
   }
 
-  SUBCASE("Get Rect size by axis") {
-    const Rect rect{1.0f, 2.0f, 40.0f, 90.0f};
+  SUBCASE("Get FRect size by axis") {
+    const FRect rect{1.0f, 2.0f, 40.0f, 90.0f};
 
-    CHECK(rect.size(katzen::Axis::X) == 40.0f);
-    CHECK(rect.size(katzen::Axis::Y) == 90.0f);
+    CHECK(rect.size(katze::Axis::X) == 40.0f);
+    CHECK(rect.size(katze::Axis::Y) == 90.0f);
   }
 
-  SUBCASE("Set Rect size by axis") {
+  SUBCASE("Set FRect size by axis") {
     SUBCASE("Set size by x-axis") {
-      Rect rect{1.0f, 2.0f, 40.0f, 90.0f};
-      rect.setSize(katzen::Axis::X, 10.0f);
-      CHECK(rect == Rect{1.0f, 2.0f, 10.0f, 90.0f});
+      FRect rect{1.0f, 2.0f, 40.0f, 90.0f};
+      rect.setSize(katze::Axis::X, 10.0f);
+      CHECK(rect == FRect{1.0f, 2.0f, 10.0f, 90.0f});
     }
 
     SUBCASE("Set size by y-axis") {
-      Rect rect{1.0f, 2.0f, 40.0f, 90.0f};
-      rect.setSize(katzen::Axis::Y, 10.0f);
-      CHECK(rect == Rect{1.0f, 2.0f, 40.0f, 10.0f});
+      FRect rect{1.0f, 2.0f, 40.0f, 90.0f};
+      rect.setSize(katze::Axis::Y, 10.0f);
+      CHECK(rect == FRect{1.0f, 2.0f, 40.0f, 10.0f});
     }
   }
 
   SUBCASE("Translate x and y") {
-    Rect rect{1.0f, 2.0f, 40.0f, 90.0f};
+    FRect rect{1.0f, 2.0f, 40.0f, 90.0f};
     rect.translate(5.0f, 5.0f);
-    CHECK(rect == Rect{6.0f, 7.0f, 40.0f, 90.0f});
+    CHECK(rect == FRect{6.0f, 7.0f, 40.0f, 90.0f});
   }
 
   SUBCASE("Translate by axis") {
     SUBCASE("Translate by x-axis") {
-      Rect rect{1.0f, 2.0f, 40.0f, 90.0f};
-      rect.translate(katzen::Axis::X, 5.0f);
-      CHECK(rect == Rect{6.0f, 2.0f, 40.0f, 90.0f});
+      FRect rect{1.0f, 2.0f, 40.0f, 90.0f};
+      rect.translate(katze::Axis::X, 5.0f);
+      CHECK(rect == FRect{6.0f, 2.0f, 40.0f, 90.0f});
     }
 
     SUBCASE("Translate by y-axis") {
-      Rect rect{1.0f, 2.0f, 40.0f, 90.0f};
-      rect.translate(katzen::Axis::Y, -5.0f);
-      CHECK(rect == Rect{1.0f, -3.0f, 40.0f, 90.0f});
+      FRect rect{1.0f, 2.0f, 40.0f, 90.0f};
+      rect.translate(katze::Axis::Y, -5.0f);
+      CHECK(rect == FRect{1.0f, -3.0f, 40.0f, 90.0f});
     }
   }
 
   SUBCASE("Clip width and height") {
-    Rect rect{1.0f, 2.0f, 40.0f, 90.0f};
+    FRect rect{1.0f, 2.0f, 40.0f, 90.0f};
     rect.clip(10.0f, -20.0f);
-    CHECK(rect == Rect{1.0f, 2.0f, 30.0f, 110.0f});
+    CHECK(rect == FRect{1.0f, 2.0f, 30.0f, 110.0f});
   }
 
   SUBCASE("Clip by axis") {
     SUBCASE("Clip by x-axis") {
-      Rect rect{1.0f, 2.0f, 40.0f, 90.0f};
-      rect.clip(katzen::Axis::X, 5.0f);
-      CHECK(rect == Rect{1.0f, 2.0f, 35.0f, 90.0f});
+      FRect rect{1.0f, 2.0f, 40.0f, 90.0f};
+      rect.clip(katze::Axis::X, 5.0f);
+      CHECK(rect == FRect{1.0f, 2.0f, 35.0f, 90.0f});
     }
 
     SUBCASE("Clip by y-axis") {
-      Rect rect{1.0f, 2.0f, 40.0f, 90.0f};
-      rect.clip(katzen::Axis::Y, -5.0f);
-      CHECK(rect == Rect{1.0f, 2.0f, 40.0f, 95.0f});
+      FRect rect{1.0f, 2.0f, 40.0f, 90.0f};
+      rect.clip(katze::Axis::Y, -5.0f);
+      CHECK(rect == FRect{1.0f, 2.0f, 40.0f, 95.0f});
     }
   }
 
   SUBCASE("Translate clip") {
-    Rect rect{1.0f, 2.0f, 40.0f, 90.0f};
+    FRect rect{1.0f, 2.0f, 40.0f, 90.0f};
     rect.translateClip(10.0f, -20.0f);
-    CHECK(rect == Rect{11.0f, -18.0f, 30.0f, 110.0f});
+    CHECK(rect == FRect{11.0f, -18.0f, 30.0f, 110.0f});
   }
 
   SUBCASE("Translate clip by axis") {
     SUBCASE("Translate clip by x-axis") {
-      Rect rect{1.0f, 2.0f, 40.0f, 90.0f};
-      rect.translateClip(katzen::Axis::X, 5.0f);
-      CHECK(rect == Rect{6.0f, 2.0f, 35.0f, 90.0f});
+      FRect rect{1.0f, 2.0f, 40.0f, 90.0f};
+      rect.translateClip(katze::Axis::X, 5.0f);
+      CHECK(rect == FRect{6.0f, 2.0f, 35.0f, 90.0f});
     }
 
     SUBCASE("Translate clip by y-axis") {
-      Rect rect{1.0f, 2.0f, 40.0f, 90.0f};
-      rect.translateClip(katzen::Axis::Y, -5.0f);
-      CHECK(rect == Rect{1.0f, -3.0f, 40.0f, 95.0f});
+      FRect rect{1.0f, 2.0f, 40.0f, 90.0f};
+      rect.translateClip(katze::Axis::Y, -5.0f);
+      CHECK(rect == FRect{1.0f, -3.0f, 40.0f, 95.0f});
     }
   }
 
-  SUBCASE("Pad Rect") {
-    Rect rect{1.0f, 2.0f, 40.0f, 90.0f};
-    const katzen::Edges padding{1, 2, 5, 1};
+  SUBCASE("Pad FRect") {
+    FRect rect{1.0f, 2.0f, 40.0f, 90.0f};
+    const katze::Edges padding{1, 2, 5, 1};
     rect.pad(padding);
-    CHECK(rect == Rect{2.0f, 3.0f, 37.0f, 84.0f});
+    CHECK(rect == FRect{2.0f, 3.0f, 37.0f, 84.0f});
   }
 
-  SUBCASE("Expand Rect") {
-    Rect rect{1.0f, 2.0f, 40.0f, 90.0f};
-    const katzen::Edges margin{1, 2, 5, 1};
+  SUBCASE("Expand FRect") {
+    FRect rect{1.0f, 2.0f, 40.0f, 90.0f};
+    const katze::Edges margin{1, 2, 5, 1};
     rect.expand(margin);
-    CHECK(rect == Rect{0.0f, 1.0f, 43.0f, 96.0f});
+    CHECK(rect == FRect{0.0f, 1.0f, 43.0f, 96.0f});
   }
 }
 #endif
-} // namespace katzen
+} // namespace katze
+
+#endif // !KATZE_CORE_RECT_HPP

@@ -1,8 +1,9 @@
-#pragma once
-#include <raylib.h>
+#ifndef KATZE_CORE_RGBA_HPP
+#define KATZE_CORE_RGBA_HPP
+
 #include <cstdint>
 
-namespace katzen {
+namespace katze {
 struct Rgb {
   uint8_t r{0};
   uint8_t g{0};
@@ -12,18 +13,16 @@ struct Rgb {
     return r == that.r && g == that.g && b == that.b;
   }
   constexpr bool operator!=(const Rgb &that) const { return !(*this == that); }
-
-  explicit constexpr operator Color() const { return Color{r, g, b, 255}; }
 };
 
 struct Rgba : Rgb {
-  uint8_t a{0};
+  uint8_t a{255};
 
   constexpr bool operator==(const Rgba &that) const {
     return r == that.r && g == that.g && b == that.b && a == that.a;
   }
   constexpr bool operator!=(const Rgba &that) const { return !(*this == that); }
-
-  explicit constexpr operator Color() const { return Color{r, g, b, a}; }
 };
-} // namespace katzen
+} // namespace katze
+
+#endif // !KATZE_CORE_RGBA_HPP

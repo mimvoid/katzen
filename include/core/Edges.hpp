@@ -1,30 +1,32 @@
-#pragma once
+#ifndef KATZE_CORE_EDGES_HPP
+#define KATZE_CORE_EDGES_HPP
+
 #include <cstdint>
 #include "Axis.hpp"
 
-namespace katzen {
+namespace katze {
 // Edges of a rectangle.
 enum class Edge : uint8_t { TOP, RIGHT, BOTTOM, LEFT };
 
 template <typename T>
-struct edges_t {
+struct Edges {
   T top{0};
   T right{0};
   T bottom{0};
   T left{0};
 
-  constexpr edges_t(T top, T right, T bottom, T left) noexcept
+  constexpr Edges(T top, T right, T bottom, T left)
     : top(top), right(right), bottom(bottom), left(left) {}
 
-  constexpr edges_t(T y, T x) noexcept : edges_t(y, x, y, x) {}
-  constexpr edges_t(T val) noexcept : edges_t(val, val) {}
-  constexpr edges_t() noexcept {}
+  constexpr Edges(T y, T x) : Edges(y, x, y, x) {}
+  constexpr Edges(T val) : Edges(val, val) {}
+  constexpr Edges() {}
 
-  constexpr bool operator==(const edges_t &other) const {
-    return (top == other.top) && (right == other.right)
-           && (bottom == other.bottom) && (left == other.left);
+  constexpr bool operator==(const Edges &other) const {
+    return top == other.top && right == other.right && bottom == other.bottom
+           && left == other.left;
   }
-  constexpr bool operator!=(const edges_t &other) const {
+  constexpr bool operator!=(const Edges &other) const {
     return !(*this == other);
   }
 
@@ -83,27 +85,28 @@ struct edges_t {
   }
 };
 
-typedef edges_t<int> Edges;
+typedef Edges<int> IEdges;
+typedef Edges<float> FEdges;
 
 #ifdef DOCTEST_LIBRARY_INCLUDED
-TEST_CASE("[katzen] Test Edges") {
+TEST_CASE("[katze] Test Edges") {
   SUBCASE("Equality") {
-    const Edges e1{1, 2, 3, 4};
+    const IEdges e1{1, 2, 3, 4};
 
     SUBCASE("Edges are equal") {
-      const Edges e2{1, 2, 3, 4};
+      const IEdges e2{1, 2, 3, 4};
       REQUIRE(e1 == e2);
       REQUIRE(!(e1 != e2));
     }
 
     SUBCASE("Edges are not equal") {
-      const Edges e2{2, 4, 1, 4};
+      const IEdges e2{2, 4, 1, 4};
       REQUIRE(e1 != e2);
       REQUIRE(!(e1 == e2));
     }
 
     SUBCASE("Edges are aliases") {
-      const Edges &e2 = e1;
+      const IEdges &e2 = e1;
       REQUIRE(e1 == e1);
       REQUIRE(!(e1 != e1));
       REQUIRE(e1 == e2);
@@ -112,14 +115,14 @@ TEST_CASE("[katzen] Test Edges") {
   }
 
   SUBCASE("Construct Edges") {
-    REQUIRE(Edges() == Edges{0, 0, 0, 0});
-    REQUIRE(Edges(1) == Edges{1, 1, 1, 1});
-    REQUIRE(Edges(1, 2) == Edges{1, 2, 1, 2});
-    REQUIRE(Edges(1, 2, 3, 4) == Edges{1, 2, 3, 4});
+    REQUIRE(IEdges() == IEdges{0, 0, 0, 0});
+    REQUIRE(IEdges(1) == IEdges{1, 1, 1, 1});
+    REQUIRE(IEdges(1, 2) == IEdges{1, 2, 1, 2});
+    REQUIRE(IEdges(1, 2, 3, 4) == IEdges{1, 2, 3, 4});
   }
 
   SUBCASE("Get Edges value by enum") {
-    const Edges edges{1, 2, 3, 4};
+    const IEdges edges{1, 2, 3, 4};
 
     CHECK(edges.get(Edge::TOP) == 1);
     CHECK(edges.get(Edge::RIGHT) == 2);
@@ -129,50 +132,52 @@ TEST_CASE("[katzen] Test Edges") {
 
   SUBCASE("Set Edges value by enum") {
     SUBCASE("Top field value") {
-      Edges edges{1, 2, 3, 4};
+      IEdges edges{1, 2, 3, 4};
       edges.set(Edge::TOP, 0);
-      CHECK(edges == Edges{0, 2, 3, 4});
+      CHECK(edges == IEdges{0, 2, 3, 4});
     }
 
     SUBCASE("Right field value") {
-      Edges edges{1, 2, 3, 4};
+      IEdges edges{1, 2, 3, 4};
       edges.set(Edge::RIGHT, 0);
-      CHECK(edges == Edges{1, 0, 3, 4});
+      CHECK(edges == IEdges{1, 0, 3, 4});
     }
 
     SUBCASE("Bottom field value") {
-      Edges edges{1, 2, 3, 4};
+      IEdges edges{1, 2, 3, 4};
       edges.set(Edge::BOTTOM, 0);
-      CHECK(edges == Edges{1, 2, 0, 4});
+      CHECK(edges == IEdges{1, 2, 0, 4});
     }
 
     SUBCASE("Left field value") {
-      Edges edges{1, 2, 3, 4};
+      IEdges edges{1, 2, 3, 4};
       edges.set(Edge::LEFT, 0);
-      CHECK(edges == Edges{1, 2, 3, 0});
+      CHECK(edges == IEdges{1, 2, 3, 0});
     }
   }
 
   SUBCASE("Get Edges values by axis") {
-    const Edges edges{1, 2, 3, 4};
+    const IEdges edges{1, 2, 3, 4};
 
-    CHECK(edges.getSum(katzen::Axis::X) == 6);
-    CHECK(edges.getSum(katzen::Axis::Y) == 4);
+    CHECK(edges.getSum(katze::Axis::X) == 6);
+    CHECK(edges.getSum(katze::Axis::Y) == 4);
   }
 
   SUBCASE("Set Edges field values") {
     SUBCASE("One value") {
-      Edges edges{1, 2, 3, 4};
+      IEdges edges{1, 2, 3, 4};
       edges.set(5);
       CHECK(edges == Edges{5, 5, 5, 5});
     }
 
     SUBCASE("Two values") {
-      Edges edges{1, 2, 3, 4};
+      IEdges edges{1, 2, 3, 4};
       edges.set(5, 6);
       CHECK(edges == Edges{5, 6, 5, 6});
     }
   }
 }
 #endif
-} // namespace katzen
+} // namespace katze
+
+#endif // !KATZE_CORE_EDGES_HPP

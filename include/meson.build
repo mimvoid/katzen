@@ -1,0 +1,15 @@
+install_headers(
+  'app.hpp',
+  'Renderer.hpp',
+  'Window.hpp',
+  'core/Align.hpp',
+  'core/Axis.hpp',
+  'core/BVec2.hpp',
+  'core/Edges.hpp',
+  'core/Rect.hpp',
+  'core/Rgba.hpp',
+  'core/State.hpp',
+  'core/Vec2.hpp',
+  'theme/Theme.hpp',
+  subdir: meson.project_name(),
+)

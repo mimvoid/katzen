@@ -1,8 +1,10 @@
-#pragma once
+#ifndef KATZE_CORE_BVEC2_HPP
+#define KATZE_CORE_BVEC2_HPP
+
 #include <cstdint>
 #include "Axis.hpp"
 
-namespace katzen {
+namespace katze {
 /**
  * Vector-like bitfield with single bit boolean values.
  */
@@ -11,12 +13,12 @@ struct BVec2 {
   bool y : 1;
 
   // Default constructor, sets both fields to false.
-  constexpr BVec2() noexcept : BVec2(false) {}
+  constexpr BVec2() : BVec2(false) {}
 
   // Constructor that initializes both fields to a value.
-  constexpr BVec2(bool value) noexcept : BVec2(value, value) {}
+  constexpr BVec2(bool value) : BVec2(value, value) {}
 
-  constexpr BVec2(bool x, bool y) noexcept : x(x), y(y) {}
+  constexpr BVec2(bool x, bool y) : x(x), y(y) {}
 
   constexpr bool operator==(const BVec2 &that) const {
     return (x == that.x) && (y == that.y);
@@ -45,21 +47,21 @@ struct BVec2 {
 };
 
 #ifdef DOCTEST_LIBRARY_INCLUDED
-TEST_CASE("[katzen] BVec2 to uint8_t") {
+TEST_CASE("[katze] BVec2 to uint8_t") {
   CHECK((uint8_t)BVec2{false, false} == 0);
   CHECK((uint8_t)BVec2{false, true} == 1);
   CHECK((uint8_t)BVec2{true, false} == 2);
   CHECK((uint8_t)BVec2{true, true} == 3);
 }
 
-TEST_CASE("[katzen] Get BVec2 value by axis") {
+TEST_CASE("[katze] Get BVec2 value by axis") {
   const BVec2 v{true, false};
 
   CHECK(v.get(Axis::X) == true);
   CHECK(v.get(Axis::Y) == false);
 }
 
-TEST_CASE("[katzen] Set Vec2 value by axis") {
+TEST_CASE("[katze] Set Vec2 value by axis") {
   SUBCASE("Set value by x-axis") {
     BVec2 v{false, false};
     v.set(Axis::X, true);
@@ -77,4 +79,6 @@ TEST_CASE("[katzen] Set Vec2 value by axis") {
   }
 }
 #endif
-}; // namespace katzen
+}; // namespace katze
+
+#endif // !KATZE_CORE_BVEC2_HPP

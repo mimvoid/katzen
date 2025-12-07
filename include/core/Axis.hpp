@@ -1,6 +1,7 @@
-#pragma once
+#ifndef KATZE_CORE_AXIS_HPP
+#define KATZE_CORE_AXIS_HPP
 
-namespace katzen {
+namespace katze {
 // Axes in a 2D space.
 enum class Axis : bool { X, Y };
 
@@ -14,4 +15,6 @@ constexpr Axis flip(Axis axis) {
 
 // Flips between the x and y axes.
 constexpr Axis operator!(Axis axis) { return flip(axis); }
-} // namespace katzen
+} // namespace katze
+
+#endif // !KATZE_CORE_AXIS_HPP

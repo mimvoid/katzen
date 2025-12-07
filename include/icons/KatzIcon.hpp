@@ -1,7 +1,9 @@
-#pragma once
+#ifndef KATZE_ICONS_KATZICON_HPP
+#define KATZE_ICONS_KATZICON_HPP
+
 #include <cstdint>
 
-namespace katzen {
+namespace katze {
 // An enum for the Katz iconset.
 enum class KatzIcon : uint8_t {
   NONE,
@@ -261,4 +263,6 @@ enum class KatzIcon : uint8_t {
   LEAF,
   GEM,
 };
-} // namespace katzen
+} // namespace katze
+
+#endif // !KATZE_ICONS_KATZICON_HPP

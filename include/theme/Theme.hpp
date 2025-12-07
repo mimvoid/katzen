@@ -1,11 +1,11 @@
-#pragma once
+#ifndef KATZE_THEME_THEME_HPP
+#define KATZE_THEME_THEME_HPP
+
 #include "../core/State.hpp"
 
-namespace katzen {
+namespace katze {
 /**
- * Settings to theme katzen widgets.
- *
- * NOTE: borderRadius is currently unimplemented
+ * Settings to theme katze widgets.
  */
 struct Theme {
   StateColors normal{{242, 160, 164}, {250, 223, 200}, {39, 39, 42}};
@@ -13,10 +13,7 @@ struct Theme {
   StateColors focus{{248, 149, 155}, {250, 214, 190}, {39, 39, 42}};
   StateColors active{{54, 47, 64}, {213, 132, 134}, {252, 229, 233}};
 
-  Rgb backgroundColor{255, 245, 225};
-
   uint8_t borderWidth{2};
-  uint8_t borderRadius{0};
   uint8_t iconSize{1};
 
   constexpr const StateColors &stateColors(State state) const {
@@ -29,3 +26,5 @@ struct Theme {
   }
 };
 } // namespace katzen
+
+#endif // !KATZE_THEME_THEME_HPP

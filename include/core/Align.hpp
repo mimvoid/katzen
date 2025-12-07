@@ -1,8 +1,10 @@
-#pragma once
+#ifndef KATZE_CORE_ALIGN_HPP
+#define KATZE_CORE_ALIGN_HPP
+
 #include <cstdint>
 #include "Axis.hpp"
 
-namespace katzen {
+namespace katze {
 enum class Align : uint8_t {
   START,  // Left for horizontal, top for vertical
   CENTER, // Centered alignment
@@ -19,17 +21,12 @@ struct AlignVec2 {
   Align y : 2; // Alignment of the y-axis.
 
   // Default constructor, where both values are set to Align::START.
-  constexpr AlignVec2() noexcept : x(Align::START), y(Align::START) {}
+  constexpr AlignVec2() : x(Align::START), y(Align::START) {}
 
-  constexpr AlignVec2(Align x, Align y) noexcept : x(x), y(y) {}
+  constexpr AlignVec2(Align x, Align y) : x(x), y(y) {}
 
   // Get the alignment of an axis.
-  constexpr Align get(Axis axis) const {
-    switch (axis) {
-    case Axis::X: return x;
-    case Axis::Y: return y;
-    }
-  }
+  constexpr Align get(Axis axis) const { return (axis == Axis::X) ? x : y; }
 
   // Set the alignment of an axis.
   constexpr void set(Axis axis, Align align) {
@@ -64,7 +61,7 @@ constexpr float offset(float parentSize, float childSize, Align align) {
 }
 
 #ifdef DOCTEST_LIBRARY_INCLUDED
-TEST_CASE("[katzen] Test offset function") {
+TEST_CASE("[katze] Test offset function") {
   SUBCASE("Start align offsets") {
     CHECK(offset(50.0f, 25.0f, Align::START) == 0.0f);
     CHECK(offset(50.0f, 50.0f, Align::START) == 0.0f);
@@ -104,4 +101,6 @@ TEST_CASE("[katzen] Test offset function") {
   }
 }
 #endif
-} // namespace katzen
+} // namespace katze
+
+#endif // !KATZE_CORE_ALIGN_HPP
