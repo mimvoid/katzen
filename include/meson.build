@@ -1,7 +1,9 @@
 install_headers(
   'app.hpp',
   'Renderer.hpp',
+  'Root.hpp',
   'Window.hpp',
+  'bins/Bin.hpp',
   'core/Align.hpp',
   'core/Axis.hpp',
   'core/BVec2.hpp',
@@ -10,6 +12,9 @@ install_headers(
   'core/Rgba.hpp',
   'core/State.hpp',
   'core/Vec2.hpp',
+  'ctx/Gctx.hpp',
+  'ctx/Dctx.hpp',
   'theme/Theme.hpp',
+  'widgets/Widget.hpp',
   subdir: meson.project_name(),
 )
