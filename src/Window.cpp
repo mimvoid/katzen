@@ -48,11 +48,9 @@ bool Window::minimize() { return SDL_MinimizeWindow(data); }
 bool Window::restore() { return SDL_RestoreWindow(data); }
 
 std::optional<IVec2> Window::minSize() const {
-  int *w;
-  int *h = w = nullptr;
-  bool success = SDL_GetWindowMinimumSize(data, w, h);
-
-  return (success && w && h) ? std::make_optional<IVec2>(*w, *h) : std::nullopt;
+  IVec2 result{};
+  bool success = SDL_GetWindowMinimumSize(data, &result.x, &result.y);
+  return (success) ? std::make_optional(result) : std::nullopt;
 }
 
 bool Window::setMinSize(IVec2 size) {
@@ -60,11 +58,9 @@ bool Window::setMinSize(IVec2 size) {
 }
 
 std::optional<IVec2> Window::maxSize() const {
-  int *w;
-  int *h = w = nullptr;
-  const bool success = SDL_GetWindowMaximumSize(data, w, h);
-
-  return (success && w && h) ? std::make_optional<IVec2>(*w, *h) : std::nullopt;
+  IVec2 result{};
+  const bool success = SDL_GetWindowMaximumSize(data, &result.x, &result.y);
+  return (success) ? std::make_optional(result) : std::nullopt;
 }
 
 bool Window::setMaxSize(IVec2 size) {
@@ -79,19 +75,15 @@ bool Window::setFullScreen(bool fullscreen) {
 }
 
 std::optional<IVec2> Window::size() const {
-  int *w;
-  int *h = w = nullptr;
-  const bool success = SDL_GetWindowSize(data, w, h);
-
-  return (success && w && h) ? std::make_optional<IVec2>(*w, *h) : std::nullopt;
+  IVec2 result{};
+  const bool success = SDL_GetWindowSize(data, &result.x, &result.y);
+  return (success) ? std::make_optional(result) : std::nullopt;
 }
 
 std::optional<IVec2> Window::sizeInPixels() const {
-  int *w;
-  int *h = w = nullptr;
-  const bool success = SDL_GetWindowSizeInPixels(data, w, h);
-
-  return (success && w && h) ? std::make_optional<IVec2>(*w, *h) : std::nullopt;
+  IVec2 result{};
+  const bool success = SDL_GetWindowSizeInPixels(data, &result.x, &result.y);
+  return (success) ? std::make_optional(result) : std::nullopt;
 }
 
 bool Window::setSize(IVec2 size) {
