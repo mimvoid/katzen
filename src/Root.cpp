@@ -5,14 +5,14 @@
 
 namespace katze {
 void Root::refresh() {
-  if (!child) return;
+  int width, height = 0;
+  if (SDL_GetWindowSize(SDL_GetRenderWindow(renderer.data), &width, &height)) {
+    refresh(width, height);
+  }
+}
 
-  SDL_Surface *surface =
-    SDL_GetWindowSurface(SDL_GetRenderWindow(renderer.data));
-
-  if (!surface) return;
-
-  Gctx g{static_cast<float>(surface->w), static_cast<float>(surface->h)};
+void Root::refresh(int width, int height) {
+  Gctx g{static_cast<float>(width), static_cast<float>(height)};
   child->resize(g, childData);
 
   // Once the child's resized, we can know how to align it.

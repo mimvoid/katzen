@@ -3,6 +3,7 @@
 
 #include <cstdint>
 #include <optional>
+#include <vector>
 #include "core/Vec2.hpp"
 #include "Renderer.hpp"
 
@@ -22,6 +23,17 @@ enum WindowFlags : uint16_t {
   WINDOW_TRANSPARENT = 512,
   WINDOW_NOT_FOCUSABLE = 1024,
 };
+
+struct ResizeData {
+  uint32_t windowId{0};
+  int width{0};
+  int height{0};
+};
+
+/**
+ * Find windows that have been resized and return their IDs and sizes.
+ */
+std::vector<ResizeData> resizedWindows();
 
 struct Window {
   Renderer renderer{};

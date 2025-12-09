@@ -5,6 +5,38 @@
 #include <SDL3/SDL_video.h>
 
 namespace katze {
+std::vector<ResizeData> resizedWindows() {
+  std::vector<ResizeData> ids{};
+
+  int windowCount = 0;
+  SDL_free(SDL_GetWindows(&windowCount)); // We don't need the actual windows
+
+  if (windowCount == 0) {
+    return ids; // Something went wrong, or there are just no windows
+  }
+
+  std::vector<SDL_Event> resizeEvents{static_cast<size_t>(windowCount)};
+  int eventCount = SDL_PeepEvents(
+    resizeEvents.data(),
+    windowCount,
+    SDL_GETEVENT,
+    SDL_EVENT_WINDOW_RESIZED,
+    SDL_EVENT_WINDOW_RESIZED
+  );
+  ids.reserve(eventCount);
+
+  for (int i = 0; i < eventCount; i++) {
+    SDL_Event &event = resizeEvents[i];
+
+    // data1 is for width, data2 is for height
+    ids.push_back(
+      {event.window.windowID, event.window.data1, event.window.data2}
+    );
+  }
+
+  return ids;
+}
+
 SDL_WindowFlags toSDLFlags(uint8_t flags) {
   SDL_WindowFlags sdlFlags = 0;
 

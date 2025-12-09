@@ -19,14 +19,20 @@ int main(void) {
     k::quit();
     return 1;
   }
+  const uint32_t winId = win.id();
 
   k::Root root{win.renderer};
   root.childData.padding.set(64);
   root.child = std::make_shared<k::Rectangle>();
 
   while (!k::shouldQuit()) {
+    for (k::ResizeData &resizeData : k::resizedWindows()) {
+      if (resizeData.windowId == winId) {
+        root.refresh(resizeData.width, resizeData.height);
+      }
+    }
+
     win.renderer.clear();
-    root.refresh();
     root.view();
     win.renderer.present();
 

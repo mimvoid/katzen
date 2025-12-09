@@ -23,9 +23,14 @@ struct Root {
     : renderer(renderer), theme(theme) {}
 
   /**
-   * Resize and reposition the widgets in the tree.
+   * Find the size of the window and resize and reposition the widgets.
    */
   void refresh();
+
+  /**
+   * Given a known window size, resize and reposition the widgets in the tree.
+   */
+  void refresh(int width, int height);
 
   /**
    * Draw the widgets and collect messages.
