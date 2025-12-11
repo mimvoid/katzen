@@ -28,7 +28,7 @@ int main(void) {
   while (!k::shouldQuit()) {
     for (k::ResizeData &resizeData : k::resizedWindows()) {
       if (resizeData.windowId == winId) {
-        root.refresh(resizeData.width, resizeData.height);
+        root.layout(resizeData.width, resizeData.height);
       }
     }
 

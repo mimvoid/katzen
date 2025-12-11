@@ -4,15 +4,17 @@
 #include "ctx/Dctx.hpp"
 
 namespace katze {
-void Root::refresh() {
+void Root::layout() {
   int width, height = 0;
   if (SDL_GetWindowSize(SDL_GetRenderWindow(renderer.data), &width, &height)) {
-    refresh(width, height);
+    layout(width, height);
   }
 }
 
-void Root::refresh(int width, int height) {
-  Gctx g{static_cast<float>(width), static_cast<float>(height)};
+void Root::layout(float width, float height) {
+  if (!child) return;
+
+  const Gctx g{width, height};
   child->resize(g, childData);
 
   // Once the child's resized, we can know how to align it.

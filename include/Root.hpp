@@ -25,12 +25,12 @@ struct Root {
   /**
    * Find the size of the window and resize and reposition the widgets.
    */
-  void refresh();
+  void layout();
 
   /**
    * Given a known window size, resize and reposition the widgets in the tree.
    */
-  void refresh(int width, int height);
+  void layout(float width, float height);
 
   /**
    * Draw the widgets and collect messages.
