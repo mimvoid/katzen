@@ -4,7 +4,10 @@
 #include "Root.hpp"
 #include "Window.hpp"
 #include "app.hpp"
+#include "bins/Box.hpp"
 #include "bins/Padding.hpp"
+#include "icons/katz.hpp"
+#include "widgets/Icon.hpp"
 #include "widgets/Rectangle.hpp"
 
 namespace k = katze;
@@ -20,11 +23,20 @@ int main(void) {
     k::quit();
     return 1;
   }
+  win.renderer.backgroundColor = {255, 245, 225};
+
   const uint32_t winId = win.id();
+  k::IconBits catHead{k::iconBitsById(k::KatzIcon::CAT_HEAD, k::katzFill)};
 
   k::Root root{win.renderer};
-  root.child =
-    std::make_shared<k::Padding>(36.0f, k::Rectangle{128.0f, 128.0f});
+
+  std::shared_ptr box =
+    std::make_shared<k::Box>(2, k::Axis::X, k::Align::CENTER, k::Align::CENTER);
+
+  box->push(k::Icon{catHead});
+  box->push(k::Rectangle{128.f, 128.f});
+
+  root.child = std::make_shared<k::Padding>(36.0f, box);
 
   while (!k::shouldQuit()) {
     for (k::ResizeData &resizeData : k::resizedWindows()) {
