@@ -22,8 +22,7 @@ int main(void) {
   const uint32_t winId = win.id();
 
   k::Root root{win.renderer};
-  root.childData.padding.set(64);
-  root.child = std::make_shared<k::Rectangle>();
+  root.child = std::make_shared<k::Rectangle>(128.0f, 128.0f);
 
   while (!k::shouldQuit()) {
     for (k::ResizeData &resizeData : k::resizedWindows()) {

@@ -4,13 +4,18 @@
 #include "ctx/Dctx.hpp"
 
 namespace katze {
-void Rectangle::view(Dctx &d, const WidgetData &wData) {
+void Rectangle::resize(Gctx g, FRect &rect) {
+  rect.w = g.clampWidth(maxSize.x);
+  rect.h = g.clampHeight(maxSize.y);
+}
+
+void Rectangle::view(Dctx &d, FRect rect) {
   Rgb border = d.colors().border;
   SDL_SetRenderDrawColor(
     d.root.renderer.data, border.r, border.g, border.b, 255
   );
 
-  SDL_FRect drawRect{wData.rect.x, wData.rect.y, wData.rect.w, wData.rect.h};
+  SDL_FRect drawRect{rect.x, rect.y, rect.w, rect.h};
   SDL_RenderRect(d.root.renderer.data, &drawRect);
 }
 } // namespace katze

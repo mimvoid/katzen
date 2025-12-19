@@ -5,4 +5,6 @@ katze_sources = files(
   'Window.cpp',
   'bins/Bin.cpp',
   'widgets/Rectangle.cpp',
+  'widgets/Spacer.cpp',
+  'widgets/Widget.cpp',
 )

@@ -15,6 +15,8 @@ install_headers(
   'ctx/Gctx.hpp',
   'ctx/Dctx.hpp',
   'theme/Theme.hpp',
+  'widgets/Rectangle.hpp',
+  'widgets/Spacer.hpp',
   'widgets/Widget.hpp',
   subdir: meson.project_name(),
 )

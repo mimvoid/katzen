@@ -17,7 +17,7 @@ struct Root {
 
   AlignVec2 align{Align::CENTER, Align::CENTER};
   std::shared_ptr<Widget> child{};
-  WidgetData childData{};
+  FRect childRect{};
 
   Root(Renderer &renderer, Theme theme = {})
     : renderer(renderer), theme(theme) {}
