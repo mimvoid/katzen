@@ -16,6 +16,9 @@ void Rectangle::view(Dctx &d, FRect rect) {
   );
 
   SDL_FRect drawRect{rect.x, rect.y, rect.w, rect.h};
-  SDL_RenderRect(d.root.renderer.data, &drawRect);
+  if (filled)
+    SDL_RenderFillRect(d.root.renderer.data, &drawRect);
+  else
+    SDL_RenderRect(d.root.renderer.data, &drawRect);
 }
 } // namespace katze
