@@ -8,16 +8,18 @@ namespace katze {
 struct Padding : Capsule {
   FEdges pad{};
 
-  Padding(FEdges pad = {}, std::shared_ptr<Widget> child = {})
+  template <class T, typename = ifIsWidget<T>>
+  Padding(FEdges pad = {}, std::shared_ptr<T> child = {})
     : Capsule(child), pad(pad) {}
 
-  template <class T>
+  template <class T, typename = ifIsWidget<T>>
   Padding(FEdges pad, T &&child) : Capsule(std::move(child)), pad(pad) {}
 
-  Padding(float padding = 0.0f, std::shared_ptr<Widget> child = {})
+  template <class T, typename = ifIsWidget<T>>
+  Padding(float padding = 0.0f, std::shared_ptr<T> child = {})
     : Capsule(child), pad(padding) {}
 
-  template <class T>
+  template <class T, typename = ifIsWidget<T>>
   Padding(float padding, T &&child) : Capsule(std::move(child)), pad(padding) {}
 
   void resize(Gctx g, FRect &rect) override;

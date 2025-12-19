@@ -5,6 +5,9 @@
 #include "../widgets/Widget.hpp"
 
 namespace katze {
+template <class T>
+using ifIsWidget = std::enable_if_t<std::is_base_of_v<Widget, T>>;
+
 /**
  * Manager that positions and resizes child widgets.
  */
