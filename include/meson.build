@@ -1,5 +1,6 @@
 install_headers(
   'app.hpp',
+  'icons.hpp',
   'Renderer.hpp',
   'Root.hpp',
   'Window.hpp',
@@ -16,7 +17,9 @@ install_headers(
   'core/Vec2.hpp',
   'ctx/Gctx.hpp',
   'ctx/Dctx.hpp',
+  'icons/katz.hpp',
   'theme/Theme.hpp',
+  'widgets/Icon.hpp',
   'widgets/Rectangle.hpp',
   'widgets/Spacer.hpp',
   'widgets/Widget.hpp',

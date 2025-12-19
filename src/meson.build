@@ -1,11 +1,13 @@
 katze_sources = files(
   'app.cpp',
+  'icons.cpp',
   'Renderer.cpp',
   'Root.cpp',
   'Window.cpp',
   'bins/Bin.cpp',
   'bins/Capsule.cpp',
   'bins/Padding.cpp',
+  'widgets/Icon.cpp',
   'widgets/Rectangle.cpp',
   'widgets/Spacer.cpp',
   'widgets/Widget.cpp',
