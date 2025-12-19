@@ -7,7 +7,8 @@ project(
 )
 
 dependencies = [
-  dependency('sdl3')
+  dependency('sdl3'),
+  dependency('sdl3-ttf'),
 ]
 
 include_dir = include_directories('include')
