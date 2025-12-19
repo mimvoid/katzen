@@ -4,6 +4,7 @@
 #include "Root.hpp"
 #include "Window.hpp"
 #include "app.hpp"
+#include "bins/Padding.hpp"
 #include "widgets/Rectangle.hpp"
 
 namespace k = katze;
@@ -22,7 +23,8 @@ int main(void) {
   const uint32_t winId = win.id();
 
   k::Root root{win.renderer};
-  root.child = std::make_shared<k::Rectangle>(128.0f, 128.0f);
+  root.child =
+    std::make_shared<k::Padding>(36.0f, k::Rectangle{128.0f, 128.0f});
 
   while (!k::shouldQuit()) {
     for (k::ResizeData &resizeData : k::resizedWindows()) {

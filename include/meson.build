@@ -4,6 +4,8 @@ install_headers(
   'Root.hpp',
   'Window.hpp',
   'bins/Bin.hpp',
+  'bins/Capsule.hpp',
+  'bins/Padding.hpp',
   'core/Align.hpp',
   'core/Axis.hpp',
   'core/BVec2.hpp',
