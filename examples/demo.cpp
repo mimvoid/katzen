@@ -12,49 +12,48 @@
 #include "widgets/Label.hpp"
 #include "widgets/Rectangle.hpp"
 
-namespace k = katze;
-
 int main(void) {
-  k::init("katze Widget Factory", "0.1.0", "com.katze.widgetFactory");
+  using namespace katze;
+  katze::init("katze Widget Factory", "0.1.0", "com.katze.widgetFactory");
 
-  k::Window win{
-    "katze Widget Factory", 960, 720, k::WINDOW_RESIZABLE | k::WINDOW_MAXIMIZED
+  Window win{
+    "katze Widget Factory", 960, 720, WINDOW_RESIZABLE | WINDOW_MAXIMIZED
   };
   if (!win.valid()) {
     SDL_Log("Failed to initialize window: %s", SDL_GetError());
-    k::quit();
+    katze::quit();
     return 1;
   }
   win.renderer.backgroundColor = {255, 245, 225};
 
   const uint32_t winId = win.id();
-  k::IconBits catHead{k::iconBitsById(k::KatzIcon::CAT_HEAD, k::katzFill)};
+  IconBits catHead{iconBitsById(KatzIcon::CAT_HEAD, katzFill)};
 
-  k::Root root{win.renderer};
-  root.font = k::loadTinyFont();
+  Root root{win.renderer};
+  root.font = loadTinyFont();
 
-  root.child = std::make_shared<k::Padding>(
+  root.child = std::make_shared<Padding>(
     4.0f,
-    k::Box{
+    Box{
       4,
-      k::Axis::Y,
-      {k::Align::CENTER},
-      k::Box{
+      Axis::Y,
+      {Align::CENTER},
+      Box{
         4,
-        k::Axis::X,
-        {k::Align::CENTER},
-        k::Icon{catHead, 2},
-        k::Label{"katze Widget Factory"},
+        Axis::X,
+        {Align::CENTER},
+        Icon{catHead, 2},
+        Label{"katze Widget Factory"},
       },
-      k::Label{
+      Label{
         "Introducing katze, a dynamic retained mode GUI library written with SDL and C++17!"
       },
-      k::Rectangle{128.f, 128.f},
+      Rectangle{128.0f, 128.0f},
     }
   );
 
-  while (!k::shouldQuit()) {
-    for (k::ResizeData &resizeData : k::resizedWindows()) {
+  while (!katze::shouldQuit()) {
+    for (ResizeData &resizeData : katze::resizedWindows()) {
       if (resizeData.windowId == winId) {
         root.layout(resizeData.width, resizeData.height);
       }
@@ -69,7 +68,7 @@ int main(void) {
 
   root.font.close();
   win.destroy();
-  k::quit();
+  katze::quit();
 
   return 0;
 }
