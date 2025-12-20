@@ -15,8 +15,6 @@ enum class Cursor : uint8_t { DEFAULT, POINTER };
  */
 struct Dctx {
   Root &root;
-
-  // FontStyle font{};
   State state{State::NORMAL};
   Cursor cursor{Cursor::DEFAULT};
 

@@ -13,9 +13,11 @@ namespace katze {
  */
 struct Root {
   Renderer &renderer;
-  Theme theme{};
 
+  Theme theme{};
   AlignVec2 align{Align::CENTER, Align::CENTER};
+  Font font{};
+
   std::shared_ptr<Widget> child{};
   FRect childRect{};
 

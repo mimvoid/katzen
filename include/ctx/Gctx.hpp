@@ -3,18 +3,16 @@
 
 #include "../core/Axis.hpp"
 #include "../core/Edges.hpp"
-// #include "../theme/FontStyle.hpp"
+#include "../text/Font.hpp"
 
 namespace katze {
 /**
  * A graphics context that provides necessary information for resizing widgets.
  */
 struct Gctx {
-  // const FontStyle &font{};
+  Font font{};
   float w{0.0f};
   float h{0.0f};
-
-  // Gctx(const FontStyle &font) : font(font) {}
 
   constexpr void shrink(FEdges padding) {
     w -= padding.getX();
@@ -44,6 +42,6 @@ struct Gctx {
     return (axis == Axis::X) ? clampWidth(value) : clampHeight(value);
   }
 };
-} // namespace katzen
+} // namespace katze
 
 #endif // !KATZE_CTX_GCTX_HPP
