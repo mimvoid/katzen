@@ -4,7 +4,10 @@
 #include "ctx/Dctx.hpp"
 
 namespace katze {
-void Label::resize(Gctx g, FRect &rect) {
+void Label::resize(Gctx g, FRect &rect) { resizeForFont(g.font, g, rect); }
+void Label::view(Dctx &d, FRect rect) { viewForFont(d.root.font, d, rect); }
+
+void Label::resizeForFont(Font font, const Gctx &g, FRect &rect) {
   if (empty()) {
     rect.w = 0;
     rect.h = 0;
@@ -16,21 +19,21 @@ void Label::resize(Gctx g, FRect &rect) {
 
   // If wrapWords is false, set wrap_width to 0 to still wrap on \n
   TTF_GetStringSizeWrapped(
-    g.font.data, text, 0, wrapWords ? g.w : 0, &width, &height
+    font.data, text, 0, wrapWords ? g.w : 0, &width, &height
   );
 
   rect.w = g.clampWidth(width);
   rect.h = g.clampHeight(height);
 }
 
-void Label::view(Dctx &d, FRect rect) {
+void Label::viewForFont(Font font, Dctx &d, FRect rect) {
   if (empty()) {
     return; // Nothing to draw
   }
 
   Rgb color = d.colors().text;
   SDL_Surface *surface = TTF_RenderText_Blended_Wrapped(
-    d.root.font.data,
+    font.data,
     text,
     0,
     SDL_Color{color.r, color.g, color.b, 255},

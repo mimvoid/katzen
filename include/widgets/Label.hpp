@@ -15,6 +15,10 @@ struct Label : Widget {
 
   void resize(Gctx g, FRect &rect) override;
   void view(Dctx &d, FRect rect) override;
+
+protected:
+  void resizeForFont(Font font, const Gctx &g, FRect &rect);
+  void viewForFont(Font font, Dctx &d, FRect rect);
 };
 } // namespace katze
 

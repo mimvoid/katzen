@@ -9,6 +9,7 @@
 #include "icons/katz.hpp"
 #include "widgets/Icon.hpp"
 #include "widgets/Label.hpp"
+#include "widgets/LabelEx.hpp"
 #include "widgets/Rectangle.hpp"
 
 #include "tiny/tiny.hpp"
@@ -30,8 +31,13 @@ int main(void) {
   const uint32_t winId = win.id();
   IconBits catHead{iconBitsById(KatzIcon::CAT_HEAD, katzFill)};
 
+  // Load fonts
+  Font tiny = loadTinyFont();
+  Font title = tiny.copy();
+  title.setSize(28.0f);
+
   Root root{win.renderer};
-  root.font = loadTinyFont();
+  root.font = tiny;
 
   root.child = std::make_shared<Padding>(
     4.0f,
@@ -44,7 +50,7 @@ int main(void) {
         Axis::X,
         {Align::CENTER},
         Icon{catHead, 2},
-        Label{"katze Widget Factory"},
+        LabelEx{title, "katze Widget Factory"},
       },
       Label{
         "Introducing katze, a dynamic retained mode GUI library written with SDL and C++17!"
@@ -67,7 +73,9 @@ int main(void) {
     SDL_Delay(1000 / 60);
   }
 
-  root.font.close();
+  tiny.close();
+  title.close();
+
   win.destroy();
   katze::quit();
 
