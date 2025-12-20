@@ -10,6 +10,7 @@ katze_sources = files(
   'bins/Padding.cpp',
   'text/Font.cpp',
   'widgets/Icon.cpp',
+  'widgets/Label.cpp',
   'widgets/Rectangle.cpp',
   'widgets/Spacer.cpp',
   'widgets/Widget.cpp',

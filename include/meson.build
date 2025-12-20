@@ -22,6 +22,7 @@ install_headers(
   'text/Font.hpp',
   'theme/Theme.hpp',
   'widgets/Icon.hpp',
+  'widgets/Label.hpp',
   'widgets/Rectangle.hpp',
   'widgets/Spacer.hpp',
   'widgets/Widget.hpp',
