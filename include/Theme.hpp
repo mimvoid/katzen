@@ -1,7 +1,7 @@
-#ifndef KATZE_THEME_THEME_HPP
-#define KATZE_THEME_THEME_HPP
+#ifndef KATZE_THEME_HPP
+#define KATZE_THEME_HPP
 
-#include "../core/State.hpp"
+#include "core/State.hpp"
 
 namespace katze {
 /**
@@ -25,6 +25,6 @@ struct Theme {
     }
   }
 };
-} // namespace katzen
+} // namespace katze
 
-#endif // !KATZE_THEME_THEME_HPP
+#endif // !KATZE_THEME_HPP

@@ -4,7 +4,7 @@
 #include <memory>
 #include "Renderer.hpp"
 #include "core/Align.hpp"
-#include "theme/Theme.hpp"
+#include "Theme.hpp"
 #include "widgets/Widget.hpp"
 
 namespace katze {
