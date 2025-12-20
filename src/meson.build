@@ -9,6 +9,7 @@ katze_sources = files(
   'bins/Box.cpp',
   'bins/Capsule.cpp',
   'bins/Padding.cpp',
+  'input/Cursor.cpp',
   'widgets/Icon.cpp',
   'widgets/Label.cpp',
   'widgets/Rectangle.cpp',

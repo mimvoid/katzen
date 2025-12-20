@@ -28,5 +28,6 @@ void Root::view() {
 
   Dctx d{*this};
   child->view(d, childRect);
+  setCursor(d.cursor);
 }
 } // namespace katze

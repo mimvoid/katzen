@@ -3,12 +3,11 @@
 
 #include "../Root.hpp"
 #include "../core/State.hpp"
+#include "../input/Cursor.hpp"
 
 struct SDL_Renderer;
 
 namespace katze {
-enum class Cursor : uint8_t { DEFAULT, POINTER };
-
 /**
  * A drawing context that provides theme settings and stores a widget state
  * that can be passed to children.
