@@ -13,4 +13,12 @@ bool Renderer::clear() {
 }
 
 bool Renderer::present() { return SDL_RenderPresent(data); }
+
+bool Renderer::setDrawColor(Rgb rgb) {
+  return SDL_SetRenderDrawColor(data, rgb.r, rgb.g, rgb.b, 255);
+}
+
+bool Renderer::setDrawColor(Rgba rgba) {
+  return SDL_SetRenderDrawColor(data, rgba.r, rgba.g, rgba.b, rgba.a);
+}
 } // namespace katze

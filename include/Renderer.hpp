@@ -16,6 +16,9 @@ struct Renderer {
 
   bool clear();
   bool present();
+
+  bool setDrawColor(Rgb rgb);
+  bool setDrawColor(Rgba rgba);
 };
 } // namespace katze
 

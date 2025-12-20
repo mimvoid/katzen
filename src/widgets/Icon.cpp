@@ -10,9 +10,7 @@ void Icon::resize(Gctx g, FRect &rect) {
 }
 
 void Icon::view(Dctx &d, FRect rect) {
-  const Rgb color = d.colors().text;
-  SDL_SetRenderDrawColor(d.root.renderer.data, color.r, color.g, color.b, 255);
-
+  d.root.renderer.setDrawColor(d.colors().text);
   drawIcon(
     d.root.renderer.data, bits, rect.x, rect.y, m_scale * d.root.theme.iconSize
   );

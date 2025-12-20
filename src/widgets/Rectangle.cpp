@@ -10,10 +10,7 @@ void Rectangle::resize(Gctx g, FRect &rect) {
 }
 
 void Rectangle::view(Dctx &d, FRect rect) {
-  Rgb border = d.colors().border;
-  SDL_SetRenderDrawColor(
-    d.root.renderer.data, border.r, border.g, border.b, 255
-  );
+  d.root.renderer.setDrawColor(d.colors().border);
 
   SDL_FRect drawRect{rect.x, rect.y, rect.w, rect.h};
   if (filled)
