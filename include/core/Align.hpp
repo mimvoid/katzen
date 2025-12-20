@@ -23,6 +23,8 @@ struct AlignVec2 {
   // Default constructor, where both values are set to Align::START.
   constexpr AlignVec2() : x(Align::START), y(Align::START) {}
 
+  constexpr AlignVec2(Align both) : x(both), y(both) {}
+
   constexpr AlignVec2(Align x, Align y) : x(x), y(y) {}
 
   // Get the alignment of an axis.
