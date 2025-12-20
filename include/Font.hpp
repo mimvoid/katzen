@@ -55,6 +55,12 @@ struct Font {
   Font(TTF_Font *font) : data(font) {}
   Font(const char *filePath, float pointSize);
 
+  /**
+   * Create a new Font that stores distinct underlying data, but with the same
+   * properties (e.g. size, style, etc.) as the old Font.
+   */
+  Font copy();
+
   void close();
 
   const char *familyName() const;
