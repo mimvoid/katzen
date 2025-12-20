@@ -9,15 +9,19 @@ namespace katze {
  */
 struct Rectangle : Widget {
   FVec2 maxSize{};
-  bool filled{false};
+
+  bool bordered{true};
+  bool filled{true};
 
   Rectangle() = default;
 
-  Rectangle(FVec2 maxSize, bool filled = false)
-    : maxSize(maxSize), filled(filled) {}
+  Rectangle(FVec2 maxSize, bool bordered = true, bool filled = true)
+    : maxSize(maxSize), bordered(bordered), filled(filled) {}
 
-  Rectangle(float maxWidth, float maxHeight, bool filled = false)
-    : maxSize(maxWidth, maxHeight), filled(filled) {}
+  Rectangle(
+    float maxWidth, float maxHeight, bool bordered = true, bool filled = true
+  )
+    : maxSize(maxWidth, maxHeight), bordered(bordered), filled(filled) {}
 
   void resize(Gctx g, FRect &rect) override;
   void view(Dctx &d, FRect rect) override;

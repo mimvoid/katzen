@@ -10,12 +10,17 @@ void Rectangle::resize(Gctx g, FRect &rect) {
 }
 
 void Rectangle::view(Dctx &d, FRect rect) {
-  d.root.renderer.setDrawColor(d.colors().border);
-
   SDL_FRect drawRect{rect.x, rect.y, rect.w, rect.h};
-  if (filled)
+  StateColors colors = d.colors();
+
+  if (filled) {
+    d.root.renderer.setDrawColor(colors.base);
     SDL_RenderFillRect(d.root.renderer.data, &drawRect);
-  else
+  }
+
+  if (bordered) {
+    d.root.renderer.setDrawColor(colors.border);
     SDL_RenderRect(d.root.renderer.data, &drawRect);
+  }
 }
 } // namespace katze
