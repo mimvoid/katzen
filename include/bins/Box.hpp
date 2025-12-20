@@ -13,13 +13,25 @@ struct Box : Bin {
   Axis direction;
   AlignVec2 align;
 
+  Box(int spacing = 0, Axis direction = Axis::X, AlignVec2 align = {})
+    : spacing(spacing), direction(direction), align(align) {}
+
   Box(
-    int spacing = 0,
-    Axis direction = Axis::X,
-    Align halign = Align::START,
-    Align valign = Align::START
+    int spacing,
+    Axis direction,
+    AlignVec2 align,
+    const std::vector<value_type> &children
   )
-    : spacing(spacing), direction(direction), align(halign, valign) {}
+    : spacing(spacing),
+      direction(direction),
+      align(align),
+      m_children(children),
+      m_childRects(children.size()),
+      m_expanded(children.size()) {}
+
+  template <class... Ts>
+  Box(int spacing, Axis direction, AlignVec2 align, Ts &&...children)
+    : Box(spacing, direction, align, {std::make_shared<Ts>(children)...}) {}
 
   constexpr const std::vector<value_type> &children() const {
     return m_children;

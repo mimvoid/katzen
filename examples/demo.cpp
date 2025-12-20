@@ -30,13 +30,16 @@ int main(void) {
 
   k::Root root{win.renderer};
 
-  std::shared_ptr box =
-    std::make_shared<k::Box>(2, k::Axis::X, k::Align::CENTER, k::Align::CENTER);
-
-  box->push(k::Icon{catHead});
-  box->push(k::Rectangle{128.f, 128.f});
-
-  root.child = std::make_shared<k::Padding>(36.0f, box);
+  root.child = std::make_shared<k::Padding>(
+    36.0f,
+    k::Box{
+      2,
+      k::Axis::X,
+      {k::Align::CENTER},
+      k::Icon{catHead},
+      k::Rectangle{128.f, 128.f},
+    }
+  );
 
   while (!k::shouldQuit()) {
     for (k::ResizeData &resizeData : k::resizedWindows()) {
