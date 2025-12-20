@@ -1,5 +1,6 @@
 install_headers(
   'app.hpp',
+  'Font.hpp',
   'icons.hpp',
   'Renderer.hpp',
   'Root.hpp',
@@ -19,7 +20,6 @@ install_headers(
   'ctx/Gctx.hpp',
   'ctx/Dctx.hpp',
   'icons/katz.hpp',
-  'text/Font.hpp',
   'theme/Theme.hpp',
   'widgets/Icon.hpp',
   'widgets/Label.hpp',

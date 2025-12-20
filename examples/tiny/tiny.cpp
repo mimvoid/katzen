@@ -1,17 +1,15 @@
-#include "text/tiny.hpp"
+#include "tiny.hpp"
 #include <SDL3_ttf/SDL_ttf.h>
 
 extern unsigned char tiny_ttf[];
 unsigned int tiny_ttf_len = 6656;
 
-namespace katze {
-Font loadTinyFont() {
-  Font font{};
+katze::Font loadTinyFont() {
+  katze::Font font{};
   font.data =
     TTF_OpenFontIO(SDL_IOFromConstMem(tiny_ttf, tiny_ttf_len), true, 18.0f);
   return font;
 }
-} // namespace katze
 
 /* tiny.txt
   Font: Tiny

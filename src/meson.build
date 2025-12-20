@@ -1,5 +1,6 @@
 katze_sources = files(
   'app.cpp',
+  'Font.cpp',
   'icons.cpp',
   'Renderer.cpp',
   'Root.cpp',
@@ -8,8 +9,6 @@ katze_sources = files(
   'bins/Box.cpp',
   'bins/Capsule.cpp',
   'bins/Padding.cpp',
-  'text/Font.cpp',
-  'text/tiny.cpp',
   'widgets/Icon.cpp',
   'widgets/Label.cpp',
   'widgets/Rectangle.cpp',

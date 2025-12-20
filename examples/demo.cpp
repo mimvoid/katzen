@@ -7,10 +7,11 @@
 #include "bins/Box.hpp"
 #include "bins/Padding.hpp"
 #include "icons/katz.hpp"
-#include "text/tiny.hpp"
 #include "widgets/Icon.hpp"
 #include "widgets/Label.hpp"
 #include "widgets/Rectangle.hpp"
+
+#include "tiny/tiny.hpp"
 
 int main(void) {
   using namespace katze;

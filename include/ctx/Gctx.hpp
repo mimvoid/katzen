@@ -3,7 +3,7 @@
 
 #include "../core/Axis.hpp"
 #include "../core/Edges.hpp"
-#include "../text/Font.hpp"
+#include "../Font.hpp"
 
 namespace katze {
 /**
