@@ -7,7 +7,9 @@
 #include "bins/Box.hpp"
 #include "bins/Padding.hpp"
 #include "icons/katz.hpp"
+#include "text/tiny.hpp"
 #include "widgets/Icon.hpp"
+#include "widgets/Label.hpp"
 #include "widgets/Rectangle.hpp"
 
 namespace k = katze;
@@ -29,14 +31,24 @@ int main(void) {
   k::IconBits catHead{k::iconBitsById(k::KatzIcon::CAT_HEAD, k::katzFill)};
 
   k::Root root{win.renderer};
+  root.font = k::loadTinyFont();
 
   root.child = std::make_shared<k::Padding>(
-    36.0f,
+    4.0f,
     k::Box{
-      2,
-      k::Axis::X,
+      4,
+      k::Axis::Y,
       {k::Align::CENTER},
-      k::Icon{catHead},
+      k::Box{
+        4,
+        k::Axis::X,
+        {k::Align::CENTER},
+        k::Icon{catHead, 2},
+        k::Label{"katze Widget Factory"},
+      },
+      k::Label{
+        "Introducing katze, a dynamic retained mode GUI library written with SDL and C++17!"
+      },
       k::Rectangle{128.f, 128.f},
     }
   );
@@ -55,6 +67,7 @@ int main(void) {
     SDL_Delay(1000 / 60);
   }
 
+  root.font.close();
   win.destroy();
   k::quit();
 
