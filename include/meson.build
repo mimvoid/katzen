@@ -22,6 +22,7 @@ install_headers(
   'ctx/Dctx.hpp',
   'icons/katz.hpp',
   'input/Cursor.hpp',
+  'input/mouse.hpp',
   'widgets/Icon.hpp',
   'widgets/Label.hpp',
   'widgets/Rectangle.hpp',

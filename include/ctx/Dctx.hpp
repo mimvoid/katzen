@@ -4,6 +4,7 @@
 #include "../Root.hpp"
 #include "../core/State.hpp"
 #include "../input/Cursor.hpp"
+#include "../input/mouse.hpp"
 
 struct SDL_Renderer;
 
@@ -13,7 +14,16 @@ namespace katze {
  * that can be passed to children.
  */
 struct Dctx {
+  struct MouseInfo {
+    bool valid{false}; // Whether the info applies to this widget tree.
+    ButtonState leftButton{ButtonState::UP};
+    float x{0.0f};
+    float y{0.0f};
+  };
+
   Root &root;
+  MouseInfo mouse{};
+
   State state{State::NORMAL};
   Cursor cursor{Cursor::DEFAULT};
 

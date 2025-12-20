@@ -27,6 +27,15 @@ void Root::view() {
   if (!child) return;
 
   Dctx d{*this};
+
+  // Set the mouse info for this window, if any.
+  const MouseState mouse = mouseState();
+  if (mouse.windowId != 0) {
+    if (mouse.windowId == SDL_GetWindowID(SDL_GetRenderWindow(renderer.data))) {
+      d.mouse = Dctx::MouseInfo{true, mouse.leftButton, mouse.x, mouse.y};
+    }
+  }
+
   child->view(d, childRect);
   setCursor(d.cursor);
 }
