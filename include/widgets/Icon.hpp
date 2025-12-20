@@ -9,6 +9,7 @@ namespace katze {
 struct Icon : Widget {
   IconBits bits{};
 
+  Icon() = default;
   Icon(const IconBits &bits, uint8_t scale = 1)
     : bits(bits), m_scale(scale < 1 ? 1 : scale) {}
 

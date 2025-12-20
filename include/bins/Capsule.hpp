@@ -11,11 +11,13 @@ struct Capsule : Bin {
   std::shared_ptr<Widget> child{};
   FRect childRect{};
 
-  template <class T, typename = ifIsWidget<T>>
-  Capsule(std::shared_ptr<T> child = {}) : child(child) {}
+  Capsule() = default;
 
   template <class T, typename = ifIsWidget<T>>
-  Capsule(T &&child) : child(std::make_shared<T>(std::move(child))) {}
+  Capsule(std::shared_ptr<T> child) : child(child) {}
+
+  template <class T, typename = ifIsWidget<T>>
+  Capsule(T &&child) : child(std::make_shared<T>(child)) {}
 
   void resize(Gctx g, FRect &rect) override;
   void repositionChildren(FRect rect) override;
