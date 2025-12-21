@@ -11,6 +11,7 @@ install_headers(
   'bins/Box.hpp',
   'bins/Button.hpp',
   'bins/Capsule.hpp',
+  'bins/IconLabel.hpp',
   'bins/Padding.hpp',
   'core/Align.hpp',
   'core/Axis.hpp',
