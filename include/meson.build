@@ -24,6 +24,7 @@ install_headers(
   'icons/katz.hpp',
   'input/Cursor.hpp',
   'input/mouse.hpp',
+  'widgets/Checkbox.hpp',
   'widgets/Icon.hpp',
   'widgets/Label.hpp',
   'widgets/Rectangle.hpp',

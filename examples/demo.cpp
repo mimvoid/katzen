@@ -7,12 +7,15 @@
 #include "bins/Box.hpp"
 #include "bins/Padding.hpp"
 #include "icons/katz.hpp"
+#include "widgets/Checkbox.hpp"
 #include "widgets/Icon.hpp"
 #include "widgets/Label.hpp"
 #include "widgets/LabelEx.hpp"
 #include "widgets/Rectangle.hpp"
 
 #include "tiny/tiny.hpp"
+
+enum Messages : uint8_t { CHECK = 0 };
 
 int main(void) {
   using namespace katze;
@@ -55,6 +58,7 @@ int main(void) {
       Label{
         "Introducing katze, a dynamic retained mode GUI library written with SDL and C++17!"
       },
+      Checkbox{false, CHECK},
       Rectangle{128.0f, 128.0f},
     }
   );
@@ -70,6 +74,12 @@ int main(void) {
     root.view();
     win.renderer.present();
 
+    for (uint32_t msg : root.messages) {
+      switch (msg) {
+      case CHECK: SDL_Log("Clicked checkbox"); break;
+      default:    break;
+      }
+    }
     root.messages.clear();
 
     SDL_Delay(1000 / 60);
