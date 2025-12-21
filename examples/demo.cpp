@@ -4,16 +4,9 @@
 #include "Root.hpp"
 #include "Window.hpp"
 #include "app.hpp"
-#include "bins/Box.hpp"
-#include "bins/Button.hpp"
-#include "bins/Padding.hpp"
+#include "bins.hpp"
 #include "icons/katz.hpp"
-#include "widgets/Checkbox.hpp"
-#include "widgets/Icon.hpp"
-#include "widgets/Label.hpp"
-#include "widgets/LabelEx.hpp"
-#include "widgets/Slider.hpp"
-#include "widgets/Rectangle.hpp"
+#include "widgets.hpp"
 
 #include "tiny/tiny.hpp"
 
