@@ -8,7 +8,7 @@
 #include "icons/katz.hpp"
 #include "widgets.hpp"
 
-#include "tiny/tiny.hpp"
+#include "tamzen/tamzen.hpp"
 
 enum Messages : uint8_t { CHECK, BUTTON_CLICK, SLIDER_MOVE };
 
@@ -30,12 +30,12 @@ int main(void) {
   IconBits catHead{iconBitsById(KatzIcon::CAT_HEAD, katzFill)};
 
   // Load fonts
-  Font tiny = loadTinyFont();
-  Font title = tiny.copy();
+  Font tamzen = loadTamzen7x14Font();
+  Font title = tamzen.copy();
   title.setSize(28.0f);
 
   Root root{win.renderer};
-  root.font = tiny;
+  root.font = tamzen;
 
   // Widgets that will be referenced later.
   std::shared_ptr checkbox = std::make_shared<Checkbox>(false, CHECK);
@@ -101,7 +101,7 @@ int main(void) {
     SDL_Delay(1000 / 60);
   }
 
-  tiny.close();
+  tamzen.close();
   title.close();
 
   win.destroy();
