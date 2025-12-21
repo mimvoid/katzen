@@ -56,15 +56,17 @@ SDL_WindowFlags toSDLFlags(uint8_t flags) {
 }
 
 Window::Window(const char *title, int width, int height, uint8_t windowFlags) {
+  SDL_Renderer *rend = nullptr;
   SDL_CreateWindowAndRenderer(
-    title, width, height, toSDLFlags(windowFlags), &data, &renderer.data
+    title, width, height, toSDLFlags(windowFlags), &data, &rend
   );
+  renderer.setData(rend);
 }
 
 uint32_t Window::id() const { return SDL_GetWindowID(data); }
 
 bool Window::valid() const {
-  return data && renderer.data && SDL_GetWindowID(data) != 0;
+  return data && renderer.data() && SDL_GetWindowID(data) != 0;
 }
 
 void Window::destroy() {

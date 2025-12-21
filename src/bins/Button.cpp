@@ -42,11 +42,11 @@ void Button::view(Dctx &d, FRect rect) {
   StateColors colors = d.colors();
 
   d.root.renderer.setDrawColor(colors.base);
-  SDL_RenderFillRect(d.root.renderer.data, &drawRect);
+  SDL_RenderFillRect(d.root.renderer.data(), &drawRect);
 
   if (d.root.theme.borderWidth != 0) {
     d.root.renderer.setDrawColor(colors.border);
-    SDL_RenderRect(d.root.renderer.data, &drawRect);
+    SDL_RenderRect(d.root.renderer.data(), &drawRect);
   }
 
   if (child) {

@@ -5,11 +5,14 @@
 #include "../core/Edges.hpp"
 #include "../Font.hpp"
 
+struct TTF_TextEngine;
+
 namespace katze {
 /**
  * A graphics context that provides necessary information for resizing widgets.
  */
 struct Gctx {
+  TTF_TextEngine *textEngine{nullptr};
   Font font{};
   float w{0.0f};
   float h{0.0f};

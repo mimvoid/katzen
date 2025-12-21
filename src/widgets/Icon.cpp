@@ -12,7 +12,11 @@ void Icon::resize(Gctx g, FRect &rect) {
 void Icon::view(Dctx &d, FRect rect) {
   d.root.renderer.setDrawColor(d.colors().text);
   drawIcon(
-    d.root.renderer.data, bits, rect.x, rect.y, m_scale * d.root.theme.iconSize
+    d.root.renderer.data(),
+    bits,
+    rect.x,
+    rect.y,
+    m_scale * d.root.theme.iconSize
   );
 }
 } // namespace katze

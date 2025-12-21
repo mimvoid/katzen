@@ -14,7 +14,7 @@ void Root::layout() {
 void Root::layout(float width, float height) {
   if (!child) return;
 
-  const Gctx g{font, width, height};
+  const Gctx g{renderer.textEngine(), font, width, height};
   child->resize(g, childRect);
 
   // Once the child's resized, we can know how to align it.

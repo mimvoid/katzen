@@ -15,12 +15,12 @@ void Rectangle::view(Dctx &d, FRect rect) {
 
   if (filled) {
     d.root.renderer.setDrawColor(colors.base);
-    SDL_RenderFillRect(d.root.renderer.data, &drawRect);
+    SDL_RenderFillRect(d.root.renderer.data(), &drawRect);
   }
 
   if (bordered) {
     d.root.renderer.setDrawColor(colors.border);
-    SDL_RenderRect(d.root.renderer.data, &drawRect);
+    SDL_RenderRect(d.root.renderer.data(), &drawRect);
   }
 }
 } // namespace katze
