@@ -2,9 +2,11 @@
 #define KATZE_ROOT_HPP
 
 #include <memory>
+#include <vector>
+#include "Reactive.hpp"
 #include "Renderer.hpp"
-#include "core/Align.hpp"
 #include "Theme.hpp"
+#include "core/Align.hpp"
 #include "widgets/Widget.hpp"
 
 namespace katze {
@@ -20,6 +22,12 @@ struct Root {
 
   std::shared_ptr<Widget> child{};
   FRect childRect{};
+
+  // Currently focused reactive widget, such as being hovered over or pressed.
+  Reactive *focused{};
+
+  // Callback messages added by reactive widgets.
+  std::vector<uint32_t> messages{};
 
   Root(Renderer &renderer, Theme theme = {})
     : renderer(renderer), theme(theme) {}

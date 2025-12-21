@@ -70,6 +70,8 @@ int main(void) {
     root.view();
     win.renderer.present();
 
+    root.messages.clear();
+
     SDL_Delay(1000 / 60);
   }
 
