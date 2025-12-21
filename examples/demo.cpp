@@ -5,6 +5,7 @@
 #include "Window.hpp"
 #include "app.hpp"
 #include "bins/Box.hpp"
+#include "bins/Button.hpp"
 #include "bins/Padding.hpp"
 #include "icons/katz.hpp"
 #include "widgets/Checkbox.hpp"
@@ -15,7 +16,7 @@
 
 #include "tiny/tiny.hpp"
 
-enum Messages : uint8_t { CHECK = 0 };
+enum Messages : uint8_t { CHECK, BUTTON_CLICK };
 
 int main(void) {
   using namespace katze;
@@ -42,6 +43,12 @@ int main(void) {
   Root root{win.renderer};
   root.font = tiny;
 
+  // Widgets that will be referenced later.
+  std::shared_ptr checkbox = std::make_shared<Checkbox>(false, CHECK);
+  std::shared_ptr buttonText = std::make_shared<Label>("Disabled");
+  std::shared_ptr button = std::make_shared<Button>(buttonText, BUTTON_CLICK);
+  button->enabled = false;
+
   root.child = std::make_shared<Padding>(
     4.0f,
     Box{
@@ -58,7 +65,7 @@ int main(void) {
       Label{
         "Introducing katze, a dynamic retained mode GUI library written with SDL and C++17!"
       },
-      Checkbox{false, CHECK},
+      Box{4, Axis::X, {Align::CENTER}, {checkbox, button}},
       Rectangle{128.0f, 128.0f},
     }
   );
@@ -76,8 +83,22 @@ int main(void) {
 
     for (uint32_t msg : root.messages) {
       switch (msg) {
-      case CHECK: SDL_Log("Clicked checkbox"); break;
-      default:    break;
+      case CHECK:
+        if (checkbox->checked) {
+          button->enabled = true;
+          buttonText->text = "Click me!";
+        } else {
+          button->enabled = false;
+          buttonText->text = "Disabled";
+        }
+        root.layout();
+        break;
+      case BUTTON_CLICK:
+        buttonText->text = "I got clicked!";
+        root.layout();
+        SDL_Log("INFO: %s", buttonText->text);
+        break;
+      default: break;
       }
     }
     root.messages.clear();
