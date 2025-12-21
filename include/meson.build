@@ -29,6 +29,7 @@ install_headers(
   'widgets/Icon.hpp',
   'widgets/Label.hpp',
   'widgets/Rectangle.hpp',
+  'widgets/Slider.hpp',
   'widgets/Spacer.hpp',
   'widgets/Widget.hpp',
   subdir: meson.project_name(),

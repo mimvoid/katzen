@@ -12,11 +12,12 @@
 #include "widgets/Icon.hpp"
 #include "widgets/Label.hpp"
 #include "widgets/LabelEx.hpp"
+#include "widgets/Slider.hpp"
 #include "widgets/Rectangle.hpp"
 
 #include "tiny/tiny.hpp"
 
-enum Messages : uint8_t { CHECK, BUTTON_CLICK };
+enum Messages : uint8_t { CHECK, BUTTON_CLICK, SLIDER_MOVE };
 
 int main(void) {
   using namespace katze;
@@ -66,6 +67,7 @@ int main(void) {
         "Introducing katze, a dynamic retained mode GUI library written with SDL and C++17!"
       },
       Box{4, Axis::X, {Align::CENTER}, {checkbox, button}},
+      Slider{0.5f, SLIDER_MOVE},
       Rectangle{128.0f, 128.0f},
     }
   );
