@@ -36,7 +36,7 @@ struct ResizeData {
 std::vector<ResizeData> resizedWindows();
 
 struct Window {
-  Renderer renderer{};
+  Renderer renderer{*this};
   SDL_Window *data{nullptr};
 
   Window(const char *title, int width, int height, uint8_t windowFlags = 0);

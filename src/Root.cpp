@@ -1,12 +1,13 @@
 #include "Root.hpp"
 #include <SDL3/SDL_render.h>
+#include "Window.hpp"
 #include "ctx/Dctx.hpp"
 
 namespace katze {
 void Root::layout() {
-  int width, height = 0;
-  if (SDL_GetWindowSize(SDL_GetRenderWindow(renderer.data), &width, &height)) {
-    layout(width, height);
+  std::optional<IVec2> size = renderer.window.size();
+  if (size.has_value()) {
+    layout(size->x, size->y);
   }
 }
 
@@ -30,10 +31,8 @@ void Root::view() {
 
   // Set the mouse info for this window, if any.
   const MouseState mouse = mouseState();
-  if (mouse.windowId != 0) {
-    if (mouse.windowId == SDL_GetWindowID(SDL_GetRenderWindow(renderer.data))) {
-      d.mouse = Dctx::MouseInfo{true, mouse.leftButton, mouse.x, mouse.y};
-    }
+  if (mouse.windowId != 0 && mouse.windowId == renderer.window.id()) {
+    d.mouse = Dctx::MouseInfo{true, mouse.leftButton, mouse.x, mouse.y};
   }
 
   child->view(d, childRect);

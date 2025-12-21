@@ -9,6 +9,7 @@ namespace katze {
 struct Window;
 
 struct Renderer {
+  Window &window;
   SDL_Renderer *data{nullptr};
   Rgb backgroundColor{};
 
