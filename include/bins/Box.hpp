@@ -9,11 +9,12 @@ namespace katze {
 struct Box : Bin {
   using value_type = std::shared_ptr<Widget>;
 
-  int spacing;
-  Axis direction;
-  AlignVec2 align;
+  int spacing{0};
+  Axis direction{Axis::X};
+  AlignVec2 align{};
 
-  Box(int spacing = 0, Axis direction = Axis::X, AlignVec2 align = {})
+  Box() = default;
+  Box(int spacing, Axis direction = Axis::X, AlignVec2 align = {})
     : spacing(spacing), direction(direction), align(align) {}
 
   Box(

@@ -15,18 +15,14 @@ struct Clickable : Capsule, Reactive {
 
   template <class T, typename = ifIsWidget<T>>
   Clickable(std::shared_ptr<T> child, uint32_t onClick)
-    : Capsule(child), onClick(onClick) {
-    enabled = true;
-  }
+    : Capsule(child), Reactive(true), onClick(onClick) {}
 
   template <class T, typename = ifIsWidget<T>>
   Clickable(T &&child) : Capsule(std::move(child)) {}
 
   template <class T, typename = ifIsWidget<T>>
   Clickable(T &&child, uint32_t onClick)
-    : Capsule(std::move(child)), onClick(onClick) {
-    enabled = true;
-  }
+    : Capsule(std::move(child)), Reactive(true), onClick(onClick) {}
 
   void view(Dctx &d, FRect rect) override;
 };

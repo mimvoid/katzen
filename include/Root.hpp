@@ -17,7 +17,7 @@ struct Root {
   Renderer &renderer;
 
   Theme theme{};
-  AlignVec2 align{Align::CENTER, Align::CENTER};
+  AlignVec2 align{Align::CENTER};
   Font font{};
 
   std::shared_ptr<Widget> child{};
