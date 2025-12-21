@@ -20,9 +20,8 @@ enum class MouseButton : uint8_t {
 };
 
 struct MouseState {
-  uint32_t windowId{0}; // The window with mouse focus, if any.
-  float x{0.0f};        // x-position from the focused window's top-left corner.
-  float y{0.0f};        // y-position from the focused window's top-left corner.
+  float x{0.0f}; // x-position from the focused window's top-left corner.
+  float y{0.0f}; // y-position from the focused window's top-left corner.
   uint8_t leftClicks{0};
   ButtonState leftButton{ButtonState::UP};
 };

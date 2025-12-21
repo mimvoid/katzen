@@ -56,6 +56,9 @@ struct Window {
   bool minimize();
   bool restore();
 
+  // Return whether the window has the focus of the mouse.
+  bool focused() const;
+
   std::optional<IVec2> minSize() const;
   bool setMinSize(IVec2 size);
 

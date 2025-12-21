@@ -40,7 +40,6 @@ MouseState mouseState() {
       if (event.button.button == SDL_BUTTON_LEFT) {
         state.leftButton = transitionState;
         state.leftClicks = event.button.clicks;
-        state.windowId = event.button.windowID;
       } else {
         addEvents.push_back(event);
       }

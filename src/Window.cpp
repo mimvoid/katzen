@@ -79,6 +79,8 @@ bool Window::maximize() { return SDL_MaximizeWindow(data); }
 bool Window::minimize() { return SDL_MinimizeWindow(data); }
 bool Window::restore() { return SDL_RestoreWindow(data); }
 
+bool Window::focused() const { return data && SDL_GetMouseFocus() == data; }
+
 std::optional<IVec2> Window::minSize() const {
   IVec2 result{};
   bool success = SDL_GetWindowMinimumSize(data, &result.x, &result.y);

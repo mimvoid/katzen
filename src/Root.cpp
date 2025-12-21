@@ -30,8 +30,8 @@ void Root::view() {
   Dctx d{*this};
 
   // Set the mouse info for this window, if any.
-  const MouseState mouse = mouseState();
-  if (mouse.windowId != 0 && mouse.windowId == renderer.window.id()) {
+  if (renderer.window.focused()) {
+    const MouseState mouse = mouseState();
     d.mouse = Dctx::MouseInfo{true, mouse.leftButton, mouse.x, mouse.y};
   }
 
