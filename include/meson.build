@@ -37,4 +37,5 @@ install_headers(
   'widgets/Spacer.hpp',
   'widgets/Widget.hpp',
   subdir: meson.project_name(),
+  preserve_path: true,
 )

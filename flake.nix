@@ -26,7 +26,10 @@
             pkgs.ninja
           ];
 
-          buildInputs = [ pkgs.sdl3 ];
+          buildInputs = [
+            pkgs.sdl3
+            pkgs.sdl3-ttf
+          ];
         };
       });
 

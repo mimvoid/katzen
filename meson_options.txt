@@ -1,0 +1,5 @@
+option('tests', type: 'boolean', value: false,
+       description: 'Build the tests for katze (currently unimplemented)')
+
+option('examples', type: 'boolean', value: true,
+       description: 'Build and install the examples for katze')

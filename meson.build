@@ -32,7 +32,9 @@ katze_dep = declare_dependency(
   include_directories: include_dir,
 )
 
-subdir('examples')
+if get_option('examples')
+  subdir('examples')
+endif
 
 import('pkgconfig').generate(
   katze_lib,
