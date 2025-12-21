@@ -9,6 +9,7 @@ install_headers(
   'Window.hpp',
   'bins/Bin.hpp',
   'bins/Box.hpp',
+  'bins/Button.hpp',
   'bins/Capsule.hpp',
   'bins/Padding.hpp',
   'core/Align.hpp',
