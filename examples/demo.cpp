@@ -101,10 +101,12 @@ int main(void) {
     SDL_Delay(1000 / 60);
   }
 
+  root.child.reset();
+  win.destroy();
+
   tamzen.close();
   title.close();
 
-  win.destroy();
   katze::quit();
 
   return 0;
